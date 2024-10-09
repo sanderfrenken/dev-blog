@@ -1,4 +1,30 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
 title = 'Dev Blog'
-theme = 'ananke'
+theme = 'gokarna'
+
+[params]
+  footer = "Sander Frenken"
+  description = "Everything about my journey as a game developer"
+  avatarURL = "/static/icon.png"
+  AvatarAltText = "avatar"
+  avatarSize = "size-m"
+  ShowBackToTopButton = true
+  showPostsOnHomePage = "recent"
+
+  socialIcons = [
+    {name = "reddit", url = "https://www.reddit.com/user/sanderfrenken/"},
+    {name = "linkedin", url = "https://nl.linkedin.com/in/sander-frenken-071a2157"},
+    {name = "discord", url = "https://discord.gg/SKDS5VK2"},
+    {name = "email", url = "mailto:rednasgamesinfo@gmail.com"}
+  ]
+  metaKeywords = ["blog", "spritekit", "game developer"]
+
+  [menu]
+    [[menu.main]]
+      identifier = "posts"
+      url = "/posts/"      
+      pre = ""
+      post = ""
+      name = "Posts"
+      weight = 1

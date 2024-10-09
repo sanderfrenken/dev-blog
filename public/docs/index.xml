@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docs on Dev Blog</title>
+    <link>http://localhost:1313/docs/</link>
+    <description>Recent content in Docs on Dev Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 21 Aug 2024 16:04:03 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Test Post</title>
+      <link>http://localhost:1313/docs/my-first-post/</link>
+      <pubDate>Wed, 21 Aug 2024 16:04:03 +0200</pubDate>
+      <guid>http://localhost:1313/docs/my-first-post/</guid>
+      <description>This a test post.&#xA;Visit the Battledom website!</description>
+    </item>
+  </channel>
+</rss>
