@@ -1,4 +1,4 @@
-baseURL = 'https://sanderfrenken.github.io/dev-blog/'
+baseURL = 'https://sanderfrenken.github.io/'
 languageCode = 'en-us'
 title = 'Dev Blog'
 theme = 'gokarna'
@@ -6,7 +6,7 @@ theme = 'gokarna'
 [params]
   footer = "Sander Frenken"
   description = "Everything about my journey as a game developer"
-  avatarURL = "static/icon.png"
+  avatarURL = "/static/icon.png"
   AvatarAltText = "avatar"
   avatarSize = "size-m"
   ShowBackToTopButton = true
