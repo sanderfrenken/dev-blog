@@ -6,7 +6,7 @@ theme = 'gokarna'
 [params]
   footer = "Sander Frenken"
   description = "Everything about my journey as a game developer"
-  avatarURL = "/static/icon.png"
+  avatarURL = "https://sanderfrenken.github.io/dev-blog/static/icon.png"
   AvatarAltText = "avatar"
   avatarSize = "size-m"
   ShowBackToTopButton = true
