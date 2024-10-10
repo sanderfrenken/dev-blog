@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on iGameDev</title>
-    <link>http://localhost:1313/posts/</link>
-    <description>Recent content in Posts on iGameDev</description>
+    <title>iGameDev</title>
+    <link>http://localhost:1313/projects/</link>
+    <description>Recent content on iGameDev</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 21 Aug 2024 16:04:03 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My Test Post</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
+      <title>My Test Project</title>
+      <link>http://localhost:1313/projects/my-first-project/</link>
       <pubDate>Wed, 21 Aug 2024 16:04:03 +0200</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <guid>http://localhost:1313/projects/my-first-project/</guid>
       <description>This a test post.&#xA;Visit the Battledom website!&#xA;Visit the Battledom website!</description>
     </item>
   </channel>

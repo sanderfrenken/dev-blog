@@ -17,26 +17,32 @@
     
 
     
-    <title>Posts</title>
-    <meta name="description" content="Everything about my journey as a game developer">
+    <title>My Test Project</title>
+    <meta name="description" content="This a test post.
+Visit the Battledom website!
+Visit the Battledom website!">
     <meta name="keywords" content='blog, spritekit, game developer'>
 
-    <meta property="og:url" content="http://localhost:1313/posts/">
+    <meta property="og:url" content="http://localhost:1313/projects/my-first-project/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Posts">
-    <meta property="og:description" content="Everything about my journey as a game developer">
+    <meta property="og:title" content="My Test Project">
+    <meta property="og:description" content="This a test post.
+Visit the Battledom website!
+Visit the Battledom website!">
     <meta property="og:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
     <meta property="og:image:secure_url" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Posts">
-    <meta name="twitter:description" content="Everything about my journey as a game developer">
-    <meta property="twitter:domain" content="http://localhost:1313/posts/">
-    <meta property="twitter:url" content="http://localhost:1313/posts/">
+    <meta name="twitter:title" content="My Test Project">
+    <meta name="twitter:description" content="This a test post.
+Visit the Battledom website!
+Visit the Battledom website!">
+    <meta property="twitter:domain" content="http://localhost:1313/projects/my-first-project/">
+    <meta property="twitter:url" content="http://localhost:1313/projects/my-first-project/">
     <meta name="twitter:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
 
     
-    <link rel="canonical" href="http://localhost:1313/posts/">
+    <link rel="canonical" href="http://localhost:1313/projects/my-first-project/">
 
     
     <link rel="stylesheet" type="text/css" href="/css/normalize.min.css" media="print">
@@ -137,31 +143,84 @@
     </nav>
 </header>
 <main id="content">
-    <div class="container list-posts">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>My Test Project</h1>
 
-    <h1 class="list-title">Posts</h1>
+        
+
+        
+	
+	
+	
+	
+        
+
+	
+
+	
+
+	
+          <small role="doc-subtitle"></small>
+	
+
+	
+          <p class="post-date">August 21, 2024
+           
+          </p>
+	
+
+        <ul class="post-tags">
+          
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>This a test post.</p>
+<p>Visit the <a href="https://www.reddit.com/r/battledom/">Battledom</a> website!</p>
+<p><img src="../images/test.png" alt="Test image" title="Test image"></p>
+<p>Visit the <a href="https://www.reddit.com/r/battledom/">Battledom</a> website!</p>
+
+        
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
 
     
+    
+        <svg id="btt-button" class="arrow-logo" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top">
+    
+    <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/>
+</svg>
+<script>
+    let backToTopButton = document.getElementById("btt-button");
 
-    <h2 class="posts-year">2024</h2><div class="post-title">
-     <a href="http://localhost:1313/posts/my-first-post/" class="post-link">My Test Post</a>
-     
-     
-     
-     
+    window.onscroll = function() {
+        scrollFunction()
+    };
 
-     
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            backToTopButton.style.display = "block";
+        } else {
+            backToTopButton.style.display = "none";
+        }
+    }
 
-     
-      <div class="flex-break"></div>
-      <span class="post-date">August 21, 2024</span>
-     
-</div>
+    function scrollToTop() {
+        window.scrollTo(0, 0);
+    }
+</script>
 
     
-
+    
 </div>
 
+
+
+    
 
         </main><footer class="footer">
     

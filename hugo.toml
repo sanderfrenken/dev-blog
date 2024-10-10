@@ -1,6 +1,6 @@
 baseURL = 'https://sanderfrenken.github.io/'
 languageCode = 'en-us'
-title = 'Dev Blog'
+title = 'iGameDev'
 theme = 'gokarna'
 
 [params]
@@ -14,17 +14,30 @@ theme = 'gokarna'
 
   socialIcons = [
     {name = "reddit", url = "https://www.reddit.com/user/sanderfrenken/"},
-    {name = "linkedin", url = "https://nl.linkedin.com/in/sander-frenken-071a2157"},
     {name = "discord", url = "https://discord.gg/SKDS5VK2"},
+    {name = "linkedin", url = "https://nl.linkedin.com/in/sander-frenken-071a2157"},
     {name = "email", url = "mailto:rednasgamesinfo@gmail.com"}
   ]
   metaKeywords = ["blog", "spritekit", "game developer"]
 
   [menu]
     [[menu.main]]
-      identifier = "posts"
-      url = "/posts/"      
-      pre = ""
-      post = ""
-      name = "Posts"
+      name = "Home"
+      pre = "<span data-feather='home'></span>"
+      url = "/"
       weight = 1
+    [[menu.main]]
+      name = "Posts"
+      pre = "<span data-feather='book'></span>"
+      url = "/posts/"      
+      weight = 2
+    [[menu.main]]
+      name = "Projects"
+      pre = "<span data-feather='code'></span>"
+      url = "/projects/"
+      weight = 3
+    [[menu.main]]
+      identifier = "github"
+      pre = "<span data-feather='github'></span>"
+      url = "https://github.com/526avijitgupta/gokarna"
+      weight = 4
