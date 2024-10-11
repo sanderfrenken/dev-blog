@@ -6,13 +6,13 @@
     <description>Recent content in Posts on iGameDev</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 21 Aug 2024 16:04:03 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 11 Oct 2024 00:04:03 +0200</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My Test Post</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
-      <pubDate>Wed, 21 Aug 2024 16:04:03 +0200</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <title>Welcome</title>
+      <link>http://localhost:1313/posts/welcome/</link>
+      <pubDate>Fri, 11 Oct 2024 00:04:03 +0200</pubDate>
+      <guid>http://localhost:1313/posts/welcome/</guid>
       <description>This a test post.&#xA;Visit the Battledom website!&#xA;Visit the Battledom website!</description>
     </item>
   </channel>

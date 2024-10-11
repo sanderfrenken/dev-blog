@@ -6,14 +6,20 @@
     <description>Recent content on iGameDev</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 21 Aug 2024 16:04:03 +0200</lastBuildDate>
     <atom:link href="http://localhost:1313/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My Test Project</title>
-      <link>http://localhost:1313/projects/my-first-project/</link>
-      <pubDate>Wed, 21 Aug 2024 16:04:03 +0200</pubDate>
-      <guid>http://localhost:1313/projects/my-first-project/</guid>
-      <description>This a test post.&#xA;Visit the Battledom website!&#xA;Visit the Battledom website!</description>
+      <title>Battledom</title>
+      <link>http://localhost:1313/projects/battledom/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/projects/battledom/</guid>
+      <description>Battledom is an iOS game I started developing October 2022 and is currently in an alpha testing stage. It&amp;rsquo;s an RTS-lite game that involves resource management and real time battles. I see it as an Age Of Empires lite, designed with mobile gaming in mind.&#xA;You can join the Battledom alpha via TestFlight.&#xA;Please also join on Discord and Reddit if you are interested!</description>
+    </item>
+    <item>
+      <title>Herodom</title>
+      <link>http://localhost:1313/projects/herodom/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/projects/herodom/</guid>
+      <description>Herodom is an iOS game I started developing June 2017 and was first released in May 2020. It&amp;rsquo;s a tower defense game that became popular after being featured in the Apple AppStore in August 2020 in many countries around the world.&#xA;Herodom is still being supported actively, but my attention has shifted a lot to it&amp;rsquo;s successor, Battledom.&#xA;You can find Herodom here in the AppStore.</description>
     </item>
   </channel>
 </rss>

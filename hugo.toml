@@ -2,6 +2,7 @@ baseURL = 'https://sanderfrenken.github.io/'
 languageCode = 'en-us'
 title = 'iGameDev'
 theme = 'gokarna'
+enableEmoji = true
 
 [params]
   footer = "Sander Frenken"
@@ -39,5 +40,5 @@ theme = 'gokarna'
     [[menu.main]]
       identifier = "github"
       pre = "<span data-feather='github'></span>"
-      url = "https://github.com/526avijitgupta/gokarna"
+      url = "https://github.com/sanderfrenken"
       weight = 4
