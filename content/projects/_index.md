@@ -4,10 +4,10 @@ type: page
 
 # :video_game: Games :video_game:
 
-- [Herodom](/projects/herodom/)
+- [Herodom](herodom/)
     - iOS Tower Defense game featured by Apple in the Apple AppStore.
 
-- [Battledom](/projects/battledom/)
+- [Battledom](battledom/)
     - Spiritual successor of Herodom, a RTS-lite game currently in development for iOS.
 
 - [Numbed](https://apps.apple.com/us/app/numbed/id841975891)
