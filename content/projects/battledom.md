@@ -9,4 +9,4 @@ You can join the Battledom alpha via [TestFlight](https://testflight.apple.com/j
 
 Please also join on [Discord](https://discord.gg/3SDfGy7zSR) and [Reddit](https://www.reddit.com/r/battledom/) if you are interested!
 
-{{< figure src="../../images/test.png" width="200" >}}
+{{< youtube EpFoGLOEvDA >}}

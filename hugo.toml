@@ -42,3 +42,8 @@ enableEmoji = true
       pre = "<span data-feather='github'></span>"
       url = "https://github.com/sanderfrenken"
       weight = 4
+    [[menu.main]]
+      identifier = "me"
+      pre = "<span data-feather='smile'></span>"
+      url = "/posts/welcome"
+      weight = 4
