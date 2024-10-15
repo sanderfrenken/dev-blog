@@ -12,6 +12,13 @@ enableEmoji = true
   avatarSize = "size-m"
   ShowBackToTopButton = true
   showPostsOnHomePage = "recent"
+  customCommentHTML = """<script src="https://utteranc.es/client.js"
+    repo="sanderfrenken/dev-blog"
+    issue-term="title"
+    theme="github-dark"
+    crossorigin="anonymous"
+    async></script>
+"""
 
   socialIcons = [
     {name = "reddit", url = "https://www.reddit.com/user/sanderfrenken/"},
