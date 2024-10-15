@@ -15,7 +15,7 @@ enableEmoji = true
   customCommentHTML = """<script src="https://utteranc.es/client.js"
     repo="sanderfrenken/dev-blog"
     issue-term="title"
-    theme="github-dark"
+    theme="gruvbox-dark"
     crossorigin="anonymous"
     async></script>
 """
