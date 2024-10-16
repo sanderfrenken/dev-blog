@@ -22,7 +22,7 @@ enableEmoji = true
 
   socialIcons = [
     {name = "reddit", url = "https://www.reddit.com/user/sanderfrenken/"},
-    {name = "discord", url = "https://discord.gg/SKDS5VK2"},
+    {name = "discord", url = "https://discord.com/users/478807114752589825"},
     {name = "linkedin", url = "https://nl.linkedin.com/in/sander-frenken-071a2157"},
     {name = "email", url = "mailto:rednasgamesinfo@gmail.com"}
   ]
