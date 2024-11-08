@@ -20,19 +20,22 @@
 
     
     <title>MSKTiled: A Tiled map parser for SpriteKit</title>
-    <meta name="description" content="MSTIED">
+    <meta name="description" content="Tilemaps In 2016 at WWDC, Apple announced a new addition to SpriteKit: Support for tiling.
+Tiling is a technique often used in (2D) game development, where maps …">
     <meta name="keywords" content='blog, spritekit, game developer'>
 
     <meta property="og:url" content="http://localhost:1313/posts/msktiled/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="MSKTiled: A Tiled map parser for SpriteKit">
-    <meta property="og:description" content="MSTIED">
+    <meta property="og:description" content="Tilemaps In 2016 at WWDC, Apple announced a new addition to SpriteKit: Support for tiling.
+Tiling is a technique often used in (2D) game development, where maps …">
     <meta property="og:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
     <meta property="og:image:secure_url" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MSKTiled: A Tiled map parser for SpriteKit">
-    <meta name="twitter:description" content="MSTIED">
+    <meta name="twitter:description" content="Tilemaps In 2016 at WWDC, Apple announced a new addition to SpriteKit: Support for tiling.
+Tiling is a technique often used in (2D) game development, where maps …">
     <meta property="twitter:domain" content="http://localhost:1313/posts/msktiled/">
     <meta property="twitter:url" content="http://localhost:1313/posts/msktiled/">
     <meta name="twitter:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
@@ -180,7 +183,174 @@
     </div>
 
     <div class="post-content">
-        <p>MSTIED</p>
+        <h2 id="tilemaps">Tilemaps</h2>
+<p>In 2016 at WWDC, Apple announced a new addition to SpriteKit: Support for tiling.</p>
+<p>Tiling is a technique often used in (2D) game development, where maps are created using tiles.</p>
+<p>Using spritesheets, one can have a variety of for example 100 tiles in a single image. These tiles can include terrain-like tiles, building-like tiles including walls, etc.</p>
+<figure><img src="../../images/screenshot-tileset.png" width="400"><figcaption>
+      <h4>Example spritesheet for a terrain</h4>
+    </figcaption>
+</figure>
+
+<p>Using these individual tiles one can create unique environments, all drawn using the same spritesheet as a source.</p>
+<figure><img src="../../images/screenshot-map.png" width="400"><figcaption>
+      <h4>Example map; all the terrain is drawn using the above spritesheet</h4>
+    </figcaption>
+</figure>
+
+<p>In essence, one can see a tilemap as two-dimensional array where each item represents a specific tile.
+As a basic example, one can think of a following way to represent this in code:</p>
+<pre tabindex="0"><code>let mapArray = [[Tile]]() // This is the map definition
+var xPosition = 0
+var yPosition = 0
+// Loop ever each tile in the map definition
+for row in mapArray {
+    for tile in row { 
+        // Create the tile image based on the information in the array
+        let tileImage = Image(from: tile)
+        // Set the position of the tile in the to render scene
+        tileImage.position = Point(x: xPosition*tileSize, y: yPosition*tileSize)
+        // Render the tile
+        renderImage(tileImage) 
+        xPosition += 1
+    }
+    yPosition += 1 
+}
+</code></pre><p>This &ldquo;solution&rdquo; was already possible using SpriteKit using <code>SKNode</code> and <code>SKSpriteNode</code> instances.</p>
+<p>However, with iOS 10 more extensive support for tiling was added to SpriteKit.</p>
+<h2 id="sktilemapnode">SKTileMapNode</h2>
+<p>One of the drawbacks of the solution as posed above is that when one creates a map of for instace 100 tiles in width and 100 tiles in height, a total of 10.000 tiles would need to be individually rendered to a scene.</p>
+<p>Now, imagine that you also support layers of maps.</p>
+<p>In most cases maps are layered: There is a layer of terrain, where on top there can be a layer of flora, another layer with the walls of buildings, another layer of decorations like windows and doors to be rendered on top of the walls, etc.</p>
+<p>This could easily make your game render &gt; 20.000 nodes for each frame, only to draw the map itself. This can become quite expensive and hence impact performance of your game.</p>
+<p>To cater for this issue, Apple introduced <a href="https://developer.apple.com/documentation/spritekit/sktilemapnode">SKTileMapNode</a>. As always, I would encourage you to read the documentation before using it, but a short quote of the documentation:</p>
+<blockquote>
+<p>SKTileMapNode does the work of laying out predefined tiles in a grid of any size. Typically, you configure 9-slice images (tile groups) in Xcode&rsquo;s SpriteKit scene editor and paint the look of your tile map ahead of time versus configuring the tile map in code.</p>
+</blockquote>
+<p>There is a lot to read in these 2 short sentences. First, its appearant that this <code>SKTileMapNode</code> is capably of drawing a layer of a map inside a single SKNode. In practice, this means that instead of your game requiring SpriteKit to draw 10.000 individual nodes for a layer, it will now render just one node.</p>
+<p>Moreover, the quote also talks about Xcode&rsquo;s SpriteKit scene editor. So what is that?</p>
+<h2 id="tilemap-editors">Tilemap editors</h2>
+<p>In order to create a tilemap, one would usually prefer to use a specific editor instead of drawing a map just using code. Use a tilemap editor, one can preview the map inside the editor and change it. You can see it as a Paint or Photoshop, geared specifically to create tilemaps.</p>
+<h3 id="tiled">Tiled</h3>
+<p>One very popular tile editor is <a href="https://www.mapeditor.org">Tiled</a>. Tiled is used by many game developers to create tilemaps, and used in popular games like <a href="https://www.yachtclubgames.com/games/shovel-knight-treasure-trove/">Shovel Knight</a>.</p>
+<p>With Tiled, one can create tilemaps in various perspectives (isometric/ hexagonal/ orthogonal), animate tiles (for instance think of looping water tiles to create an illusion of movement), add objects and assign properties to tiles, layers and objects (and much more).</p>
+<p>You can import and use spritesheets on the fly, as you can see in the below example in the right lower corner.</p>
+<figure><img src="../../images/screenshot-tiled.png" width="800"><figcaption>
+      <h4>A map I created in Tiled for Battledom</h4>
+    </figcaption>
+</figure>
+
+<p>Obviously, tilemaps as created by Tiled use their own formats (there is no standard format for tilemaps) and in essence Tiled and Apple have nothing to do with each other. Therefore, a map created in Tiled or any other third-party tilemap editor will not work out-of-the-box in a SpriteKit game.</p>
+<h3 id="xcode-tilemap-editor">Xcode tilemap editor</h3>
+<p>As a mean to create tilemaps for your SpriteKit games using an editor, Apple added support for creating tilemaps from Xcode. Using the scene editor, one can drag an <code>SKTileMapNode</code> into the scene and edit it the way you want it to look:</p>
+<figure><img src="../../images/screenshot-xcode-tiled.png" width="800"><figcaption>
+      <h4>Example map in Xcode scene editor</h4>
+    </figcaption>
+</figure>
+
+<p>With the new SpriteKit tiling API&rsquo;s, a map layer is represented as a <code>SKTileMapNode</code>, and you populate each grid entry with an image.</p>
+<p>An image is represented in the form of an <a href="https://developer.apple.com/documentation/spritekit/sktiledefinition">SKTileDefinition</a>. Basically, this is just the image to represent a specific tile, extended with the ability to assign custom properties to this tile in the form of <a href="https://developer.apple.com/documentation/spritekit/sktiledefinition/1645813-userdata">userdata</a>.</p>
+<p>So in order to work with different tiles in the Xcode scene editor, you need to create different <code>SKTileDefinition</code> instances. These <code>SKTileDefinition</code> can be grouped into a set by using <a href="https://developer.apple.com/documentation/spritekit/sktilegroup">SKTileGroup</a>. These groups can be enriched with adjacency rules (see <a href="https://developer.apple.com/documentation/spritekit/sktilegrouprule">SKTileGroupRule</a>), which will instruct the editor how to draw edges of larger areas when using the same tile.</p>
+<p>For instance, below you will see a <code>SKTileGroup</code> as created in Xcode.</p>
+<figure><img src="../../images/screenshot-tilegroup.png" width="800"><figcaption>
+      <h4>Example tilegroup in Xcode</h4>
+    </figcaption>
+</figure>
+
+<p>You see that this group contains 13 different images (tiles), with each image belonging to a certain rule (Up edge, center, Down edge etc.). You can enrich each individual tile with variations, and assign weights to them. This will make the <code>SKTileMapNode</code> pick a random variation of that tile based on the weights provided.</p>
+<figure><img src="../../images/screenshot-tilegroup-variant.png" width="800"><figcaption>
+      <h4>Example tilegroup with a variant in Xcode</h4>
+    </figcaption>
+</figure>
+
+<p>In a nutshell, with iOS 10.0 SpriteKit was now enhanced with not only new API&rsquo;s to draw tilemaps in your game more efficiently than ever before, but also with a brandnew tilemap editor.</p>
+<p>It&rsquo;s good to note that all above API&rsquo;s are available in code as well, so you are not bound to use the Xcode tilemap editor per se, which might be a very good thing..</p>
+<h3 id="xcode-tilemap-editor-vs-tiled">Xcode tilemap editor vs Tiled</h3>
+<p>With the release of Xcode 8 and the support for tilemaps, it was time to dig in. I was using Tiled before for creating my tilemaps, but I had no mean to translate these tilemaps as defined in Tiled to work in a SpriteKit game using the new tiling API&rsquo;s.</p>
+<p>Ideally, I would now learn to use the new built-in tilemap editor and stick with Xcode for everything game development related!</p>
+<p>One of the first things I noticed however was that the editor has less functionalities than Tiled.
+I could not create object layers to contain non-tile related information. There were no means to draw any custom shapes like poygons on the map, something that can be very useful for instance to create an efficient pathing navmesh.</p>
+<p>But the biggest issue I faced was with creating the <code>SKTileGroup</code> definitions.</p>
+<p>In Xcode&rsquo;s tilemap editor, you can&rsquo;t use a spritesheet. Instead, you need to manually drag and drop each individual image to its destined tiledefinition. This also means that if you have a spritesheet, you need to manually crop the individual image and then drag it into Xcode. I have maps in my games that render more than 1.000 different tiles. That is unmanageable when not using spritesheets.</p>
+<p>Unfortunately, we can conclude now that over the years since it&rsquo;s first release, nothing has significantly changed here. As of now, we are still not able to use spritesheets in Xcode&rsquo;s map editor.</p>
+<p>As I was building SpriteKit games, and definitely wanted to make use of the new tiling API&rsquo;s, I saw only one viable alternative: Building the logic to read Tiled maps in a <code>SpriteKit</code> game and render the maps using <code>SKTileMapNode</code> and related new classes. That way, I could make use of the highly performance SpriteKit tiling capabilities, while still being able to enjoy Tiled with all it&rsquo;s goodness.</p>
+<h2 id="msktiled">MSKTiled</h2>
+<p>When I started to develop my upcoming game Battledom, the most essential starting part was to develop a tool to make this bridge between Tiled and the SpriteKit tiling API&rsquo;s.</p>
+<p>There was already a framework that is capable of integrating Tiled maps into SpriteKit: <a href="https://github.com/mfessenden/SKTiled">SKTiled</a>.</p>
+<p>This is a very nice framework with loads of features supporting different usecases as used in Tiled, but it doesn&rsquo;t use the SpriteKit tiling API&rsquo;s. Instead, it draws each tile as a separate SKSpriteNode, leading to <a href="https://github.com/mfessenden/SKTiled/issues/40">performance issues on large maps</a>.</p>
+<p>However, it was a good starting point to investigate how I could develop my own solution.</p>
+<p>The first thing to understand was the underlying datastructure that Tiled uses to persist a tilemap in.
+By looking at the xml structure and altering the map in the Tiled editor to see the effects, at a certain moment I was able to think of a proper mapping between Tiled structure and the desired SpriteKit object&rsquo;s structure.</p>
+<p>This is a Tiled map example (.tmx file):</p>
+<pre tabindex="0"><code>&lt;map version=&#34;1.10&#34; tiledversion=&#34;1.11.0&#34; orientation=&#34;orthogonal&#34; renderorder=&#34;right-down&#34; width=&#34;100&#34; height=&#34;100&#34; tilewidth=&#34;32&#34; tileheight=&#34;32&#34; infinite=&#34;0&#34; nextlayerid=&#34;15&#34; nextobjectid=&#34;489&#34;&gt;
+ &lt;tileset firstgid=&#34;1&#34; name=&#34;terrain&#34; tilewidth=&#34;32&#34; tileheight=&#34;32&#34; tilecount=&#34;2048&#34; columns=&#34;32&#34;&gt;
+  &lt;image source=&#34;terrain.png&#34; width=&#34;1024&#34; height=&#34;2048&#34;/&gt;
+ &lt;/tileset&gt;
+ &lt;tileset firstgid=&#34;2049&#34; name=&#34;plants&#34; tilewidth=&#34;32&#34; tileheight=&#34;32&#34; tilecount=&#34;512&#34; columns=&#34;16&#34;&gt;
+  &lt;image source=&#34;plants.png&#34; width=&#34;512&#34; height=&#34;1024&#34;/&gt;
+ &lt;/tileset&gt;
+ &lt;layer id=&#34;1&#34; name=&#34;ground_0&#34; width=&#34;100&#34; height=&#34;100&#34;&gt;
+  &lt;data encoding=&#34;csv&#34;&gt;
+385,385,386,386,387,386,387,385,3852,322,..........
+&lt;/data&gt;
+ &lt;/layer&gt;
+ &lt;objectgroup id=&#34;3&#34; name=&#34;bases&#34;&gt;
+  &lt;object id=&#34;1&#34; name=&#34;basePoint&#34; x=&#34;1112&#34; y=&#34;1152&#34;&gt;
+   &lt;properties&gt;
+    &lt;property name=&#34;range&#34; type=&#34;int&#34; value=&#34;6&#34;/&gt;
+    &lt;property name=&#34;type&#34; type=&#34;int&#34; value=&#34;0&#34;/&gt;
+   &lt;/properties&gt;
+   &lt;point/&gt;
+  &lt;/object&gt;
+ &lt;/objectgroup&gt;
+ &lt;objectgroup id=&#34;14&#34; name=&#34;polygonObstacles&#34;&gt;
+  &lt;object id=&#34;133&#34; x=&#34;1512&#34; y=&#34;1096&#34;&gt;
+   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
+  &lt;/object&gt;
+  &lt;object id=&#34;134&#34; x=&#34;1888&#34; y=&#34;1216&#34;&gt;
+   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
+  &lt;/object&gt;
+  &lt;object id=&#34;135&#34; x=&#34;1712&#34; y=&#34;1544&#34;&gt;
+   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
+  &lt;/object&gt;
+  &lt;object id=&#34;136&#34; x=&#34;1288&#34; y=&#34;1792&#34;&gt;
+   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
+  &lt;/object&gt;
+  &lt;object id=&#34;137&#34; x=&#34;2080&#34; y=&#34;1824&#34;&gt;
+   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
+  &lt;/object&gt;
+  &lt;object id=&#34;138&#34; x=&#34;1133.82&#34; y=&#34;1232&#34;&gt;
+   &lt;polygon points=&#34;0,0 298.182,0 298.182,296 -29.8182,286.452&#34;/&gt;
+  &lt;/object&gt;
+ &lt;/objectgroup&gt;
+&lt;/map&gt;
+</code></pre><p>As you can see, there are <code>tileset</code> instances defined, which represent a spritesheet. The tiles they contain can be referenced as numbers. This you can see in the <code>layer</code> instances: Each layer is a layer in the map, has a width and height (expressed in tiles) and contains a <code>data</code> element. This data element is an array of integers, where each integer references to an entry in a tileset (a tile image).</p>
+<p>Object layers are also clearly structured as <code>objectgroup</code> instances, which can contain <code>object</code> instances with (custom) properties and positional information.</p>
+<p>Using this information, I drafted some mappings:</p>
+<ul>
+<li>A layer in Tiled corresponds with an SKTileMapNode in SpriteKit.</li>
+<li>A single data element in Tiled corresponds to an <code>SKTileDefinition</code> in SpriteKit.</li>
+<li>Properties in Tiled can correspond to the <a href="https://developer.apple.com/documentation/spritekit/sktiledefinition/1645813-userdata">userdata</a> of an SKTileDefinition in SpriteKit when the properties are put on an individual tile.</li>
+<li>For objects and object layers, I needed to create my own custom classes and structs, as there is no such thing in SpriteKit.</li>
+</ul>
+<p>Eventually, this mapping became more and more clear, and as a result MSKTiled became a working SPM package that offers the capability to turn Tiled maps into SKTileMapNode and related objects.</p>
+<p>As I use it for my own games at the moment, I only focussed on supporting orthogonal maps. It does not support isometric or hexagonal maps at the moment.</p>
+<p>In addition to being just a bridge between Tiled and SpriteKit tiling API&rsquo;s, MSKTiled will also take care of rendering the Tiled maps to an SKScene subclass which you can inherit from in your own game.</p>
+<p>This is what I called the <code>MSKTiledMapScene</code>, which you initialize by injecting the name of the tilemap to render and various other variables.</p>
+<p>Internally, MSKTiled will parse the map, look up the spritesheets, crop the desired tiles out of it and save them to the disk for caching purposes. These individual images are then used to programmatically create the SKTileDefinition instances which are used to create the <code>SKTileMapNode</code>. These are then layed out on the scene at the provided zpositions, and can be accessed programmatically using the normal SpriteKit (tiling) API&rsquo;s.</p>
+<p>The scene also provides means for A*-pathfinding and camera behavior including zooming and scrolling constrained by the provided and calculated boundaries.</p>
+<p>There is a lot more that can be told about the internals and the pro&rsquo;s and con&rsquo;s of the solution, and I would suggest you to use the <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/README.md">readme</a> for more technical information and usage.</p>
+<p>I am using MSKTiled now in my upcoming game <a href="http://localhost:1313/projects/battledom/">Battledom</a>, and so far I am very happy with and actively maintaining it while doing so.</p>
+<p>Do you have any questions, suggestions or remarks for this post?</p>
+<p>Please leave a message below!</p>
+
+
+    
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/0y0pernS0Gc?autoplay=0&controls=1&end=0&loop=0&mute=0&start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
+      ></iframe>
+    </div>
+
 
         
     </div>
@@ -231,7 +401,20 @@
 
 <aside class="post-toc">
     <nav id="toc">
-        <nav id="TableOfContents"></nav>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#tilemaps">Tilemaps</a></li>
+    <li><a href="#sktilemapnode">SKTileMapNode</a></li>
+    <li><a href="#tilemap-editors">Tilemap editors</a>
+      <ul>
+        <li><a href="#tiled">Tiled</a></li>
+        <li><a href="#xcode-tilemap-editor">Xcode tilemap editor</a></li>
+        <li><a href="#xcode-tilemap-editor-vs-tiled">Xcode tilemap editor vs Tiled</a></li>
+      </ul>
+    </li>
+    <li><a href="#msktiled">MSKTiled</a></li>
+  </ul>
+</nav>
     </nav>
 </aside>
 

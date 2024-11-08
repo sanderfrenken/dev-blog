@@ -6,39 +6,39 @@ type = "post"
 showTableOfContents = true
 +++
 
-Welcome to my blog! This is the spot where I share everything about my journey becoming a game developer. A journey that I decided to take long ago. 
+Welcome to my blog! This is the spot where I intend to share everything about my journey becoming a game developer. A journey that I decided to take long ago. 
 
-On this blog I share technical insights but also more personal experiences. As a game developer "on the side", a lead engineer at a large bank and a father of two, there is plenty of other stuff to cover. Don't expect any answers on how to make life work; I don't know either. 
-
-I just try to make the best out of it all.
+On this blog I share technical insights but also more personal experiences. As a game developer "on the side", a lead engineer at a large bank and a father of two, there is plenty of other stuff to cover. Don't expect any answers on how to make life work; I don't know either.
 
 ## The ghost of Christmas past...
 
 Games have always played a big role in my life, as it probably did for a lot of people like me born during or after the 80's (I am from 1988). 
 As a kid, I remember vividly playing GTA, SimCity, Carmageddon and what else with my big brother on the PC.
-One of our biggest enjoyments was the Age Of Empires series. 
 
-{{< figure src="../../images/screenshot-aoe2.jpg" width="400" title="Age of Empires (1997, Ensemble Studios)">}}
+{{< figure src="../../images/screenshot-simcity.jpg" width="600" title="SimCity 2000 (1993, Maxis)">}}
 
-I am from the Netherlands and every year we celebrate the King or Queen's birthday during which a lot of people sell their stuff on street markets. In 1998, my brother and I sold everything we could during this day, and we gathered just enough money to buy AoE at the local computer shop. 
+One of our biggest enjoyments was the Age Of Empires series.
+I am from the Netherlands and every year we celebrate the King or Queen's birthday during which a lot of people sell their stuff on street markets. In 1998, my brother and I sold everything we could during this day, and we gathered just enough money to buy AoE at the local computer shop.
+
+{{< figure src="../../images/screenshot-aoe2.jpg" width="600" title="Age of Empires (1997, Ensemble Studios)">}}
 
 We must have played it for 100's of hours, and I will never forget how much we got sucked into this game, and not only had a lot of fun, but also learned interesting historical facts. At least, that is what we told our parents.
 
 Similar memories I have for Transport Tycoon, developed by the legendary Chris Sawyer. During family visits, my brother and I went upstairs and started drawing on paper what kind of traffic connections we would make when we got home, and what villages we would like to rename to what names. Thinking about Transport Tycoon, I can still hear the game music playing in my head.
 
-{{< figure src="../../images/screenshot-ttd.jpg" width="400" title="Transport Tycoon (Chris Sawyer, 1994)">}}
+{{< figure src="../../images/screenshot-ttd.jpg" width="600" title="Transport Tycoon (Chris Sawyer, 1994)">}}
 
 In 1997 we got an N64 for Christmas. Now this was a truly unbelievable experience: playing GoldenEye64 against each other on the TV, or driving through San Francisco in Rush. In my memories, those were my golden days for digital entertainment. We even took the N64 with us when visiting Disneyland for a long weekend, and I have the most memories not from visiting the park, but from playing 1080 snowboarding in the hotel room.
 
-{{< figure src="../../images/screenshot-goldeneye.jpg" width="400" title="GoldenEye 007 (Rare, 1997)">}}
+{{< figure src="../../images/screenshot-goldeneye.jpg" width="600" title="GoldenEye 007 (Rare, 1997)">}}
 
-{{< figure src="../../images/screenshot-1080.jpg" width="400" title="1080 Snowboarding (Nintendo, 1998)">}}
+{{< figure src="../../images/screenshot-1080.jpg" width="600" title="1080 Snowboarding (Nintendo, 1998)">}}
 
 During the years, I also owned a GameCube, XBox360, PS4, SeriesX and soon probably a Switch for my little boy. Most memorable for these consoles are games like Eternal Darkness (GC), Oblivion and Skyrim (360) and GTA 5 (PS4). 
 
-{{< figure src="../../images/screenshot-ed.jpg" width="400" title="Eternal Darkness (Silicon Knights, 2002)">}}
+{{< figure src="../../images/screenshot-ed.jpg" width="600" title="Eternal Darkness (Silicon Knights, 2002)">}}
 
-{{< figure src="../../images/screenshot-tes.jpg" width="400" title="The Elder Scrolls IV: Oblivion (Bethesda, 2006)">}}
+{{< figure src="../../images/screenshot-tes.jpg" width="600" title="The Elder Scrolls IV: Oblivion (Bethesda, 2006)">}}
 
 
 I loved the GameCube and the 360, but the most nostalgic feelings I get when remembering those old days, playing games with my big brother on our Pentium II PC and N64. I think this is mostly related to my age. But maybe games have changed overtime as well. Whereas back then I could play a game without a tutorial and finish it in 10-15 hours, many games nowadays have a tutorial of hours, and are more complex than before.
@@ -47,11 +47,11 @@ Impressive always, but sometimes for me personally frightening in the sense that
 
 I still read a lot about games, and buy them regularly. But the ones I really play are only a few, which most recently are Resident Evil, SOMA and Dead Space.
 
-{{< figure src="../../images/screenshot-re.jpg" width="400" title="Resident Evil 7: Biohazard (Capcom, 2017)">}}
+{{< figure src="../../images/screenshot-re.jpg" width="600" title="Resident Evil 7: Biohazard (Capcom, 2017)">}}
 
 Occasionally I play on mobile, where there are a couple of very good games available in my opinion. GameDevTycoon, Kingdom Rush and Angry Birds (the first one) I found very enjoyable. But I also see that the mobile market for games is flooded with games, many of which are pay2win and/ or idle games.
 
-{{< figure src="../../images/screenshot-kr.jpg" width="400" title="Kingdom Rush (Iron Hide, 2011)">}}
+{{< figure src="../../images/screenshot-kr.jpg" width="600" title="Kingdom Rush (Iron Hide, 2011)">}}
 
 ## The ghost of Christmas present...
 
@@ -61,11 +61,11 @@ Experiments were for example designed to measure response times of subjects need
 
 Though very basic, it was here I realized that computer games (slightly more advanced ofc) are in essence built around these same core principles (rendering, detecting input, processing state etc).
 
-{{< figure src="../../images/screenshot-neuro.png" width="400" title="Neuropsychological test">}}
+{{< figure src="../../images/screenshot-neuro.png" width="600" title="Neuropsychological test">}}
 
 This intrigued me a lot, and so I started learning more on game development in my spare time. ActionScript 3.0 Game Programming University was one of the first books I bought, and I couldn't put it away. A lot of other books followed, and after a while I decided to focus my efforts on iOS, especially since Flash and ActionScript were becoming more and more irrelevant.
 
-{{< figure src="../../images/screenshot-books.jpg" width="400" title="Some of my (game)dev books">}}
+{{< figure src="../../images/screenshot-books.jpg" width="600" title="Some of my (game)dev books">}}
 
 ### iOS development
 
@@ -83,13 +83,19 @@ Honestly, the success of WordWise was rather limited, but the learnings I have m
 
 It also gave me the confidence to start a new project, a shoot 'em up based on the Pink Floyd universe, called Numbed. Confident as I were, I decided to also do the art for this one, and I couldn't imagine anything other than that this would become my first success. To my pleasure, it was also at that time that Apple released SpriteKit. 
 
-{{< figure src="../../images/screenshot-sk.png" width="400" title="Apple announcing SpriteKit at WWDC 2013">}}
+{{< figure src="../../images/screenshot-sk.png" width="600" title="Apple announcing SpriteKit at WWDC 2013">}}
 
 SpriteKit is a 2D engine developed by Apple, providing among others rendering, animation and collision detection capabilities. It has a powerful API, and with the experience I just gained with iOS development it matched well with my capabilities. 
 
-Over the course of a year I drew art, programmed the game and hoped for the best. When I got it out there, I was hoping for some good sales obviously, maybe a review here or there.. But that never happened. 
+Over the course of a year I drew art for Numbed, programmed the game internals and hoped for the best. When I got it out there, I was hoping for some good sales obviously, maybe a review here or there.. 
 
-I got one reaction on my Reddit post to promote the game, stating "This looks terribad". Next to that it was a rather quiet release. I later hired an artist to draw the art all over, and spent many days to rewrite the code completely in Swift, which was released while I already started development of Numbed in Objective-C.
+But that never happened. 
+
+I got one reaction on my Reddit post to promote the game, stating: 
+
+> This looks terribad
+
+ Next to that it was a rather quiet release. I later hired an artist to draw the art all over, and spent many days to rewrite the code completely in Swift, which was released while I already started development of Numbed in Objective-C.
 
 {{< youtube dnPb5MahMX4 >}}
 
@@ -109,7 +115,7 @@ Mid 2017 I was looking for some new game ideas. Browsing the web, I came across 
 
 And this was such a cool thing: Using the generator I was able to create a huge variety of units, especially themed for a medieval setting. 
 
-{{< figure src="../../images/screenshot-generator.png" width="400" title="Example unit created in the SpriteSheet generator">}}
+{{< figure src="../../images/screenshot-generator.png" width="600" title="Example unit created in the SpriteSheet generator">}}
 
 I really wanted to create an Age of Empires like game with these assets, but I also saw how complex such a game is. So I settled for something slightly less complex: 
 
