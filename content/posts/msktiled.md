@@ -1,6 +1,6 @@
 +++
 title = 'MSKTiled: A Tiled map parser for SpriteKit'
-date = 2024-11-01T00:04:03+02:00
+date = 2024-11-07T00:04:03+02:00
 draft = false
 type = "post"
 showTableOfContents = true
@@ -202,9 +202,11 @@ In addition to being just a bridge between Tiled and SpriteKit tiling API's, MSK
 
 This is what I called the `MSKTiledMapScene`, which you initialize by injecting the name of the tilemap to render and various other variables. 
 
-Internally, MSKTiled will parse the map, look up the spritesheets, crop the desired tiles out of it and save them to the disk for caching purposes. These individual images are then used to programmatically create the SKTileDefinition instances which are used to create the `SKTileMapNode`. These are then layed out on the scene at the provided zpositions, and can be accessed programmatically using the normal SpriteKit (tiling) API's.
+Internally, MSKTiled parses the map, looks up the spritesheets, crops the desired tiles from the sheet and save it to the disk for caching purposes. These individual images are then used to programmatically create the SKTileDefinition instances which are used to create the SKTileMapNode. 
 
-The scene also provides means for A*-pathfinding and camera behavior including zooming and scrolling constrained by the provided and calculated boundaries.
+These are then layed out on the scene at the provided zpositions, and can be accessed programmatically using the normal SpriteKit API's.
+
+The scene also provides means for A* pathfinding and camera behavior including zooming and scrolling constrained by the provided and calculated boundaries.
 
 There is a lot more that can be told about the internals and the pro's and con's of the solution, and I would suggest you to use the [readme](https://github.com/sanderfrenken/MSKTiled/blob/main/README.md) for more technical information and usage.
 

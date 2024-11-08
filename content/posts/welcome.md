@@ -1,6 +1,6 @@
 +++
 title = 'Welcome'
-date = 2024-10-11T00:04:03+02:00
+date = 2024-11-05T00:04:03+02:00
 draft = false
 type = "post"
 showTableOfContents = true

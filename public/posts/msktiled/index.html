@@ -172,7 +172,7 @@ Tiling is a technique often used in (2D) game development, where maps …">
 	
 
 	
-          <p class="post-date">November 1, 2024
+          <p class="post-date">November 7, 2024
            
           </p>
 	
@@ -337,8 +337,9 @@ By looking at the xml structure and altering the map in the Tiled editor to see 
 <p>As I use it for my own games at the moment, I only focussed on supporting orthogonal maps. It does not support isometric or hexagonal maps at the moment.</p>
 <p>In addition to being just a bridge between Tiled and SpriteKit tiling API&rsquo;s, MSKTiled will also take care of rendering the Tiled maps to an SKScene subclass which you can inherit from in your own game.</p>
 <p>This is what I called the <code>MSKTiledMapScene</code>, which you initialize by injecting the name of the tilemap to render and various other variables.</p>
-<p>Internally, MSKTiled will parse the map, look up the spritesheets, crop the desired tiles out of it and save them to the disk for caching purposes. These individual images are then used to programmatically create the SKTileDefinition instances which are used to create the <code>SKTileMapNode</code>. These are then layed out on the scene at the provided zpositions, and can be accessed programmatically using the normal SpriteKit (tiling) API&rsquo;s.</p>
-<p>The scene also provides means for A*-pathfinding and camera behavior including zooming and scrolling constrained by the provided and calculated boundaries.</p>
+<p>Internally, MSKTiled parses the map, looks up the spritesheets, crops the desired tiles from the sheet and save it to the disk for caching purposes. These individual images are then used to programmatically create the SKTileDefinition instances which are used to create the SKTileMapNode.</p>
+<p>These are then layed out on the scene at the provided zpositions, and can be accessed programmatically using the normal SpriteKit API&rsquo;s.</p>
+<p>The scene also provides means for A* pathfinding and camera behavior including zooming and scrolling constrained by the provided and calculated boundaries.</p>
 <p>There is a lot more that can be told about the internals and the pro&rsquo;s and con&rsquo;s of the solution, and I would suggest you to use the <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/README.md">readme</a> for more technical information and usage.</p>
 <p>I am using MSKTiled now in my upcoming game <a href="http://localhost:1313/projects/battledom/">Battledom</a>, and so far I am very happy with and actively maintaining it while doing so.</p>
 <p>Do you have any questions, suggestions or remarks for this post?</p>
