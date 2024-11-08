@@ -133,6 +133,8 @@ This is a very nice framework with loads of features supporting different usecas
 
 However, it was a good starting point to investigate how I could develop my own solution.
 
+### Tiled data structure
+
 The first thing to understand was the underlying datastructure that Tiled uses to persist a tilemap in.
 By looking at the xml structure and altering the map in the Tiled editor to see the effects, at a certain moment I was able to think of a proper mapping between Tiled structure and the desired SpriteKit object's structure.
 
@@ -187,6 +189,8 @@ As you can see, there are `tileset` instances defined, which represent a sprites
 
 Object layers are also clearly structured as `objectgroup` instances, which can contain `object` instances with (custom) properties and positional information. 
 
+### MSKTiled data structure
+
 Using this information, I drafted some mappings:
 
 - A layer in Tiled corresponds with an SKTileMapNode in SpriteKit.
@@ -198,6 +202,8 @@ Eventually, this mapping became more and more clear, and as a result MSKTiled be
 
 As I use it for my own games at the moment, I only focussed on supporting orthogonal maps. It does not support isometric or hexagonal maps at the moment.
 
+### MSKTiledMapScene
+
 In addition to being just a bridge between Tiled and SpriteKit tiling API's, MSKTiled will also take care of rendering the Tiled maps to an SKScene subclass which you can inherit from in your own game.
 
 This is what I called the `MSKTiledMapScene`, which you initialize by injecting the name of the tilemap to render and various other variables. 
@@ -207,6 +213,8 @@ Internally, MSKTiled parses the map, looks up the spritesheets, crops the desire
 These are then layed out on the scene at the provided zpositions, and can be accessed programmatically using the normal SpriteKit API's.
 
 The scene also provides means for A* pathfinding and camera behavior including zooming and scrolling constrained by the provided and calculated boundaries.
+
+## Wrap up
 
 There is a lot more that can be told about the internals and the pro's and con's of the solution, and I would suggest you to use the [readme](https://github.com/sanderfrenken/MSKTiled/blob/main/README.md) for more technical information and usage.
 
