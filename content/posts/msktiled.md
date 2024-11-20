@@ -14,11 +14,11 @@ Tiling is a technique often used in (2D) game development, where maps are create
 
 Using spritesheets, one can have a variety of for example 100 tiles in a single image. These tiles can include terrain-like tiles, building-like tiles including walls, etc.
 
-{{< figure src="../../images/screenshot-tileset.png" width="400" title="Example spritesheet for a terrain">}}
+{{< figure src="../../images/screenshot-tileset.png" width="800" title="Example spritesheet for a terrain">}}
 
 Using these individual tiles one can create unique environments, all drawn using the same spritesheet as a source.
 
-{{< figure src="../../images/screenshot-map.png" width="400" title="Example map; all the terrain is drawn using the above spritesheet">}}
+{{< figure src="../../images/screenshot-map.png" width="800" title="Example map; all the terrain is drawn using the above spritesheet">}}
 
 In essence, one can see a tilemap as two-dimensional array where each item represents a specific tile.
 As a basic example, one can think of a following way to represent this in code:
