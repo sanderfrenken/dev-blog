@@ -10,9 +10,9 @@
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About performance and caching</title>
-      <link>http://localhost:1313/posts/leaks/</link>
+      <link>http://localhost:1313/posts/performance/</link>
       <pubDate>Wed, 20 Nov 2024 00:04:03 +0200</pubDate>
-      <guid>http://localhost:1313/posts/leaks/</guid>
+      <guid>http://localhost:1313/posts/performance/</guid>
       <description>With Battledom nearing a state where I expect it&amp;rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game.&#xA;As Battledom can become computational quite heavy at moments when large maps are rendered while moving around hundreds of units, the topic of optimization has been crossing my path (maybe too) often.&#xA;But in general, with any app or game you develop, you will most likely at one moment in time face some form of performance issues.</description>
     </item>
     <item>

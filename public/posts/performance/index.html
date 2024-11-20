@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="/dev-blog/favicon-32x32.png">
+    <link rel="apple-touch-icon" type="image/png" href="/dev-blog/favicon-32x32.png">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>About performance and caching</title>
+    <meta name="description" content="With Battledom nearing a state where I expect it&rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game. …">
+    <meta name="keywords" content='blog, spritekit, game developer'>
+
+    <meta property="og:url" content="http://localhost:1313/posts/performance/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="About performance and caching">
+    <meta property="og:description" content="With Battledom nearing a state where I expect it&rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game. …">
+    <meta property="og:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
+    <meta property="og:image:secure_url" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About performance and caching">
+    <meta name="twitter:description" content="With Battledom nearing a state where I expect it&rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game. …">
+    <meta property="twitter:domain" content="http://localhost:1313/posts/performance/">
+    <meta property="twitter:url" content="http://localhost:1313/posts/performance/">
+    <meta name="twitter:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
+
+    
+    <link rel="canonical" href="http://localhost:1313/posts/performance/">
+
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.min.css" media="print">
+
+    
+    <link rel="stylesheet" type="text/css" href="/css/main.min.css">
+
+    
+    <link id="dark-theme" rel="stylesheet" href="/css/dark.min.css">
+
+    
+    <script src="/js/bundle.min.9a920d7dabdbad8363b6a0a94e29a9dfebdb7ee64cfcb193a0145e512ef2bdab.js" integrity="sha256-mpINfavbrYNjtqCpTimp3&#43;vbfuZM/LGToBReUS7yvas="></script>
+
+    
+    
+</head>
+<body>
+        <script>
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="http://localhost:1313/">
+                <img src='https://sanderfrenken.github.io/dev-blog/static/icon.png' alt="avatar">
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="http://localhost:1313/">iGameDev</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/" ><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/posts/" ><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/projects/" ><span data-feather='code'></span> Projects </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/sanderfrenken" ><span data-feather='github'></span>  </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/posts/welcome" ><span data-feather='smile'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span class="sr-only dark-theme-toggle-screen-reader-target"></span>
+                <a>
+                    <span class="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/" ><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/posts/" ><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/projects/" ><span data-feather='code'></span> Projects </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/sanderfrenken" ><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/posts/welcome" ><span data-feather='smile'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+                    <a>
+                        <span class="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>About performance and caching</h1>
+
+        
+
+        
+	
+	
+	
+	
+        
+
+	
+
+	
+
+	
+          <small role="doc-subtitle"></small>
+	
+
+	
+          <p class="post-date">November 20, 2024
+           
+          </p>
+	
+
+        <ul class="post-tags">
+          
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>With Battledom nearing a state where I expect it&rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game.</p>
+<p>As Battledom can become computational quite heavy at moments when large maps are rendered while moving around hundreds of units, the topic of optimization has been crossing my path (maybe too) often.</p>
+<p>But in general, with any app or game you develop, you will most likely at one moment in time face some form of performance issues.</p>
+<figure><img src="../../images/screenshot-performance-units.png" width="800"><figcaption>
+      <h4>Example of a more intense battle in Battledom</h4>
+    </figcaption>
+</figure>
+
+<p>Some of the performance issues I encountered were about loading content and framedrops when loading textures. I will give some examples of these issues and enhancements I did in this post.</p>
+<h2 id="performance">Performance</h2>
+<p>The first thing that I find very important to note is that performance testing of your game should be done on a real device. Testing on a simulator is ofcourse convenient and very suitable for feature development and tracking down memory leaks, but performance is very dependent on the hardware in use.</p>
+<p>Since the Xcode simulator is in essence an app running on your OSX machine emulating an iPhone/ iPad, its nowhere near a proper representation of a real physical device. A thorough explanation about the differences can be read <a href="https://developer.apple.com/documentation/xcode/testing-in-simulator-versus-testing-on-hardware-devices">here on the Apple Developer documentation</a>, but an overview from there:</p>
+<blockquote>
+<ul>
+<li>General: there are differences in processing, graphics, and network speed..</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Display: there are differences in resolution and color.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>System: there are differences in how the system handles backgrounding your app.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Hardware: Simulator doesn’t support some hardware features.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>API: Simulator doesn’t support some APIs.</li>
+</ul>
+</blockquote>
+<p>In specific interest when using SpriteKit, is this final mention:</p>
+<blockquote>
+<ul>
+<li>Metal: there are differences between the device GPU and your computer GPU.</li>
+</ul>
+</blockquote>
+<p>As <a href="https://developer.apple.com/documentation/spritekit">SpriteKit</a> is leveraging Metal for it&rsquo;s rendering capabilities, this is an important note.
+You can find more in-depth information about running Metal apps in the simulator <a href="https://developer.apple.com/documentation/metal/developing_metal_apps_that_run_in_simulator">here</a>.</p>
+<p>Now in practice you might encounter that your game runs smoother on your physical device compared to a simulator, but I also have encountered it the other way around (less often though). It&rsquo;s very dependent on the tasks being performed and the hardware in use.</p>
+<p>But as a general remark: when you are trying to assess your game&rsquo;s performance, make sure to use a real physical device, and if possible a variety. Moreover, make sure to include lower-end devices like devices released a couple of years ago.</p>
+<p>There is a huge <a href="https://www.apple.com/iphone/compare/?modelList=iphone-11-pro,iphone-16-pro">difference</a> between the computing capabilities of for instance an iPhone 16 Pro (released 2024; 6-core GPU; A18 Pro-processor) and an iPhone 11 Pro (released 2019; 4-core GPU; A13 Pro-processor).</p>
+<figure><img src="../../images/screenshot-performance-11-16.png" width="800"><figcaption>
+      <h4>Comparing iPhone 11 Pro with iPhone 16 Pro</h4>
+    </figcaption>
+</figure>
+
+<p>Taken this into account, I usually do most extensive performance tests on my older iPhone device (iPhone 11).</p>
+<p>Now let&rsquo;s look at some examples of performance issues I encountered.</p>
+<h2 id="maps">Maps</h2>
+<p>In Battledom I make use of maps that are layed out using tiles. Most maps are about 100*100 tiles, and maybe an occassional larger map of 200*200  tiles. I won&rsquo;t make them much larger, as they become too large to navigate in the timespan I expect one to finish the level.</p>
+<p>When developing the map renderer (of which most code is available at GitHub: <a href="https://sanderfrenken.github.io/dev-blog/posts/msktiled/">MSKTiled</a>), I therefore needed to make sure that it would be capable of efficiently drawing maps in this larger size of 200*200 tiles.</p>
+<p>During development however, I try to explore the limits of the game&rsquo;s internals, and stretch them as far as possible. This means that even though I might not exceed maps of 200*200 tiles, I do try to render maps at least twice that size.</p>
+<p>With regard to MSKTiled, I am able to render at maps of 1000*1000 tiles smoothly. This made me confident that the library would be performing sufficient to be used in Battledom.</p>
+<figure><img src="../../images/screenshot-large-map.png" width="800"><figcaption>
+      <h4>Large map example including calculated path from A to B</h4>
+    </figcaption>
+</figure>
+
+<p>At the same time it is important to notice that even though this individual component of the game seems to function and perform properly, it might behave differently when combined with all other parts of the game once integrated.</p>
+<p>But overall, when making a game with some form of complexity and heavy computational work, it does make life easier to modularize your systems as this allows you to individually assess their performance (aside from the argument that modularisation can clean up your code significantly when applied properly).</p>
+<p>With <a href="https://developer.apple.com/documentation/xcode/swift-packages">Swift Package Manager</a> this has become very convenient.</p>
+<h3 id="caching">Caching</h3>
+<p>When looking at the capability to render large maps rendering, caching is an important subject.</p>
+<p>When using MSKTiled, parsing tilemaps the first time is expensive as the package will need to create the individual tiles from the tilesheets referenced in the map.</p>
+<p>This means that for example the tiles in the sheet below will need be cropped to it&rsquo;s individual tiles on the device at runtime when creating the map.</p>
+<figure><img src="../../images/screenshot-tileset.png" width="800"><figcaption>
+      <h4>Example spritesheet for a terrain</h4>
+    </figcaption>
+</figure>
+
+<p>SpriteKit provides an API to do this, which is <a href="https://developer.apple.com/documentation/spritekit/sktexture/1520425-init">SKTexture(rectIn:)</a>. This API allows you to create a texture from a portion of another texture.</p>
+<p>The result, an <a href="https://developer.apple.com/documentation/spritekit/sktexture">SKTexture</a> it self, can then be used to draw new nodes from.</p>
+<p>However, this is an expensive operation, especially if we are talking about a map that might contain 1000&rsquo;s of different tiles. In such an example, constructing (basically cropping 1000&rsquo;s of images) the needed tiles can easily take up to 3 seconds.</p>
+<p>To resolve this, I implemented a first layer of caching: When an individual tile is created for the first time in the app&rsquo;s lifecycle on the device, I create a <a href="https://developer.apple.com/documentation/uikit/uiimage/1624114-init">UIImage</a> from the cropped texture&rsquo;s <a href="https://developer.apple.com/documentation/spritekit/sktexture/1519755-cgimage">CoreGraphic image</a>.</p>
+<p>Subsequently, this UIImage is written to the app container document&rsquo;s directory for future usage.
+Everytime a tile is attempted to be loaded by MSKTiled, it will first query the document&rsquo;s directory if the image is already there.</p>
+<p>In code, this looks likes this:</p>
+<pre tabindex="0"><code>var texture: SKTexture?
+// retrieve the tile definition
+let tileDefinition = getTile(tileSheet: tileSheet, tileId: tileId)
+
+// first check the file system (cache) for existence
+if let imageData = try? Data(contentsOf: getCacheFileUrl(tileName: tileDefinition.name)) {
+    if let image = UIImage(data: imageData) {
+        texture = SKTexture.init(image: image)
+        log(logLevel: .debug, message: &#34;Cache hit for image \(tileDefinition.name)&#34;)
+    }
+}
+// if not present in cache, create the tile and save it to the cache
+if texture == nil {
+    // load the parent tilesheet
+    let sourceTexture = getTexture(name: tileDefinition.source)
+
+    // create the cropping instructions
+    let row = tileDefinition.row
+    let column = tileDefinition.column
+
+    // crop the parent texture to the tile texture
+    let tileTexture = SKTexture(rect: CGRect(x: tileDefinition.width*CGFloat(column)/sourceTexture.size().width, 
+                                            y: 1-(tileDefinition.height*CGFloat(row+1)/sourceTexture.size().height),
+                                            width: tileSize.width/sourceTexture.size().width,
+                                            height: tileSize.height/sourceTexture.size().height),
+                                in: sourceTexture)
+
+    // save the tile texture image to the file system
+    let uimg = UIImage(cgImage: tileTexture.cgImage())
+    if let data = uimg.pngData() {
+        try? data.write(to: getCacheFileUrl(tileName: tileName))
+    }
+    texture = SKTexture(image: uimg)
+}
+</code></pre><p>Now we can reference to this form of caching as <code>static caching</code>. These images are persisted on the device, and will remain a valid cache object also after the app or system has been rebooted.</p>
+<p>On the other hand, we can also make use of <code>runtime caching</code>.</p>
+<p>Taking the example of a large map with multiple layers of 200*200 tiles, even with static caching as described above loading a map can still take up to a few seconds. Usually you would like to avoid such long loading times. Or at least, you want the user not to notice their existence.</p>
+<p>In order to improve this, one can implement runtime caching. With MSKTiled, I created a method to parse a map and store the individual components that would be used to construct a scene from it.</p>
+<p>Parsing the map contains the most expensive operations, where in essence its creating the individual layers and objects represented as SpriteKit objects. Inside this logic resides the parsing of the map and it&rsquo;s layers and creating the cropped tiles (either from cache or fresh).</p>
+<p>The parsed map can be used later at any time by injecting it into a scene, which will use the individual components for rendering the scene itself.</p>
+<p>Below a simplified version of the code in use. This class, <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/Sources/MSKTiled/MSKTiledMapParser.swift">MSKTiledMapParser</a> implements the <code>XMLParserDelegate</code>, where the actual parsing is done by the implemented protocol methods (which I left out in the below code example).</p>
+<pre tabindex="0"><code>public func loadTilemap(filename: String,
+                        allowTileImagesCache: Bool = true,
+                        checkBundleForTileImages: Bool = false,
+                        addingCustomTileGroups: [SKTileGroup]? = nil) {
+parser.delegate = self
+// inside parse is where the expensive work happens: looping over all the layers and tiles
+// creating the tiles, caching them if needed, constructing the layers as much as possible
+parser.parse()
+// now that the parser has parsed the map, it already has loaded most of the map information needed for rendering into memory
+}
+</code></pre><p>Moreover, we can dispatch the <code>loadTilemap</code> invocation to a non-main thread, thereby doing the work while the user will not even notice it.</p>
+<p>Once finished, we can use this MSKTiledMapParser instance at any subsequent moment we need it to render a scene. In Battledom, at app startup I start doing this work right away:</p>
+<pre tabindex="0"><code>func application(_ application: UIApplication, didFinishLaunchingWithOptions
+                     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -&gt; Bool {
+        printInDebug(NSHomeDirectory())
+        loadSavedData()
+        cacheScenes()
+        return true
+    }
+
+private func cacheScenes() {
+    if allowSceneCaching {
+        cachedSceneHelper.cacheScene(sceneType: .overworld)
+        cachedSceneHelper.cacheScene(sceneType: .start)
+        cachedSceneHelper.cacheScene(sceneType: .village)
+        cachedSceneHelper.cacheScene(sceneType: .woodlands)
+        cachedSceneHelper.cacheScene(sceneType: .farm)
+    }
+}
+</code></pre><p>The AppDelegate will start caching all necessary immediately.</p>
+<p>During the app&rsquo;s launch sequence, the user is presented with an animated scene that presents the game&rsquo;s name and some other details, something which you see in most other games.</p>
+<p>Obviously, these scenes or screens, also known as <a href="https://en.wikipedia.org/wiki/Splash_screen">splashscreens</a>, exist for a reason: to cache/ load content upfront while still creating some form of engagement with the user.</p>
+<p>Now that we have the parser which already processed and stored most of its data, we need to use it in a scene that we present. This can be done by invoking the method <code>getTileMapNodes</code> <a href="https://github.com/sanderfrenken/MSKTiled/blob/70475e6e2303ea67057c44c1d339b9b9fee22e6d/Sources/MSKTiled/MSKTiledMapParser.swift#L49">from the parser</a> below that returns the SpriteKit objects from it:</p>
+<pre tabindex="0"><code>@MainActor
+public func getTileMapNodes() -&gt; (layers: [SKTileMapNode],
+                                  tileGroups: [SKTileGroup],
+                                  tiledObjectGroups: [MSKTiledObjectGroup]?) {
+    let tileMapNodeLayers: [SKTileMapNode] = layers.map { layer in
+        let tileSet = layer.tileSet
+        let rawLayer = layer.rawLayer
+        let layerData = layer.layerData
+        let tileMapNode = SKTileMapNode(tileSet: layer.tileSet, 
+                                        columns: Int(mapSize.width), 
+                                        rows: Int(mapSize.height), 
+                                        tileSize: tileSize)
+        for tileId in layerData {
+            if !hasValidTileData(tileId: tileId) {
+                continue
+            }
+            let tileGroup = getTileGroup(tileId: tileId)
+            tileMapNode.setTileGroup(tileGroup, forColumn: column, row: row)
+        }
+        tileMapNode.name = rawLayer.name
+        if rawLayer.invisible {
+            tileMapNode.alpha = 0
+        }
+        return tileMapNode
+    }
+    return (tileMapNodeLayers, tileGroups, tiledObjectGroups)
+}
+</code></pre><p>Note here, that this method is annoted with <code>@MainActor</code>.</p>
+<p>This is an important aspect as well. Initialisation and usage of any SKNode subclass should be done on the main thread in SpriteKit. This means that as the above method is initializing instances of SKTileMapNode, this needs to happen on the MainActor (potentially blocking the UI).</p>
+<p>This is something to really look out for: even though you might cache something up to front, always verify you are not blocking the UI while creating the cache. And when this can not be avoided, try to do it at moments when your user will not be bothered with it, for example during a loading screen.</p>
+<h2 id="texture-caching">Texture caching</h2>
+<p>Another example of caching is texture caching. Even thoug Apple did implement some form of texture caching already, you might need more aggressive texture caching. According to the <a href="https://developer.apple.com/documentation/spritekit/sktexture/">documentation</a>, out of the box texture caching works as follows:</p>
+<blockquote>
+<p>After a texture is loaded into the graphics hardware memory, it stays in memory until the referencing SKTexture object is deleted. This means that between levels (or in a dynamic game), you may need to make sure a texture object is deleted. Delete a SKTexture object by removing any strong references to it, including:</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>All texture references from SKSpriteNode and SKEffectNode objects in your game</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Any strong references to the texture in your own code</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>An SKTextureAtlas object that was used to create the texture object</li>
+</ul>
+</blockquote>
+<p>This does mean that while an SKTexture is still referenced from somewhere, any subsequent usage of that same texture can be facilitated by loading it from memory. However, once you removed all references to that texture, its deallocated. This can be a problem if there are textures of which you know that will be requested often but are shortlived in usage.</p>
+<p>What I see is that when loading larger textures into memory, you can experience framedrops.</p>
+<p>For those occassions I make of a texture helper. This TextureHelper is a singleton which holds a dictionary of textures. Simplified this looks like this:</p>
+<pre tabindex="0"><code>final class TextureHelper {
+    private var cachedTextures = [String: SKTexture]()
+
+    func getCacheableTexture(imageName: String, setInCache: Bool = true) -&gt; SKTexture {
+        if let texture = cachedTextures[imageName] {
+            return texture
+        }
+        let texture = SKTexture(imageNamed: imageName)
+        if setInCache {
+            cachedTextures[imageName] = texture
+        }
+        return texture
+    }
+</code></pre><p>Now you can use your TextureHelper instance from anywhere in your code in order to retrieve a texture from it&rsquo;s cache (or load it newly and cache it subsequently):</p>
+<pre tabindex="0"><code>let myTexture = textureHelper.getCacheableTexture(texture: &#34;my_texture&#34;)
+</code></pre><p>It&rsquo;s an easy way to retain a strong reference to a loaded texture in memory, inhibiting the texture from being deallocated. Use it wisely though, as you don&rsquo;t want to increase your memory usage too far.</p>
+<h2 id="cache-invalidation">Cache invalidation</h2>
+<h3 id="static-cache">Static cache</h3>
+<p>As you might know, any cache can get corrupted. This could happen for instance in our static caching as described above.</p>
+<p>We create individual images from tilesheets and store them to the device. But what will happen if in a subsequent app update, I decide to rename a tilesheet? Currently, I use the tilesheet name among other information to define the name of the cached file.
+Renaming a tilesheet will definitely break some of the desired behavior in this case.</p>
+<p>Therefore, I would always advise you to introduce means that can invalidate your built up cache. In the example, clearing the cache would be as simple as removing all images stored in the cache directory in use.</p>
+<p>That way, it will need to be built up again from scratch. It&rsquo;s up to you decide when to do these actions, but you should try to avoid it as much as possible (otherwise, why would you cache).</p>
+<p>Additionally, you could create a mean for a user to do this themselves via a settings menu for example. That way, you can troubleshoot without the need for an app update when things go wrong.</p>
+<h3 id="runtime-cache">Runtime cache</h3>
+<p>When doing runtime caching, you might store too much information in your RAM and the OS might start to complain that your app uses too much memory.</p>
+<p>You are warned about this in your AppDelegate&rsquo;s method <code>applicationDidReceiveMemoryWarning</code> which you can hook into and respond by taking the right actions. In Battledom, I use this to clear up all textures that I have been caching since the app started:</p>
+<pre tabindex="0"><code>func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+    printInDebug(&#34;applicationDidReceiveMemoryWarning&#34;)
+    textureHelper.clearCharacterTextures()
+    textureHelper.clearStaticTextures()
+}
+</code></pre><h2 id="wrap-up">Wrap up</h2>
+<p>I hope you enjoyed and maybe learned something from this post. There is a lot more to tell about performance, like the tooling that you can use to assess it.</p>
+<p>This post is mostly about loading performance. Runtime performance is just as important, but is much more dependent on the tasks that are being performed.</p>
+<p>I will do more about this in future posts, looking at specific tasks that impact performance (like pathfinding) and how you could fix them.</p>
+<p>But for now I would like to emphasize the following learnings:</p>
+<ul>
+<li>
+<p>Performance testing should be done on physical devices</p>
+</li>
+<li>
+<p>Try to performance test on a variety of devices, and include low-end devices as much as possible</p>
+</li>
+<li>
+<p>When optimizing for performance, try to stay performant well beyond the needs of your game</p>
+</li>
+<li>
+<p>Modularization can help you isolating certain pieces of code and performance test them individually</p>
+</li>
+<li>
+<p>There are ways to cache certain actions (static caching) like cropping textures and storing them to the filesystem, which will benefit performance even after the game has been rebooted</p>
+</li>
+<li>
+<p>Runtime caching can be very valuable to prevent reloading of textures or other data into memory that are requested often</p>
+</li>
+<li>
+<p>If you need to create cache up front, try to dispatch the work away from the main thread as much as possible to avoid blocking the UI.</p>
+</li>
+<li>
+<p>When using runtime caching make sure to be able to respond to memory warning by clearing this cache</p>
+</li>
+<li>
+<p>When using static caching make sure to not create a situation where you are using a corrupted cache, and provide means to escape from this corrupted cache in case it does happen.</p>
+</li>
+</ul>
+<p>Next time, I will write about memory leaks and Xcode Instruments.</p>
+<p>Do you have any questions, suggestions or remarks for this post?</p>
+<p>Please leave a message below!</p>
+
+
+    
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/0y0pernS0Gc?autoplay=0&controls=1&end=0&loop=0&mute=0&start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
+      ></iframe>
+    </div>
+
+
+        
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+
+    
+    
+        <svg id="btt-button" class="arrow-logo" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top">
+    
+    <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/>
+</svg>
+<script>
+    let backToTopButton = document.getElementById("btt-button");
+
+    window.onscroll = function() {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            backToTopButton.style.display = "block";
+        } else {
+            backToTopButton.style.display = "none";
+        }
+    }
+
+    function scrollToTop() {
+        window.scrollTo(0, 0);
+    }
+</script>
+
+    
+    
+    <div id="comments">
+        <script src="https://utteranc.es/client.js"
+    repo="sanderfrenken/dev-blog"
+    issue-term="title"
+    theme="gruvbox-dark"
+    crossorigin="anonymous"
+    async></script>
+
+    </div>
+    
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#performance">Performance</a></li>
+    <li><a href="#maps">Maps</a>
+      <ul>
+        <li><a href="#caching">Caching</a></li>
+      </ul>
+    </li>
+    <li><a href="#texture-caching">Texture caching</a></li>
+    <li><a href="#cache-invalidation">Cache invalidation</a>
+      <ul>
+        <li><a href="#static-cache">Static cache</a></li>
+        <li><a href="#runtime-cache">Runtime cache</a></li>
+      </ul>
+    </li>
+    <li><a href="#wrap-up">Wrap up</a></li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    
+    
+
+    
+
+    
+
+        
+            
+        
+
+        
+
+        
+        
+
+        
+
+    
+
+    
+        <span>&copy; 2024 Sander Frenken</span>
+    
+
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
