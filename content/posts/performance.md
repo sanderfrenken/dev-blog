@@ -82,11 +82,13 @@ This means that for example the tiles in the sheet below will need be cropped to
 
 SpriteKit provides an API to do this, which is [SKTexture(rectIn:)](https://developer.apple.com/documentation/spritekit/sktexture/1520425-init). This API allows you to create a texture from a portion of another texture. 
 
-The result, an [SKTexture](https://developer.apple.com/documentation/spritekit/sktexture) it self, can then be used to draw new nodes from. 
+The result, an [SKTexture](https://developer.apple.com/documentation/spritekit/sktexture) it self, can then be used to draw new nodes from. One could use this texture directly to create the tiles. 
 
-However, this is an expensive operation, especially if we are talking about a map that might contain 1000's of different tiles. In such an example, constructing (basically cropping 1000's of images) the needed tiles can easily take up to 3 seconds. 
+But in this example, we instead will write it as an image to the disk, to reload the texture from that image subsequently. This might seem a bit strange, and I agree it is. The motivation for this workaround can be read [here](https://github.com/mfessenden/SKTiled/issues/40#issuecomment-1172284072). Note, that I recently found a way to prevent this workaround, but I leave that for another time and place.
 
-To resolve this, I implemented a first layer of caching: When an individual tile is created for the first time in the app's lifecycle on the device, I create a [UIImage](https://developer.apple.com/documentation/uikit/uiimage/1624114-init) from the cropped texture's [CoreGraphic image](https://developer.apple.com/documentation/spritekit/sktexture/1519755-cgimage). 
+All in all, this is an expensive operation, especially if we are talking about a map that might contain 1000's of different tiles. In such an example, constructing (basically cropping 1000's of images) the needed tiles can easily take up to 3 seconds.
+
+To resolve this, I implemented a first layer of caching: When an individual tile is created for the first time in the app's lifecycle on the device, I create the [UIImage](https://developer.apple.com/documentation/uikit/uiimage/1624114-init) from the cropped texture's [CoreGraphic image](https://developer.apple.com/documentation/spritekit/sktexture/1519755-cgimage). 
 
 Subsequently, this UIImage is written to the app container document's directory for future usage.
 Everytime a tile is attempted to be loaded by MSKTiled, it will first query the document's directory if the image is already there. 
