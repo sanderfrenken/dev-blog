@@ -23,7 +23,7 @@ Using these individual tiles one can create unique environments, all drawn using
 In essence, one can see a tilemap as two-dimensional array where each item represents a specific tile.
 As a basic example, one can think of a following way to represent this in code:
 
-```
+``` Swift
 let mapArray = [[Tile]]() // This is the map definition
 var xPosition = 0
 var yPosition = 0
@@ -140,7 +140,7 @@ By looking at the xml structure and altering the map in the Tiled editor to see 
 
 This is a Tiled map example (.tmx file):
 
-```
+``` XML
 <map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="15" nextobjectid="489">
  <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32" tilecount="2048" columns="32">
   <image source="terrain.png" width="1024" height="2048"/>

@@ -200,23 +200,23 @@ Tiling is a technique often used in (2D) game development, where maps …">
 
 <p>In essence, one can see a tilemap as two-dimensional array where each item represents a specific tile.
 As a basic example, one can think of a following way to represent this in code:</p>
-<pre tabindex="0"><code>let mapArray = [[Tile]]() // This is the map definition
-var xPosition = 0
-var yPosition = 0
-// Loop ever each tile in the map definition
-for row in mapArray {
-    for tile in row { 
-        // Create the tile image based on the information in the array
-        let tileImage = Image(from: tile)
-        // Set the position of the tile in the to render scene
-        tileImage.position = Point(x: xPosition*tileSize, y: yPosition*tileSize)
-        // Render the tile
-        renderImage(tileImage) 
-        xPosition += 1
-    }
-    yPosition += 1 
-}
-</code></pre><p>This &ldquo;solution&rdquo; was already possible using SpriteKit using <code>SKNode</code> and <code>SKSpriteNode</code> instances.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> mapArray = [[Tile]]() <span style="color:#75715e">// This is the map definition</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> xPosition = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> yPosition = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Loop ever each tile in the map definition</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> mapArray {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> tile <span style="color:#66d9ef">in</span> row { 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Create the tile image based on the information in the array</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> tileImage = Image(from: tile)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Set the position of the tile in the to render scene</span>
+</span></span><span style="display:flex;"><span>        tileImage.position = Point(x: xPosition<span style="color:#f92672">*</span>tileSize, y: yPosition<span style="color:#f92672">*</span>tileSize)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Render the tile</span>
+</span></span><span style="display:flex;"><span>        renderImage(tileImage) 
+</span></span><span style="display:flex;"><span>        xPosition <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    yPosition <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This &ldquo;solution&rdquo; was already possible using SpriteKit using <code>SKNode</code> and <code>SKSpriteNode</code> instances.</p>
 <p>However, with iOS 10 more extensive support for tiling was added to SpriteKit.</p>
 <h2 id="sktilemapnode">SKTileMapNode</h2>
 <p>One of the drawbacks of the solution as posed above is that when one creates a map of for instace 100 tiles in width and 100 tiles in height, a total of 10.000 tiles would need to be individually rendered to a scene.</p>
@@ -283,49 +283,49 @@ I could not create object layers to contain non-tile related information. There 
 <p>The first thing to understand was the underlying datastructure that Tiled uses to persist a tilemap in.
 By looking at the xml structure and altering the map in the Tiled editor to see the effects, at a certain moment I was able to think of a proper mapping between Tiled structure and the desired SpriteKit object&rsquo;s structure.</p>
 <p>This is a Tiled map example (.tmx file):</p>
-<pre tabindex="0"><code>&lt;map version=&#34;1.10&#34; tiledversion=&#34;1.11.0&#34; orientation=&#34;orthogonal&#34; renderorder=&#34;right-down&#34; width=&#34;100&#34; height=&#34;100&#34; tilewidth=&#34;32&#34; tileheight=&#34;32&#34; infinite=&#34;0&#34; nextlayerid=&#34;15&#34; nextobjectid=&#34;489&#34;&gt;
- &lt;tileset firstgid=&#34;1&#34; name=&#34;terrain&#34; tilewidth=&#34;32&#34; tileheight=&#34;32&#34; tilecount=&#34;2048&#34; columns=&#34;32&#34;&gt;
-  &lt;image source=&#34;terrain.png&#34; width=&#34;1024&#34; height=&#34;2048&#34;/&gt;
- &lt;/tileset&gt;
- &lt;tileset firstgid=&#34;2049&#34; name=&#34;plants&#34; tilewidth=&#34;32&#34; tileheight=&#34;32&#34; tilecount=&#34;512&#34; columns=&#34;16&#34;&gt;
-  &lt;image source=&#34;plants.png&#34; width=&#34;512&#34; height=&#34;1024&#34;/&gt;
- &lt;/tileset&gt;
- &lt;layer id=&#34;1&#34; name=&#34;ground_0&#34; width=&#34;100&#34; height=&#34;100&#34;&gt;
-  &lt;data encoding=&#34;csv&#34;&gt;
-385,385,386,386,387,386,387,385,3852,322,..........
-&lt;/data&gt;
- &lt;/layer&gt;
- &lt;objectgroup id=&#34;3&#34; name=&#34;bases&#34;&gt;
-  &lt;object id=&#34;1&#34; name=&#34;basePoint&#34; x=&#34;1112&#34; y=&#34;1152&#34;&gt;
-   &lt;properties&gt;
-    &lt;property name=&#34;range&#34; type=&#34;int&#34; value=&#34;6&#34;/&gt;
-    &lt;property name=&#34;type&#34; type=&#34;int&#34; value=&#34;0&#34;/&gt;
-   &lt;/properties&gt;
-   &lt;point/&gt;
-  &lt;/object&gt;
- &lt;/objectgroup&gt;
- &lt;objectgroup id=&#34;14&#34; name=&#34;polygonObstacles&#34;&gt;
-  &lt;object id=&#34;133&#34; x=&#34;1512&#34; y=&#34;1096&#34;&gt;
-   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
-  &lt;/object&gt;
-  &lt;object id=&#34;134&#34; x=&#34;1888&#34; y=&#34;1216&#34;&gt;
-   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
-  &lt;/object&gt;
-  &lt;object id=&#34;135&#34; x=&#34;1712&#34; y=&#34;1544&#34;&gt;
-   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
-  &lt;/object&gt;
-  &lt;object id=&#34;136&#34; x=&#34;1288&#34; y=&#34;1792&#34;&gt;
-   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
-  &lt;/object&gt;
-  &lt;object id=&#34;137&#34; x=&#34;2080&#34; y=&#34;1824&#34;&gt;
-   &lt;polygon points=&#34;0,0 240,0 240,248 -24,240&#34;/&gt;
-  &lt;/object&gt;
-  &lt;object id=&#34;138&#34; x=&#34;1133.82&#34; y=&#34;1232&#34;&gt;
-   &lt;polygon points=&#34;0,0 298.182,0 298.182,296 -29.8182,286.452&#34;/&gt;
-  &lt;/object&gt;
- &lt;/objectgroup&gt;
-&lt;/map&gt;
-</code></pre><p>As you can see, there are <code>tileset</code> instances defined, which represent a spritesheet. The tiles they contain can be referenced as numbers. This you can see in the <code>layer</code> instances: Each layer is a layer in the map, has a width and height (expressed in tiles) and contains a <code>data</code> element. This data element is an array of integers, where each integer references to an entry in a tileset (a tile image).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-XML" data-lang="XML"><span style="display:flex;"><span><span style="color:#f92672">&lt;map</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.10&#34;</span> <span style="color:#a6e22e">tiledversion=</span><span style="color:#e6db74">&#34;1.11.0&#34;</span> <span style="color:#a6e22e">orientation=</span><span style="color:#e6db74">&#34;orthogonal&#34;</span> <span style="color:#a6e22e">renderorder=</span><span style="color:#e6db74">&#34;right-down&#34;</span> <span style="color:#a6e22e">width=</span><span style="color:#e6db74">&#34;100&#34;</span> <span style="color:#a6e22e">height=</span><span style="color:#e6db74">&#34;100&#34;</span> <span style="color:#a6e22e">tilewidth=</span><span style="color:#e6db74">&#34;32&#34;</span> <span style="color:#a6e22e">tileheight=</span><span style="color:#e6db74">&#34;32&#34;</span> <span style="color:#a6e22e">infinite=</span><span style="color:#e6db74">&#34;0&#34;</span> <span style="color:#a6e22e">nextlayerid=</span><span style="color:#e6db74">&#34;15&#34;</span> <span style="color:#a6e22e">nextobjectid=</span><span style="color:#e6db74">&#34;489&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;tileset</span> <span style="color:#a6e22e">firstgid=</span><span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;terrain&#34;</span> <span style="color:#a6e22e">tilewidth=</span><span style="color:#e6db74">&#34;32&#34;</span> <span style="color:#a6e22e">tileheight=</span><span style="color:#e6db74">&#34;32&#34;</span> <span style="color:#a6e22e">tilecount=</span><span style="color:#e6db74">&#34;2048&#34;</span> <span style="color:#a6e22e">columns=</span><span style="color:#e6db74">&#34;32&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;image</span> <span style="color:#a6e22e">source=</span><span style="color:#e6db74">&#34;terrain.png&#34;</span> <span style="color:#a6e22e">width=</span><span style="color:#e6db74">&#34;1024&#34;</span> <span style="color:#a6e22e">height=</span><span style="color:#e6db74">&#34;2048&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;/tileset&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;tileset</span> <span style="color:#a6e22e">firstgid=</span><span style="color:#e6db74">&#34;2049&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;plants&#34;</span> <span style="color:#a6e22e">tilewidth=</span><span style="color:#e6db74">&#34;32&#34;</span> <span style="color:#a6e22e">tileheight=</span><span style="color:#e6db74">&#34;32&#34;</span> <span style="color:#a6e22e">tilecount=</span><span style="color:#e6db74">&#34;512&#34;</span> <span style="color:#a6e22e">columns=</span><span style="color:#e6db74">&#34;16&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;image</span> <span style="color:#a6e22e">source=</span><span style="color:#e6db74">&#34;plants.png&#34;</span> <span style="color:#a6e22e">width=</span><span style="color:#e6db74">&#34;512&#34;</span> <span style="color:#a6e22e">height=</span><span style="color:#e6db74">&#34;1024&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;/tileset&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;layer</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ground_0&#34;</span> <span style="color:#a6e22e">width=</span><span style="color:#e6db74">&#34;100&#34;</span> <span style="color:#a6e22e">height=</span><span style="color:#e6db74">&#34;100&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;data</span> <span style="color:#a6e22e">encoding=</span><span style="color:#e6db74">&#34;csv&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>385,385,386,386,387,386,387,385,3852,322,..........
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/data&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;/layer&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;objectgroup</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;3&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;bases&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;object</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;basePoint&#34;</span> <span style="color:#a6e22e">x=</span><span style="color:#e6db74">&#34;1112&#34;</span> <span style="color:#a6e22e">y=</span><span style="color:#e6db74">&#34;1152&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;properties&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;range&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;int&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;6&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;type&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;int&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;0&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;/properties&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;point/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/object&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;/objectgroup&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;objectgroup</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;14&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;polygonObstacles&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;object</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;133&#34;</span> <span style="color:#a6e22e">x=</span><span style="color:#e6db74">&#34;1512&#34;</span> <span style="color:#a6e22e">y=</span><span style="color:#e6db74">&#34;1096&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;polygon</span> <span style="color:#a6e22e">points=</span><span style="color:#e6db74">&#34;0,0 240,0 240,248 -24,240&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/object&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;object</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;134&#34;</span> <span style="color:#a6e22e">x=</span><span style="color:#e6db74">&#34;1888&#34;</span> <span style="color:#a6e22e">y=</span><span style="color:#e6db74">&#34;1216&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;polygon</span> <span style="color:#a6e22e">points=</span><span style="color:#e6db74">&#34;0,0 240,0 240,248 -24,240&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/object&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;object</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;135&#34;</span> <span style="color:#a6e22e">x=</span><span style="color:#e6db74">&#34;1712&#34;</span> <span style="color:#a6e22e">y=</span><span style="color:#e6db74">&#34;1544&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;polygon</span> <span style="color:#a6e22e">points=</span><span style="color:#e6db74">&#34;0,0 240,0 240,248 -24,240&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/object&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;object</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;136&#34;</span> <span style="color:#a6e22e">x=</span><span style="color:#e6db74">&#34;1288&#34;</span> <span style="color:#a6e22e">y=</span><span style="color:#e6db74">&#34;1792&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;polygon</span> <span style="color:#a6e22e">points=</span><span style="color:#e6db74">&#34;0,0 240,0 240,248 -24,240&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/object&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;object</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;137&#34;</span> <span style="color:#a6e22e">x=</span><span style="color:#e6db74">&#34;2080&#34;</span> <span style="color:#a6e22e">y=</span><span style="color:#e6db74">&#34;1824&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;polygon</span> <span style="color:#a6e22e">points=</span><span style="color:#e6db74">&#34;0,0 240,0 240,248 -24,240&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/object&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;object</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;138&#34;</span> <span style="color:#a6e22e">x=</span><span style="color:#e6db74">&#34;1133.82&#34;</span> <span style="color:#a6e22e">y=</span><span style="color:#e6db74">&#34;1232&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;polygon</span> <span style="color:#a6e22e">points=</span><span style="color:#e6db74">&#34;0,0 298.182,0 298.182,296 -29.8182,286.452&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/object&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;/objectgroup&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/map&gt;</span>
+</span></span></code></pre></div><p>As you can see, there are <code>tileset</code> instances defined, which represent a spritesheet. The tiles they contain can be referenced as numbers. This you can see in the <code>layer</code> instances: Each layer is a layer in the map, has a width and height (expressed in tiles) and contains a <code>data</code> element. This data element is an array of integers, where each integer references to an entry in a tileset (a tile image).</p>
 <p>Object layers are also clearly structured as <code>objectgroup</code> instances, which can contain <code>object</code> instances with (custom) properties and positional information.</p>
 <h3 id="msktiled-data-structure">MSKTiled data structure</h3>
 <p>Using this information, I drafted some mappings:</p>

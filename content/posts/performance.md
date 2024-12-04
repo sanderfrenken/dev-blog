@@ -95,7 +95,7 @@ Everytime a tile is attempted to be loaded by MSKTiled, it will first query the 
 
 In code, this looks likes this:
 
-```
+``` Swift
 var texture: SKTexture?
 // retrieve the tile definition
 let tileDefinition = getTile(tileSheet: tileSheet, tileId: tileId)
@@ -146,7 +146,7 @@ The parsed map can be used later at any time by injecting it into a scene, which
 
 Below a simplified version of the code in use. This class, [MSKTiledMapParser](https://github.com/sanderfrenken/MSKTiled/blob/main/Sources/MSKTiled/MSKTiledMapParser.swift) implements the `XMLParserDelegate`, where the actual parsing is done by the implemented protocol methods (which I left out in the below code example).
 
-```
+``` Swift
 public func loadTilemap(filename: String,
                         allowTileImagesCache: Bool = true,
                         checkBundleForTileImages: Bool = false,
@@ -163,7 +163,7 @@ Moreover, we can dispatch the `loadTilemap` invocation to a non-main thread, the
 
 Once finished, we can use this MSKTiledMapParser instance at any subsequent moment we need it to render a scene. In Battledom, at app startup I start doing this work right away:
 
-```
+``` Swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions
                      launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         printInDebug(NSHomeDirectory())
@@ -191,7 +191,7 @@ Obviously, these scenes or screens, also known as [splashscreens](https://en.wik
 
 Now that we have the parser which already processed and stored most of its data, we need to use it in a scene that we present. This can be done by invoking the method `getTileMapNodes` [from the parser](https://github.com/sanderfrenken/MSKTiled/blob/70475e6e2303ea67057c44c1d339b9b9fee22e6d/Sources/MSKTiled/MSKTiledMapParser.swift#L49) below that returns the SpriteKit objects from it:
 
-```
+``` Swift
 @MainActor
 public func getTileMapNodes() -> (layers: [SKTileMapNode],
                                   tileGroups: [SKTileGroup],
@@ -245,7 +245,7 @@ What I see is that when loading larger textures into memory, you can experience 
 
 For those occassions I make of a texture helper. This TextureHelper is a singleton which holds a dictionary of textures. Simplified this looks like this:
 
-```
+``` Swift
 final class TextureHelper {
     private var cachedTextures = [String: SKTexture]()
 
@@ -263,7 +263,7 @@ final class TextureHelper {
 
 Now you can use your TextureHelper instance from anywhere in your code in order to retrieve a texture from it's cache (or load it newly and cache it subsequently):
 
-```
+``` Swift
 let myTexture = textureHelper.getCacheableTexture(texture: "my_texture")
 ```
 
@@ -291,7 +291,7 @@ When doing runtime caching, you might store too much information in your RAM and
 
 You are warned about this in your AppDelegate's method `applicationDidReceiveMemoryWarning` which you can hook into and respond by taking the right actions. In Battledom, I use this to clear up all textures that I have been caching since the app started:
 
-```
+``` Swift
 func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
     printInDebug("applicationDidReceiveMemoryWarning")
     textureHelper.clearCharacterTextures()

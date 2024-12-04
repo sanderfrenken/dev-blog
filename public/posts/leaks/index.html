@@ -19,20 +19,20 @@
     
 
     
-    <title>About performance and caching</title>
-    <meta name="description" content="With Battledom nearing a state where I expect it&rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game. …">
+    <title>About leaks when using SpriteKit</title>
+    <meta name="description" content="Efficiency As with any computer program you are writing, memory management is essential. You don&rsquo;t want to keep references to instances that you …">
     <meta name="keywords" content='blog, spritekit, game developer'>
 
     <meta property="og:url" content="http://localhost:1313/posts/leaks/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="About performance and caching">
-    <meta property="og:description" content="With Battledom nearing a state where I expect it&rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game. …">
+    <meta property="og:title" content="About leaks when using SpriteKit">
+    <meta property="og:description" content="Efficiency As with any computer program you are writing, memory management is essential. You don&rsquo;t want to keep references to instances that you …">
     <meta property="og:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
     <meta property="og:image:secure_url" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="About performance and caching">
-    <meta name="twitter:description" content="With Battledom nearing a state where I expect it&rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game. …">
+    <meta name="twitter:title" content="About leaks when using SpriteKit">
+    <meta name="twitter:description" content="Efficiency As with any computer program you are writing, memory management is essential. You don&rsquo;t want to keep references to instances that you …">
     <meta property="twitter:domain" content="http://localhost:1313/posts/leaks/">
     <meta property="twitter:url" content="http://localhost:1313/posts/leaks/">
     <meta name="twitter:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
@@ -149,7 +149,7 @@
 <main id="content">
     <div class="post container">
     <div class="post-header-section">
-        <h1>About performance and caching</h1>
+        <h1>About leaks when using SpriteKit</h1>
 
         
 
@@ -169,7 +169,7 @@
 	
 
 	
-          <p class="post-date">November 20, 2024
+          <p class="post-date">December 3, 2024
            
           </p>
 	
@@ -180,284 +180,335 @@
     </div>
 
     <div class="post-content">
-        <p>With Battledom nearing a state where I expect it&rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game.</p>
-<p>As Battledom can become computational quite heavy at moments when large maps are rendered while moving around hundreds of units, the topic of optimization has been crossing my path (maybe too) often.</p>
-<p>But in general, with any app or game you develop, you will most likely at one moment in time face some form of performance issues.</p>
-<figure><img src="../../images/screenshot-performance-units.png" width="800"><figcaption>
-      <h4>Example of a more intense battle in Battledom</h4>
+        <h2 id="efficiency">Efficiency</h2>
+<p>As with any computer program you are writing, memory management is essential. You don&rsquo;t want to keep references to instances that you don&rsquo;t need anymore, occupying memory and maybe computational power lost to the void.</p>
+<p>At the same time, many applications won&rsquo;t require much memory or processing power, especially taken into account the hardware of current generation phones and tablets.</p>
+<p>For example, running a somewhat more complex CRUD application on for example an iPhone 11 consumes about 40%CPU (one core, for 40% occupied) at it&rsquo;s highest point (out of 6 cores, so there is a total CPU of 600% in total available) and 20MB of working memory (of the available 4GB).</p>
+<p>In such a case, even though inefficient memory usage is still as waste of energy, you might never notice any real issues when using the application (I don&rsquo;t say that you should not care about your footprint when developing a CRUD application though, you always should).</p>
+<figure><img src="../../images/screenshot-crud-cpu.png" width="800"><figcaption>
+      <h4>Example of CPU usage of a CRUD application</h4>
     </figcaption>
 </figure>
 
-<p>Some of the performance issues I encountered were about loading content and framedrops when loading textures. I will give some examples of these issues and enhancements I did in this post.</p>
-<h2 id="performance">Performance</h2>
-<p>The first thing that I find very important to note is that performance testing of your game should be done on a real device. Testing on a simulator is ofcourse convenient and very suitable for feature development and tracking down memory leaks, but performance is very dependent on the hardware in use.</p>
-<p>Since the Xcode simulator is in essence an app running on your OSX machine emulating an iPhone/ iPad, its nowhere near a proper representation of a real physical device. A thorough explanation about the differences can be read <a href="https://developer.apple.com/documentation/xcode/testing-in-simulator-versus-testing-on-hardware-devices">here on the Apple Developer documentation</a>, but an overview from there:</p>
-<blockquote>
-<ul>
-<li>General: there are differences in processing, graphics, and network speed..</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>Display: there are differences in resolution and color.</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>System: there are differences in how the system handles backgrounding your app.</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>Hardware: Simulator doesn’t support some hardware features.</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>API: Simulator doesn’t support some APIs.</li>
-</ul>
-</blockquote>
-<p>In specific interest when using SpriteKit, is this final mention:</p>
-<blockquote>
-<ul>
-<li>Metal: there are differences between the device GPU and your computer GPU.</li>
-</ul>
-</blockquote>
-<p>As <a href="https://developer.apple.com/documentation/spritekit">SpriteKit</a> is leveraging Metal for it&rsquo;s rendering capabilities, this is an important note.
-You can find more in-depth information about running Metal apps in the simulator <a href="https://developer.apple.com/documentation/metal/developing_metal_apps_that_run_in_simulator">here</a>.</p>
-<p>Now in practice you might encounter that your game runs smoother on your physical device compared to a simulator, but I also have encountered it the other way around (less often though). It&rsquo;s very dependent on the tasks being performed and the hardware in use.</p>
-<p>But as a general remark: when you are trying to assess your game&rsquo;s performance, make sure to use a real physical device, and if possible a variety. Moreover, make sure to include lower-end devices like devices released a couple of years ago.</p>
-<p>There is a huge <a href="https://www.apple.com/iphone/compare/?modelList=iphone-11-pro,iphone-16-pro">difference</a> between the computing capabilities of for instance an iPhone 16 Pro (released 2024; 6-core GPU; A18 Pro-processor) and an iPhone 11 Pro (released 2019; 4-core GPU; A13 Pro-processor).</p>
-<figure><img src="../../images/screenshot-performance-11-16.png" width="800"><figcaption>
-      <h4>Comparing iPhone 11 Pro with iPhone 16 Pro</h4>
+<figure><img src="../../images/screenshot-crud-ram.png" width="800"><figcaption>
+      <h4>Example of RAM usage of a CRUD application</h4>
     </figcaption>
 </figure>
 
-<p>Taken this into account, I usually do most extensive performance tests on my older iPhone device (iPhone 11).</p>
-<p>Now let&rsquo;s look at some examples of performance issues I encountered.</p>
-<h2 id="maps">Maps</h2>
-<p>In Battledom I make use of maps that are layed out using tiles. Most maps are about 100*100 tiles, and maybe an occassional larger map of 200*200  tiles. I won&rsquo;t make them much larger, as they become too large to navigate in the timespan I expect one to finish the level.</p>
-<p>When developing the map renderer (of which most code is available at GitHub: <a href="https://sanderfrenken.github.io/dev-blog/posts/msktiled/">MSKTiled</a>), I therefore needed to make sure that it would be capable of efficiently drawing maps in this larger size of 200*200 tiles.</p>
-<p>During development however, I try to explore the limits of the game&rsquo;s internals, and stretch them as far as possible. This means that even though I might not exceed maps of 200*200 tiles, I do try to render maps at least twice that size.</p>
-<p>With regard to MSKTiled, I am able to render at maps of 1000*1000 tiles smoothly. This made me confident that the library would be performing sufficient to be used in Battledom.</p>
-<figure><img src="../../images/screenshot-large-map.png" width="800"><figcaption>
-      <h4>Large map example including calculated path from A to B</h4>
+<p><em>It&rsquo;s important to note that the above screenshots are taken from a simulator. That obviously has an impact on the data shown: there is no phone available at the moment with 32GB of memory or a 12 core CPU. For the purpose of this demo using the simulator suffices, but when assessing your app&rsquo;s performance/ memory usage, it&rsquo;s essential to use a real physical device.</em></p>
+<p>When making games however, you most likely require a lot more from your hardware, making it even more essential to manage your memory and processing power in the best way possible.</p>
+<p>In this post I will talk about how to assess your app&rsquo;s performance, some easy to make errors, and how to fix those.</p>
+<p>The examples used in this post most likely are already known to Swift developers that have been working with iOS/ OSX on non SpriteKit apps as well. However, those new to Swift dipping into SpriteKit as the first Swift experience might be unaware of the issues introduced in the examples.</p>
+<p>In any case, I hope this post is informative for both audiences.</p>
+<h2 id="tooling">Tooling</h2>
+<p>There is a lot more to Xcode than you might be aware of. Next to it being an IDE, there is a variety of tooling available that allows you to inspect your application. For example debugging view hierarchies, memory graphs and a plethora of instruments to profile your application on different levels are just some of these capabilities.</p>
+<p>Inside Instruments, part of the Developer Tools, you find a variety of templates which can be used to inspect certain aspects of your application. It&rsquo;s incredibly powerful, but also hard to interpret and not always very well documented in my opinion.</p>
+<figure><img src="../../images/screenshot-dt-instruments.png" width="400"><figcaption>
+      <h4>Here you can find Instruments in Xcode</h4>
     </figcaption>
 </figure>
 
-<p>At the same time it is important to notice that even though this individual component of the game seems to function and perform properly, it might behave differently when combined with all other parts of the game once integrated.</p>
-<p>But overall, when making a game with some form of complexity and heavy computational work, it does make life easier to modularize your systems as this allows you to individually assess their performance (aside from the argument that modularisation can clean up your code significantly when applied properly).</p>
-<p>With <a href="https://developer.apple.com/documentation/xcode/swift-packages">Swift Package Manager</a> this has become very convenient.</p>
-<h3 id="caching">Caching</h3>
-<p>When looking at the capability to render large maps rendering, caching is an important subject.</p>
-<p>When using MSKTiled, parsing tilemaps the first time is expensive as the package will need to create the individual tiles from the tilesheets referenced in the map.</p>
-<p>This means that for example the tiles in the sheet below will need be cropped to it&rsquo;s individual tiles on the device at runtime when creating the map.</p>
-<figure><img src="../../images/screenshot-tileset.png" width="800"><figcaption>
-      <h4>Example spritesheet for a terrain</h4>
+<p>Instruments and all it&rsquo;s templates deserves its own blog post, which I will cover in later posts. I will cover the File Activity template in this blog though.</p>
+<h3 id="debug-navigator">Debug navigator</h3>
+<p>An easy to use and to interpret overview can be found in the left side bar of the Xcode IDE. It&rsquo;s called the Debug navigator.
+When you are debugging your application this is where you will find the current threads and their current call stack.</p>
+<figure><img src="../../images/screenshot-debug-navigator-call-stack.png" width="800"><figcaption>
+      <h4>The Debug navigator in Xcode</h4>
     </figcaption>
 </figure>
 
-<p>SpriteKit provides an API to do this, which is <a href="https://developer.apple.com/documentation/spritekit/sktexture/1520425-init">SKTexture(rectIn:)</a>. This API allows you to create a texture from a portion of another texture.</p>
-<p>The result, an <a href="https://developer.apple.com/documentation/spritekit/sktexture">SKTexture</a> it self, can then be used to draw new nodes from.</p>
-<p>However, this is an expensive operation, especially if we are talking about a map that might contain 1000&rsquo;s of different tiles. In such an example, constructing (basically cropping 1000&rsquo;s of images) the needed tiles can easily take up to 3 seconds.</p>
-<p>To resolve this, I implemented a first layer of caching: When an individual tile is created for the first time in the app&rsquo;s lifecycle on the device, I create a <a href="https://developer.apple.com/documentation/uikit/uiimage/1624114-init">UIImage</a> from the cropped texture&rsquo;s <a href="https://developer.apple.com/documentation/spritekit/sktexture/1519755-cgimage">CoreGraphic image</a>.</p>
-<p>Subsequently, this UIImage is written to the app container document&rsquo;s directory for future usage.
-Everytime a tile is attempted to be loaded by MSKTiled, it will first query the document&rsquo;s directory if the image is already there.</p>
-<p>In code, this looks likes this:</p>
-<pre tabindex="0"><code>var texture: SKTexture?
-// retrieve the tile definition
-let tileDefinition = getTile(tileSheet: tileSheet, tileId: tileId)
+<p>If you are not debugging your application, you can of course still navigate to the Debug navigator, and it will show you some statistics of your running application.</p>
+<figure><img src="../../images/screenshot-debug-navigator.png" width="800"><figcaption>
+      <h4>The Debug navigator focussed on the current CPU profiling</h4>
+    </figcaption>
+</figure>
 
-// first check the file system (cache) for existence
-if let imageData = try? Data(contentsOf: getCacheFileUrl(tileName: tileDefinition.name)) {
-    if let image = UIImage(data: imageData) {
-        texture = SKTexture.init(image: image)
-        log(logLevel: .debug, message: &#34;Cache hit for image \(tileDefinition.name)&#34;)
-    }
-}
-// if not present in cache, create the tile and save it to the cache
-if texture == nil {
-    // load the parent tilesheet
-    let sourceTexture = getTexture(name: tileDefinition.source)
+<p>As you can see in this example, we are looking at an overview of the current CPU usage by our running application. Especially the graph showing the CPU usage over time is interesting: Even though the application might not be using any significant CPU at this moment in time, there have been spikes which might require your attention.</p>
+<p>Scrolling further down you will see CPU usage per thread, which could be on interest as well if you are running multithreaded logic. For instance, if you try to spread heavily computational tasks over multiple threads, you would like to see an even distribution of CPU consumption per thread, and ideally the threads not waiting for one another.</p>
+<p>You can also inspect your memory consumption, disk operations, networking and GPU performance using the Debug navigator.</p>
+<h3 id="debug-memory-graph">Debug memory graph</h3>
+<p>A very useful tool available from Xcode&rsquo;s main editor panel is the Debug memory graph functionality. At any moment in time, you can use this tool to assess the current memory graph. This allows you to assess all the memory your application is currently allocating.</p>
+<p>You can request the memory graph when your app is running by tapping the green-circled icon as shown in the below image.</p>
+<figure><img src="../../images/screenshot-memory-graph.png" width="800"><figcaption>
+      <h4>The memory graph determined for the current application</h4>
+    </figcaption>
+</figure>
 
-    // create the cropping instructions
-    let row = tileDefinition.row
-    let column = tileDefinition.column
+<p>What you can see very nicely in this overview is not only which allocations are made, but also what references are existing between your objects in memory. On the top right of the graph view you will also find yellow warnings signs, which warn you about leaked objects.</p>
+<p>Leaks are objects that occupy memory which are no longer needed but can not be released.</p>
+<p>These leaks can occur at certain points in your code, over and over again. This would eventually cause so much memory to be consumed, that the OS decides to terminate your program. Before doing so, the OS will always warn you to release as much memory as possible by invoking the method <a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/didreceivememorywarning()">didReceiveMemoryWarning()</a>.</p>
+<p>But eventually, if you don&rsquo;t resolve the leak, your applications is destined to be terminated (this is also one of the causes of <a href="https://en.wikipedia.org/wiki/Software_aging#Memory_leaks">software aging</a>).</p>
+<h3 id="debug-view-hierarchy">Debug view hierarchy</h3>
+<p>Finally, also available from Xcode&rsquo;s main editor panel is the Debug view hierarchy functionality.</p>
+<figure><img src="../../images/screenshot-view-hierarchy.png" width="800"><figcaption>
+      <h4>The view hierarchy visualized from the current application&#39;s state</h4>
+    </figcaption>
+</figure>
 
-    // crop the parent texture to the tile texture
-    let tileTexture = SKTexture(rect: CGRect(x: tileDefinition.width*CGFloat(column)/sourceTexture.size().width, 
-                                            y: 1-(tileDefinition.height*CGFloat(row+1)/sourceTexture.size().height),
-                                            width: tileSize.width/sourceTexture.size().width,
-                                            height: tileSize.height/sourceTexture.size().height),
-                                in: sourceTexture)
+<p>This allows you to inspect the views that are currently rendered. This can be handy to identify everything that is drawn on the screen, and potentially spot duplicated views or invisible views that should even be there in the first place. When building games however the hierarchy can quickly become very crowded, but it might be helpful at some occasions.</p>
+<h2 id="demo-project">Demo project</h2>
+<p>Now, for the sake of this blog post, I created a demo project that can be found <a href="https://github.com/sanderfrenken/spritekit-demo-leaks">here</a>. It&rsquo;s probably convenient to check it out and run it as well, so that you can also see it in action.</p>
+<p>It&rsquo;s a very basic project, where there is a main scene (<code>GameScene</code>), from where you can navigate to a couple of demo scenes and from there back to to the main scene.</p>
+<h3 id="capturing-self-in-closure">Capturing self in closure</h3>
+<p>For this leak example, we will look at the scene <code>DemoSelfInClosureScene</code>. This scene is rendering a label and a couple of circles. It&rsquo;s also running an action, where it invokes a closure every second. In the closure it&rsquo;s calling an internal method named <code>printHello()</code>, in which the rendered label is made transparant and subsequently fades back in. The circles are only added to increase the memory footprint of the scene, making the issue more easily to visualize.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">SpriteKit</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DemoSelfInClosureScene</span>: BaseScene {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> label = SKLabelNode(text: <span style="color:#e6db74">&#34;Hello world&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">didMove</span>(to view: SKView) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.didMove(to: view)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        addCircles()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        label.alpha = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        label.fontSize = <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>        addChild(label)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> actions: [SKAction] = [
+</span></span><span style="display:flex;"><span>            .run {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">self</span>.printHello()
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            .wait(forDuration: <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        ]
+</span></span><span style="display:flex;"><span>        run(.repeatForever(.sequence(actions)))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printHello</span>() {
+</span></span><span style="display:flex;"><span>        label.alpha = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        label.run(.fadeIn(withDuration: <span style="color:#ae81ff">0.5</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchesBegan</span>(<span style="color:#66d9ef">_</span> touches: Set&lt;UITouch&gt;, with event: UIEvent?) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.touchesBegan(touches, with: event)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Run the app, and then navigate to the scene by tapping <code>leakSelf</code>. You should see a flickering label with the text <code>Hello world</code>. Now, navigate back to the previous scene and then again back to the <code>leakSelf</code> scene. Repeat this for a couple of times.</p>
+<p>While doing the above, open the Debug navigator as mentioned earlier, and select the memory tab. Look at the overtime graph, and what you should notice is an increasing use of memory.</p>
+<figure><img src="../../images/screenshot-memory-increase.png" width="800"><figcaption>
+      <h4>The memory graph is showing an increase in memory consumption over time.</h4>
+    </figcaption>
+</figure>
 
-    // save the tile texture image to the file system
-    let uimg = UIImage(cgImage: tileTexture.cgImage())
-    if let data = uimg.pngData() {
-        try? data.write(to: getCacheFileUrl(tileName: tileName))
-    }
-    texture = SKTexture(image: uimg)
-}
-</code></pre><p>Now we can reference to this form of caching as <code>static caching</code>. These images are persisted on the device, and will remain a valid cache object also after the app or system has been rebooted.</p>
-<p>On the other hand, we can also make use of <code>runtime caching</code>.</p>
-<p>Taking the example of a large map with multiple layers of 200*200 tiles, even with static caching as described above loading a map can still take up to a few seconds. Usually you would like to avoid such long loading times. Or at least, you want the user not to notice their existence.</p>
-<p>In order to improve this, one can implement runtime caching. With MSKTiled, I created a method to parse a map and store the individual components that would be used to construct a scene from it.</p>
-<p>Parsing the map contains the most expensive operations, where in essence its creating the individual layers and objects represented as SpriteKit objects. Inside this logic resides the parsing of the map and it&rsquo;s layers and creating the cropped tiles (either from cache or fresh).</p>
-<p>The parsed map can be used later at any time by injecting it into a scene, which will use the individual components for rendering the scene itself.</p>
-<p>Below a simplified version of the code in use. This class, <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/Sources/MSKTiled/MSKTiledMapParser.swift">MSKTiledMapParser</a> implements the <code>XMLParserDelegate</code>, where the actual parsing is done by the implemented protocol methods (which I left out in the below code example).</p>
-<pre tabindex="0"><code>public func loadTilemap(filename: String,
-                        allowTileImagesCache: Bool = true,
-                        checkBundleForTileImages: Bool = false,
-                        addingCustomTileGroups: [SKTileGroup]? = nil) {
-parser.delegate = self
-// inside parse is where the expensive work happens: looping over all the layers and tiles
-// creating the tiles, caching them if needed, constructing the layers as much as possible
-parser.parse()
-// now that the parser has parsed the map, it already has loaded most of the map information needed for rendering into memory
-}
-</code></pre><p>Moreover, we can dispatch the <code>loadTilemap</code> invocation to a non-main thread, thereby doing the work while the user will not even notice it.</p>
-<p>Once finished, we can use this MSKTiledMapParser instance at any subsequent moment we need it to render a scene. In Battledom, at app startup I start doing this work right away:</p>
-<pre tabindex="0"><code>func application(_ application: UIApplication, didFinishLaunchingWithOptions
-                     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -&gt; Bool {
-        printInDebug(NSHomeDirectory())
-        loadSavedData()
-        cacheScenes()
-        return true
-    }
+<p>This steplike pattern is a clear indicator something is wrong in our code. There seems to be memory consumed each time the <code>DemoSelfInClosureScene</code> scene is rendered, which is not released when we return to main scene.</p>
+<p>At this point, it&rsquo;s wise to have a look at the memory graph. Open the memory graph and this is what we will see:</p>
+<figure><img src="../../images/screenshot-memory-increase-graph.png" width="800"><figcaption>
+      <h4>The memory graph, where I selected one of the leaked instance and highlighted the referencing allocation.</h4>
+    </figcaption>
+</figure>
 
-private func cacheScenes() {
-    if allowSceneCaching {
-        cachedSceneHelper.cacheScene(sceneType: .overworld)
-        cachedSceneHelper.cacheScene(sceneType: .start)
-        cachedSceneHelper.cacheScene(sceneType: .village)
-        cachedSceneHelper.cacheScene(sceneType: .woodlands)
-        cachedSceneHelper.cacheScene(sceneType: .farm)
-    }
-}
-</code></pre><p>The AppDelegate will start caching all necessary immediately.</p>
-<p>During the app&rsquo;s launch sequence, the user is presented with an animated scene that presents the game&rsquo;s name and some other details, something which you see in most other games.</p>
-<p>Obviously, these scenes or screens, also known as <a href="https://en.wikipedia.org/wiki/Splash_screen">splashscreens</a>, exist for a reason: to cache/ load content upfront while still creating some form of engagement with the user.</p>
-<p>Now that we have the parser which already processed and stored most of its data, we need to use it in a scene that we present. This can be done by invoking the method <code>getTileMapNodes</code> <a href="https://github.com/sanderfrenken/MSKTiled/blob/70475e6e2303ea67057c44c1d339b9b9fee22e6d/Sources/MSKTiled/MSKTiledMapParser.swift#L49">from the parser</a> below that returns the SpriteKit objects from it:</p>
-<pre tabindex="0"><code>@MainActor
-public func getTileMapNodes() -&gt; (layers: [SKTileMapNode],
-                                  tileGroups: [SKTileGroup],
-                                  tiledObjectGroups: [MSKTiledObjectGroup]?) {
-    let tileMapNodeLayers: [SKTileMapNode] = layers.map { layer in
-        let tileSet = layer.tileSet
-        let rawLayer = layer.rawLayer
-        let layerData = layer.layerData
-        let tileMapNode = SKTileMapNode(tileSet: layer.tileSet, 
-                                        columns: Int(mapSize.width), 
-                                        rows: Int(mapSize.height), 
-                                        tileSize: tileSize)
-        for tileId in layerData {
-            if !hasValidTileData(tileId: tileId) {
-                continue
-            }
-            let tileGroup = getTileGroup(tileId: tileId)
-            tileMapNode.setTileGroup(tileGroup, forColumn: column, row: row)
-        }
-        tileMapNode.name = rawLayer.name
-        if rawLayer.invisible {
-            tileMapNode.alpha = 0
-        }
-        return tileMapNode
-    }
-    return (tileMapNodeLayers, tileGroups, tiledObjectGroups)
-}
-</code></pre><p>Note here, that this method is annoted with <code>@MainActor</code>.</p>
-<p>This is an important aspect as well. Initialisation and usage of any SKNode subclass should be done on the main thread in SpriteKit. This means that as the above method is initializing instances of SKTileMapNode, this needs to happen on the MainActor (potentially blocking the UI).</p>
-<p>This is something to really look out for: even though you might cache something up to front, always verify you are not blocking the UI while creating the cache. And when this can not be avoided, try to do it at moments when your user will not be bothered with it, for example during a loading screen.</p>
-<h2 id="texture-caching">Texture caching</h2>
-<p>Another example of caching is texture caching. Even thoug Apple did implement some form of texture caching already, you might need more aggressive texture caching. According to the <a href="https://developer.apple.com/documentation/spritekit/sktexture/">documentation</a>, out of the box texture caching works as follows:</p>
-<blockquote>
-<p>After a texture is loaded into the graphics hardware memory, it stays in memory until the referencing SKTexture object is deleted. This means that between levels (or in a dynamic game), you may need to make sure a texture object is deleted. Delete a SKTexture object by removing any strong references to it, including:</p>
-</blockquote>
-<blockquote>
+<p>The first thing to look at is the left panel. Here you see the currently allocated objects:</p>
 <ul>
-<li>All texture references from SKSpriteNode and SKEffectNode objects in your game</li>
+<li>1 instance of <code>AppDelegate</code> as expected</li>
+<li>1 instance of <code>GameViewController</code> as expected</li>
+<li>0 instances of <code>GameScene</code> (you might see 1, depending on which scene you were at when you created the memory graph)</li>
+<li>7(!) instances of <code>DemoSelfInClosureScene</code> (you might see another number, depending on how often you opened and returned from the scene you were at when you created the memory graph)</li>
 </ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>Any strong references to the texture in your own code</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>An SKTextureAtlas object that was used to create the texture object</li>
-</ul>
-</blockquote>
-<p>This does mean that while an SKTexture is still referenced from somewhere, any subsequent usage of that same texture can be facilitated by loading it from memory. However, once you removed all references to that texture, its deallocated. This can be a problem if there are textures of which you know that will be requested often but are shortlived in usage.</p>
-<p>What I see is that when loading larger textures into memory, you can experience framedrops.</p>
-<p>For those occassions I make of a texture helper. This TextureHelper is a singleton which holds a dictionary of textures. Simplified this looks like this:</p>
-<pre tabindex="0"><code>final class TextureHelper {
-    private var cachedTextures = [String: SKTexture]()
+<p>This is clear indication that the <code>DemoSelfInClosureScene</code> scene is not freed from memory when you move away from it. You might see the yellow warning sign next to one or more allocated instances of this scene in the memory graph. Looking at the overall leaks detected, we see a large amount of allocations that are not released:</p>
+<figure><img src="../../images/screenshot-memory-increase-warnings.png" width="800"><figcaption>
+      <h4>All the leaked allocations detected.</h4>
+    </figcaption>
+</figure>
 
-    func getCacheableTexture(imageName: String, setInCache: Bool = true) -&gt; SKTexture {
-        if let texture = cachedTextures[imageName] {
-            return texture
-        }
-        let texture = SKTexture(imageNamed: imageName)
-        if setInCache {
-            cachedTextures[imageName] = texture
-        }
-        return texture
-    }
-</code></pre><p>Now you can use your TextureHelper instance from anywhere in your code in order to retrieve a texture from it&rsquo;s cache (or load it newly and cache it subsequently):</p>
-<pre tabindex="0"><code>let myTexture = textureHelper.getCacheableTexture(texture: &#34;my_texture&#34;)
-</code></pre><p>It&rsquo;s an easy way to retain a strong reference to a loaded texture in memory, inhibiting the texture from being deallocated. Use it wisely though, as you don&rsquo;t want to increase your memory usage too far.</p>
-<h2 id="cache-invalidation">Cache invalidation</h2>
-<h3 id="static-cache">Static cache</h3>
-<p>As you might know, any cache can get corrupted. This could happen for instance in our static caching as described above.</p>
-<p>We create individual images from tilesheets and store them to the device. But what will happen if in a subsequent app update, I decide to rename a tilesheet? Currently, I use the tilesheet name among other information to define the name of the cached file.
-Renaming a tilesheet will definitely break some of the desired behavior in this case.</p>
-<p>Therefore, I would always advise you to introduce means that can invalidate your built up cache. In the example, clearing the cache would be as simple as removing all images stored in the cache directory in use.</p>
-<p>That way, it will need to be built up again from scratch. It&rsquo;s up to you decide when to do these actions, but you should try to avoid it as much as possible (otherwise, why would you cache).</p>
-<p>Additionally, you could create a mean for a user to do this themselves via a settings menu for example. That way, you can troubleshoot without the need for an app update when things go wrong.</p>
-<h3 id="runtime-cache">Runtime cache</h3>
-<p>When doing runtime caching, you might store too much information in your RAM and the OS might start to complain that your app uses too much memory.</p>
-<p>You are warned about this in your AppDelegate&rsquo;s method <code>applicationDidReceiveMemoryWarning</code> which you can hook into and respond by taking the right actions. In Battledom, I use this to clear up all textures that I have been caching since the app started:</p>
-<pre tabindex="0"><code>func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-    printInDebug(&#34;applicationDidReceiveMemoryWarning&#34;)
-    textureHelper.clearCharacterTextures()
-    textureHelper.clearStaticTextures()
-}
-</code></pre><h2 id="wrap-up">Wrap up</h2>
-<p>I hope you enjoyed and maybe learned something from this post. There is a lot more to tell about performance, like the tooling that you can use to assess it.</p>
-<p>This post is mostly about loading performance. Runtime performance is just as important, but is much more dependent on the tasks that are being performed.</p>
-<p>I will do more about this in future posts, looking at specific tasks that impact performance (like pathfinding) and how you could fix them.</p>
+<p>There are many leaked objects, including SKLabelNode, SKShapeNode and CGPath instances. These are all related as we know to our <code>DemoSelfInClosureScene</code> (the CGPath instances are related to our SKShapeNode instances which we initiate as a circle shape.)</p>
+<p>In the next screenshot, I selected one of the leaked instances of <code>DemoSelfInClosureScene</code>. Looking at the graph drawn for this instance, you are able to assess the reference that is keeping this instance from being released from memory.</p>
+<figure><img src="../../images/screenshot-memory-increase-graph-closure.png" width="800"><figcaption>
+      <h4>A closure is still referencing this instance of our DemoSelfInClosureScene.</h4>
+    </figcaption>
+</figure>
+
+<p>It&rsquo;s here that you can see that a closure (<code>Closure context</code>) is capturing the scene, preventing it from being released.</p>
+<p>There is only one closure in our code, and it&rsquo;s located at the <code>SKAction.run</code> invocation here:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> actions: [SKAction] = [
+</span></span><span style="display:flex;"><span>    .run {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.printHello()
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    .wait(forDuration: <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>The problem with this code is that we are capturing self in the closure, creating a strong reference cycle. The problem is now that when you move away from the <code>DemoSelfInClosureScene</code>, the closure still captures self, preventing self from be released from memory.</p>
+<p>Luckily we can easily fix this by changing the code to:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> actions: [SKAction] = [
+</span></span><span style="display:flex;"><span>    .run { [<span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">self</span>] <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>?.printHello()
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    .wait(forDuration: <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>By creating a weak reference here, the closure will not retain self anymore.</p>
+<p>Perform the change, and you should not see the memory build-up anymore when navigating back and forth to the <code>DemoSelfInClosureScene</code> and no increasing amounts of <code>DemoSelfInClosureScene</code> instances.</p>
+<figure><img src="../../images/screenshot-memory-increase-graph-fixed.png" width="800"><figcaption>
+      <h4>The memory graph, now healthy!</h4>
+    </figcaption>
+</figure>
+
+<p><em>You could instead of using the memory graph to inspect this issue also made use of the Leaks template in Instruments. I will cover that in another post later.</em></p>
+<h3 id="capturing-self-in-child-property">Capturing self in child property</h3>
+<p>For another leak example, we will look at the scene <code>DemoSelfInPropertyScene</code>. This scene contains a <code>Spawner</code> node and again draws a couple of circles, only added to increase the memory footprint of the scene.</p>
+<p>The <code>Spawner</code> is a class that the scene will use to delegate the spawning of a label to.</p>
+<p>You can see the spawner as an object that is responsible for rendering certain nodes to the scene (parentScene) it is initialized with. When the scene is initialized, so is the spawner.</p>
+<p>The scene will inject it self into the spawner, and then instructs the spawner to render the label.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">SpriteKit</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@MainActor
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Spawner</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> parentScene: SKScene
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(parentScene: SKScene) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.parentScene = parentScene
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">required</span> <span style="color:#66d9ef">init</span>?(coder aDecoder: NSCoder) {
+</span></span><span style="display:flex;"><span>        fatalError(<span style="color:#e6db74">&#34;init(coder:) has not been implemented&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">addLabel</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> node = SKLabelNode(text: <span style="color:#e6db74">&#34;Hello, World!&#34;</span>)
+</span></span><span style="display:flex;"><span>        node.alpha = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        parentScene.addChild(node)
+</span></span><span style="display:flex;"><span>        node.run(.repeatForever(.sequence([.fadeIn(withDuration: <span style="color:#ae81ff">0.5</span>), .fadeOut(withDuration: <span style="color:#ae81ff">0.5</span>)])))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">SpriteKit</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DemoSelfInPropertyScene</span>: BaseScene {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> spawner: Spawner?
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">didMove</span>(to view: SKView) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.didMove(to: view)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        addCircles()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        spawner = Spawner(parentScene: <span style="color:#66d9ef">self</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> spawner <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> }
+</span></span><span style="display:flex;"><span>        spawner.addLabel()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchesBegan</span>(<span style="color:#66d9ef">_</span> touches: Set&lt;UITouch&gt;, with event: UIEvent?) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.touchesBegan(touches, with: event)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Run the app, and then navigate to the scene by tapping <code>leakProperty</code>. You should see a flickering label with the text <code>Hello world</code> now. Now, navigate back to the previous scene and back to the <code>leakProperty</code> scene. Repeat this for a couple of times.</p>
+<p>Repeating the steps as done in the previous exercise, you will notice an increase in memory consumption again when moving back and forth to this scene, visualized by the steplike increase in the memory graph.</p>
+<figure><img src="../../images/screenshot-memory-increase-property.png" width="800"><figcaption>
+      <h4>The memory graph, again with the steplike shape</h4>
+    </figcaption>
+</figure>
+
+<p>In this example, we again use the Debug memory graph to see what is causing this steady increase in memory consumption.</p>
+<p>Looking at the graph, we see that after a couple of times of going back and forth, the amount of instances of <code>DemoSelfInPropertyScene</code> increases at the same rate.</p>
+<p>Moreover, we see the same increase in instances of the <code>Spawner</code> type.</p>
+<figure><img src="../../images/screenshot-memory-increase-graph-property.png" width="800"><figcaption>
+      <h4>The memory graph after a couple of going back and forths</h4>
+    </figcaption>
+</figure>
+
+<p>If we zoom in to one of the leaked instances of <code>DemoSelfInPropertyScene</code>, we see its being retained by a strong reference made by <code>Spawner</code>, and vice versa: <code>Spawner</code> is retaining <code>DemoSelfInPropertyScene</code> as well (see above screenshot). This is a called a circular reference, and it happens when an amount of objects are strongly referencing each other.</p>
+<p>We can break this however by creating a weak reference to the scene inside <code>Spawner</code> instead of strong reference.
+Instead of:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> parentScene: SKScene
+</span></span></code></pre></div><p>We use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">var</span> parentScene: SKScene?
+</span></span></code></pre></div><p>This will allow the parentScene to deallocate when it needs to, as <code>Spawner</code> will not reference it strongly.
+Once you made this change, you will see no more memory build-up overtime.</p>
+<p><em>In Swift delegation implementations, you are advised to do the same: always reference a delegate using a weak reference, to prevent strong reference cycles as explained here in the <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/#Delegation">Swift documentation</a>.</em></p>
+<h3 id="open-file-descriptors">Open file descriptors</h3>
+<p>In this final example, I like to point out something I came across recently.</p>
+<p>With SpriteKit, one can easily make nodes play certain sounds using the action <a href="https://developer.apple.com/documentation/spritekit/skaction/1417664-playsoundfilenamed">playSoundFileNamed(_:waitForCompletion:)</a>.</p>
+<p>This is an action that will open the file requested and the node will run an action that plays this sound.
+For instance, we can look at a simplified version of the <code>DemoPlaySoundEffectScene</code>.
+You see that a simple SKNode instance can run an action to play the sound:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">SpriteKit</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DemoPlaySoundEffectScene</span>: BaseScene {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> soundNode = SKNode()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">didMove</span>(to view: SKView) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.didMove(to: view)
+</span></span><span style="display:flex;"><span>        addChild(soundNode)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchesBegan</span>(<span style="color:#66d9ef">_</span> touches: Set&lt;UITouch&gt;, with event: UIEvent?) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.touchesBegan(touches, with: event)
+</span></span><span style="display:flex;"><span>        soundNode.run(.playSoundFileNamed(<span style="color:#e6db74">&#34;steelHitSteelLight1&#34;</span>, waitForCompletion: <span style="color:#66d9ef">false</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>There is a slight issue with this API however. It can be a bit costly to invoke <code>playSoundFileNamed</code> the first time, as it will need to open and read the file on disk and play it. As this is happening on the main actor, in practice you may encounter short framedrops when playing a sound if it wasn&rsquo;t cached before.</p>
+<p>One way to work around this would be to cache the actions up front, so that they can be played directly from memory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">SpriteKit</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DemoPlaySoundEffectScene</span>: BaseScene {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> soundNode = SKNode()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> audioActions = [SKAction]()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">didMove</span>(to view: SKView) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.didMove(to: view)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> index <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1.</span>..<span style="color:#ae81ff">8</span> {
+</span></span><span style="display:flex;"><span>            audioActions.append(.playSoundFileNamed(<span style="color:#e6db74">&#34;steelHitSteelLight</span><span style="color:#e6db74">\(</span>index<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>, waitForCompletion: <span style="color:#66d9ef">false</span>))
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        addChild(soundNode)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchesBegan</span>(<span style="color:#66d9ef">_</span> touches: Set&lt;UITouch&gt;, with event: UIEvent?) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.touchesBegan(touches, with: event)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> audioAction = audioActions.randomElement() <span style="color:#66d9ef">else</span> { <span style="color:#66d9ef">return</span> }
+</span></span><span style="display:flex;"><span>        soundNode.run(audioAction)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>I have been doing this in my game Battledom, and there are many sound files that I have in there, at one point more than 256. When I reached that limit, I suddenly got runtime crashes in my game when I tried to open a file from the bundle, stating there were too many open files.</p>
+<p>It wasn&rsquo;t clear to me immediately what was going on (and the role of the sound effects in this issue), so I used the File Activity template in Instruments to profile my application in order to determine what was causing this large amount of open files.</p>
+<figure><img src="../../images/screenshot-file-activity.png" width="800"><figcaption>
+      <h4>The File Activity template in Instruments</h4>
+    </figcaption>
+</figure>
+
+<p>For this demo, I reproduce the issue on a smaller scale inside <code>DemoPlaySoundEffectScene</code> so you can follow along. In Xcode, open Instruments and then select the File Activity template.</p>
+<p>Then, select your run destination and application (demo-leaks) on the top of the screen, hit the red record button.</p>
+<figure><img src="../../images/screenshot-file-activity-input.png" width="800"><figcaption>
+      <h4>Setup the File Activity recording</h4>
+    </figcaption>
+</figure>
+
+<p>Now, the app will start and you will see the start scene. Tap the <code>soundEffect</code> button and when in the new scene, tap a few times on the screen to hear the sounds being played. Then, hit the record stop button and wait a bit while Xcode is analyzing the data streams.</p>
+<p>The result once there shows a couple of tracks. For this demo, we select the track <code>Filesystem Activity</code>. Then, in the selector above the tracings, you can select <code>File Descriptor History</code> instead of <code>Filesystem Statistics</code>. You will now see an overview of all files that were opened and closed during the lifetime of the recording.</p>
+<figure><img src="../../images/screenshot-file-activity-output.png" width="800"><figcaption>
+      <h4>Output of the File Activity recording</h4>
+    </figcaption>
+</figure>
+
+<p>If you scroll through the list (you can sort on Path first), you will notice that the sound effects were indeed opened at one moment in time (Create File Descriptor). However, you will also see they were never closed (there is no Close File Descriptor).</p>
+<p>That means that as long as you keep the sounds in memory, the files remain open. I am not even sure if this might be a bug in SpriteKit. If you have any thoughts on this, please leave a comment below!</p>
+<h2 id="wrap-up">Wrap up</h2>
+<p>I hope you enjoyed and maybe learned something from this post. There is a lot more to tell about leaks and related problems, especially with regard to the tooling that you can use to assess it.</p>
+<p>If you are interested in the origin of reference cycles and want to understand why they occur more thoroughly, I advise you to read this <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/">article on the Swift docs</a>. There is a good explanation on how automatic reference counting works, which lies at the base of Swift&rsquo;s garbage collection.</p>
+<p>I will explore instruments further in future posts, demonstrating their usage by examples.</p>
 <p>But for now I would like to emphasize the following learnings:</p>
 <ul>
 <li>
-<p>Performance testing should be done on physical devices</p>
+<p>Memory allocations and CPU usage are essential to assess during your development process. Do it frequently to avoid large refactors later on.</p>
 </li>
 <li>
-<p>Try to performance test on a variety of devices, and include low-end devices as much as possible</p>
+<p>Avoid capturing self strongly in closures</p>
 </li>
 <li>
-<p>When optimizing for performance, try to stay performant well beyond the needs of your game</p>
+<p>Avoid strong circular reference cycles by using <code>weak var</code></p>
 </li>
 <li>
-<p>Modularization can help you isolating certain pieces of code and performance test them individually</p>
+<p>To assess memory issues, you can use the Memory graph and the Debug navigator, there is no need to resort to Instruments immediately</p>
 </li>
 <li>
-<p>There are ways to cache certain actions (static caching) like cropping textures and storing them to the filesystem, which will benefit performance even after the game has been rebooted</p>
+<p>Open file descriptors can be assessed by using the File Template in Xcode instruments</p>
 </li>
 <li>
-<p>Runtime caching can be very valuable to prevent reloading of textures or other data into memory that are requested often</p>
-</li>
-<li>
-<p>If you need to create cache up front, try to dispatch the work away from the main thread as much as possible to avoid blocking the UI.</p>
-</li>
-<li>
-<p>When using runtime caching make sure to be able to respond to memory warning by clearing this cache</p>
-</li>
-<li>
-<p>When using static caching make sure to not create a situation where you are using a corrupted cache, and provide means to escape from this corrupted cache in case it does happen.</p>
+<p>Be cautious when caching many <code>playSoundFileNamed(_:waitForCompletion:)</code> action instances</p>
 </li>
 </ul>
-<p>Next time, I will write about memory leaks and Xcode Instruments.</p>
+<p>Next time, I will write about playing sounds in SpriteKit.</p>
 <p>Do you have any questions, suggestions or remarks for this post?</p>
 <p>Please leave a message below!</p>
 
@@ -520,17 +571,19 @@ Renaming a tilesheet will definitely break some of the desired behavior in this 
     <nav id="toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#performance">Performance</a></li>
-    <li><a href="#maps">Maps</a>
+    <li><a href="#efficiency">Efficiency</a></li>
+    <li><a href="#tooling">Tooling</a>
       <ul>
-        <li><a href="#caching">Caching</a></li>
+        <li><a href="#debug-navigator">Debug navigator</a></li>
+        <li><a href="#debug-memory-graph">Debug memory graph</a></li>
+        <li><a href="#debug-view-hierarchy">Debug view hierarchy</a></li>
       </ul>
     </li>
-    <li><a href="#texture-caching">Texture caching</a></li>
-    <li><a href="#cache-invalidation">Cache invalidation</a>
+    <li><a href="#demo-project">Demo project</a>
       <ul>
-        <li><a href="#static-cache">Static cache</a></li>
-        <li><a href="#runtime-cache">Runtime cache</a></li>
+        <li><a href="#capturing-self-in-closure">Capturing self in closure</a></li>
+        <li><a href="#capturing-self-in-child-property">Capturing self in child property</a></li>
+        <li><a href="#open-file-descriptors">Open file descriptors</a></li>
       </ul>
     </li>
     <li><a href="#wrap-up">Wrap up</a></li>

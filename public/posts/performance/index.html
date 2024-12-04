@@ -265,108 +265,108 @@ You can find more in-depth information about running Metal apps in the simulator
 <p>Subsequently, this UIImage is written to the app container document&rsquo;s directory for future usage.
 Everytime a tile is attempted to be loaded by MSKTiled, it will first query the document&rsquo;s directory if the image is already there.</p>
 <p>In code, this looks likes this:</p>
-<pre tabindex="0"><code>var texture: SKTexture?
-// retrieve the tile definition
-let tileDefinition = getTile(tileSheet: tileSheet, tileId: tileId)
-
-// first check the file system (cache) for existence
-if let imageData = try? Data(contentsOf: getCacheFileUrl(tileName: tileDefinition.name)) {
-    if let image = UIImage(data: imageData) {
-        texture = SKTexture.init(image: image)
-        log(logLevel: .debug, message: &#34;Cache hit for image \(tileDefinition.name)&#34;)
-    }
-}
-// if not present in cache, create the tile and save it to the cache
-if texture == nil {
-    // load the parent tilesheet
-    let sourceTexture = getTexture(name: tileDefinition.source)
-
-    // create the cropping instructions
-    let row = tileDefinition.row
-    let column = tileDefinition.column
-
-    // crop the parent texture to the tile texture
-    let tileTexture = SKTexture(rect: CGRect(x: tileDefinition.width*CGFloat(column)/sourceTexture.size().width, 
-                                            y: 1-(tileDefinition.height*CGFloat(row+1)/sourceTexture.size().height),
-                                            width: tileSize.width/sourceTexture.size().width,
-                                            height: tileSize.height/sourceTexture.size().height),
-                                in: sourceTexture)
-
-    // save the tile texture image to the file system
-    let uimg = UIImage(cgImage: tileTexture.cgImage())
-    if let data = uimg.pngData() {
-        try? data.write(to: getCacheFileUrl(tileName: tileName))
-    }
-    texture = SKTexture(image: uimg)
-}
-</code></pre><p>Now we can reference to this form of caching as <code>static caching</code>. These images are persisted on the device, and will remain a valid cache object also after the app or system has been rebooted.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> texture: SKTexture?
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// retrieve the tile definition</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> tileDefinition = getTile(tileSheet: tileSheet, tileId: tileId)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// first check the file system (cache) for existence</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> imageData = <span style="color:#66d9ef">try</span>? Data(contentsOf: getCacheFileUrl(tileName: tileDefinition.name)) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> image = UIImage(data: imageData) {
+</span></span><span style="display:flex;"><span>        texture = SKTexture.<span style="color:#66d9ef">init</span>(image: image)
+</span></span><span style="display:flex;"><span>        log(logLevel: .debug, message: <span style="color:#e6db74">&#34;Cache hit for image </span><span style="color:#e6db74">\(</span>tileDefinition.name<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// if not present in cache, create the tile and save it to the cache</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> texture == <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// load the parent tilesheet</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> sourceTexture = getTexture(name: tileDefinition.source)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// create the cropping instructions</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> row = tileDefinition.row
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> column = tileDefinition.column
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// crop the parent texture to the tile texture</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> tileTexture = SKTexture(rect: CGRect(x: tileDefinition.width<span style="color:#f92672">*</span>CGFloat(column)<span style="color:#f92672">/</span>sourceTexture.size().width, 
+</span></span><span style="display:flex;"><span>                                            y: <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>(tileDefinition.height<span style="color:#f92672">*</span>CGFloat(row<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span>sourceTexture.size().height),
+</span></span><span style="display:flex;"><span>                                            width: tileSize.width<span style="color:#f92672">/</span>sourceTexture.size().width,
+</span></span><span style="display:flex;"><span>                                            height: tileSize.height<span style="color:#f92672">/</span>sourceTexture.size().height),
+</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">in</span>: sourceTexture)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// save the tile texture image to the file system</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> uimg = UIImage(cgImage: tileTexture.cgImage())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> data = uimg.pngData() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>? data.write(to: getCacheFileUrl(tileName: tileName))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    texture = SKTexture(image: uimg)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now we can reference to this form of caching as <code>static caching</code>. These images are persisted on the device, and will remain a valid cache object also after the app or system has been rebooted.</p>
 <p>On the other hand, we can also make use of <code>runtime caching</code>.</p>
 <p>Taking the example of a large map with multiple layers of 200*200 tiles, even with static caching as described above loading a map can still take up to a few seconds. Usually you would like to avoid such long loading times. Or at least, you want the user not to notice their existence.</p>
 <p>In order to improve this, one can implement runtime caching. With MSKTiled, I created a method to parse a map and store the individual components that would be used to construct a scene from it.</p>
 <p>Parsing the map contains the most expensive operations, where in essence its creating the individual layers and objects represented as SpriteKit objects. Inside this logic resides the parsing of the map and it&rsquo;s layers and creating the cropped tiles (either from cache or fresh).</p>
 <p>The parsed map can be used later at any time by injecting it into a scene, which will use the individual components for rendering the scene itself.</p>
 <p>Below a simplified version of the code in use. This class, <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/Sources/MSKTiled/MSKTiledMapParser.swift">MSKTiledMapParser</a> implements the <code>XMLParserDelegate</code>, where the actual parsing is done by the implemented protocol methods (which I left out in the below code example).</p>
-<pre tabindex="0"><code>public func loadTilemap(filename: String,
-                        allowTileImagesCache: Bool = true,
-                        checkBundleForTileImages: Bool = false,
-                        addingCustomTileGroups: [SKTileGroup]? = nil) {
-parser.delegate = self
-// inside parse is where the expensive work happens: looping over all the layers and tiles
-// creating the tiles, caching them if needed, constructing the layers as much as possible
-parser.parse()
-// now that the parser has parsed the map, it already has loaded most of the map information needed for rendering into memory
-}
-</code></pre><p>Moreover, we can dispatch the <code>loadTilemap</code> invocation to a non-main thread, thereby doing the work while the user will not even notice it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadTilemap</span>(filename: String,
+</span></span><span style="display:flex;"><span>                        allowTileImagesCache: Bool = <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>                        checkBundleForTileImages: Bool = <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>                        addingCustomTileGroups: [SKTileGroup]? = <span style="color:#66d9ef">nil</span>) {
+</span></span><span style="display:flex;"><span>parser.delegate = <span style="color:#66d9ef">self</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// inside parse is where the expensive work happens: looping over all the layers and tiles</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// creating the tiles, caching them if needed, constructing the layers as much as possible</span>
+</span></span><span style="display:flex;"><span>parser.parse()
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// now that the parser has parsed the map, it already has loaded most of the map information needed for rendering into memory</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Moreover, we can dispatch the <code>loadTilemap</code> invocation to a non-main thread, thereby doing the work while the user will not even notice it.</p>
 <p>Once finished, we can use this MSKTiledMapParser instance at any subsequent moment we need it to render a scene. In Battledom, at app startup I start doing this work right away:</p>
-<pre tabindex="0"><code>func application(_ application: UIApplication, didFinishLaunchingWithOptions
-                     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -&gt; Bool {
-        printInDebug(NSHomeDirectory())
-        loadSavedData()
-        cacheScenes()
-        return true
-    }
-
-private func cacheScenes() {
-    if allowSceneCaching {
-        cachedSceneHelper.cacheScene(sceneType: .overworld)
-        cachedSceneHelper.cacheScene(sceneType: .start)
-        cachedSceneHelper.cacheScene(sceneType: .village)
-        cachedSceneHelper.cacheScene(sceneType: .woodlands)
-        cachedSceneHelper.cacheScene(sceneType: .farm)
-    }
-}
-</code></pre><p>The AppDelegate will start caching all necessary immediately.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">application</span>(<span style="color:#66d9ef">_</span> application: UIApplication, didFinishLaunchingWithOptions
+</span></span><span style="display:flex;"><span>                     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -&gt; Bool {
+</span></span><span style="display:flex;"><span>        printInDebug(NSHomeDirectory())
+</span></span><span style="display:flex;"><span>        loadSavedData()
+</span></span><span style="display:flex;"><span>        cacheScenes()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">cacheScenes</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> allowSceneCaching {
+</span></span><span style="display:flex;"><span>        cachedSceneHelper.cacheScene(sceneType: .overworld)
+</span></span><span style="display:flex;"><span>        cachedSceneHelper.cacheScene(sceneType: .start)
+</span></span><span style="display:flex;"><span>        cachedSceneHelper.cacheScene(sceneType: .village)
+</span></span><span style="display:flex;"><span>        cachedSceneHelper.cacheScene(sceneType: .woodlands)
+</span></span><span style="display:flex;"><span>        cachedSceneHelper.cacheScene(sceneType: .farm)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The AppDelegate will start caching all necessary immediately.</p>
 <p>During the app&rsquo;s launch sequence, the user is presented with an animated scene that presents the game&rsquo;s name and some other details, something which you see in most other games.</p>
 <p>Obviously, these scenes or screens, also known as <a href="https://en.wikipedia.org/wiki/Splash_screen">splashscreens</a>, exist for a reason: to cache/ load content upfront while still creating some form of engagement with the user.</p>
 <p>Now that we have the parser which already processed and stored most of its data, we need to use it in a scene that we present. This can be done by invoking the method <code>getTileMapNodes</code> <a href="https://github.com/sanderfrenken/MSKTiled/blob/70475e6e2303ea67057c44c1d339b9b9fee22e6d/Sources/MSKTiled/MSKTiledMapParser.swift#L49">from the parser</a> below that returns the SpriteKit objects from it:</p>
-<pre tabindex="0"><code>@MainActor
-public func getTileMapNodes() -&gt; (layers: [SKTileMapNode],
-                                  tileGroups: [SKTileGroup],
-                                  tiledObjectGroups: [MSKTiledObjectGroup]?) {
-    let tileMapNodeLayers: [SKTileMapNode] = layers.map { layer in
-        let tileSet = layer.tileSet
-        let rawLayer = layer.rawLayer
-        let layerData = layer.layerData
-        let tileMapNode = SKTileMapNode(tileSet: layer.tileSet, 
-                                        columns: Int(mapSize.width), 
-                                        rows: Int(mapSize.height), 
-                                        tileSize: tileSize)
-        for tileId in layerData {
-            if !hasValidTileData(tileId: tileId) {
-                continue
-            }
-            let tileGroup = getTileGroup(tileId: tileId)
-            tileMapNode.setTileGroup(tileGroup, forColumn: column, row: row)
-        }
-        tileMapNode.name = rawLayer.name
-        if rawLayer.invisible {
-            tileMapNode.alpha = 0
-        }
-        return tileMapNode
-    }
-    return (tileMapNodeLayers, tileGroups, tiledObjectGroups)
-}
-</code></pre><p>Note here, that this method is annoted with <code>@MainActor</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span>@MainActor
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getTileMapNodes</span>() -&gt; (layers: [SKTileMapNode],
+</span></span><span style="display:flex;"><span>                                  tileGroups: [SKTileGroup],
+</span></span><span style="display:flex;"><span>                                  tiledObjectGroups: [MSKTiledObjectGroup]?) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> tileMapNodeLayers: [SKTileMapNode] = layers.map { layer <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> tileSet = layer.tileSet
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> rawLayer = layer.rawLayer
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> layerData = layer.layerData
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> tileMapNode = SKTileMapNode(tileSet: layer.tileSet, 
+</span></span><span style="display:flex;"><span>                                        columns: Int(mapSize.width), 
+</span></span><span style="display:flex;"><span>                                        rows: Int(mapSize.height), 
+</span></span><span style="display:flex;"><span>                                        tileSize: tileSize)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> tileId <span style="color:#66d9ef">in</span> layerData {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>hasValidTileData(tileId: tileId) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> tileGroup = getTileGroup(tileId: tileId)
+</span></span><span style="display:flex;"><span>            tileMapNode.setTileGroup(tileGroup, forColumn: column, row: row)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        tileMapNode.name = rawLayer.name
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> rawLayer.invisible {
+</span></span><span style="display:flex;"><span>            tileMapNode.alpha = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> tileMapNode
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (tileMapNodeLayers, tileGroups, tiledObjectGroups)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Note here, that this method is annoted with <code>@MainActor</code>.</p>
 <p>This is an important aspect as well. Initialisation and usage of any SKNode subclass should be done on the main thread in SpriteKit. This means that as the above method is initializing instances of SKTileMapNode, this needs to happen on the MainActor (potentially blocking the UI).</p>
 <p>This is something to really look out for: even though you might cache something up to front, always verify you are not blocking the UI while creating the cache. And when this can not be avoided, try to do it at moments when your user will not be bothered with it, for example during a loading screen.</p>
 <h2 id="texture-caching">Texture caching</h2>
@@ -392,22 +392,22 @@ public func getTileMapNodes() -&gt; (layers: [SKTileMapNode],
 <p>This does mean that while an SKTexture is still referenced from somewhere, any subsequent usage of that same texture can be facilitated by loading it from memory. However, once you removed all references to that texture, its deallocated. This can be a problem if there are textures of which you know that will be requested often but are shortlived in usage.</p>
 <p>What I see is that when loading larger textures into memory, you can experience framedrops.</p>
 <p>For those occassions I make of a texture helper. This TextureHelper is a singleton which holds a dictionary of textures. Simplified this looks like this:</p>
-<pre tabindex="0"><code>final class TextureHelper {
-    private var cachedTextures = [String: SKTexture]()
-
-    func getCacheableTexture(imageName: String, setInCache: Bool = true) -&gt; SKTexture {
-        if let texture = cachedTextures[imageName] {
-            return texture
-        }
-        let texture = SKTexture(imageNamed: imageName)
-        if setInCache {
-            cachedTextures[imageName] = texture
-        }
-        return texture
-    }
-</code></pre><p>Now you can use your TextureHelper instance from anywhere in your code in order to retrieve a texture from it&rsquo;s cache (or load it newly and cache it subsequently):</p>
-<pre tabindex="0"><code>let myTexture = textureHelper.getCacheableTexture(texture: &#34;my_texture&#34;)
-</code></pre><p>It&rsquo;s an easy way to retain a strong reference to a loaded texture in memory, inhibiting the texture from being deallocated. Use it wisely though, as you don&rsquo;t want to increase your memory usage too far.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TextureHelper</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> cachedTextures = [String: SKTexture]()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getCacheableTexture</span>(imageName: String, setInCache: Bool = <span style="color:#66d9ef">true</span>) -&gt; SKTexture {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> texture = cachedTextures[imageName] {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> texture
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> texture = SKTexture(imageNamed: imageName)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> setInCache {
+</span></span><span style="display:flex;"><span>            cachedTextures[imageName] = texture
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> texture
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>Now you can use your TextureHelper instance from anywhere in your code in order to retrieve a texture from it&rsquo;s cache (or load it newly and cache it subsequently):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> myTexture = textureHelper.getCacheableTexture(texture: <span style="color:#e6db74">&#34;my_texture&#34;</span>)
+</span></span></code></pre></div><p>It&rsquo;s an easy way to retain a strong reference to a loaded texture in memory, inhibiting the texture from being deallocated. Use it wisely though, as you don&rsquo;t want to increase your memory usage too far.</p>
 <h2 id="cache-invalidation">Cache invalidation</h2>
 <h3 id="static-cache">Static cache</h3>
 <p>As you might know, any cache can get corrupted. This could happen for instance in our static caching as described above.</p>
@@ -419,12 +419,12 @@ Renaming a tilesheet will definitely break some of the desired behavior in this 
 <h3 id="runtime-cache">Runtime cache</h3>
 <p>When doing runtime caching, you might store too much information in your RAM and the OS might start to complain that your app uses too much memory.</p>
 <p>You are warned about this in your AppDelegate&rsquo;s method <code>applicationDidReceiveMemoryWarning</code> which you can hook into and respond by taking the right actions. In Battledom, I use this to clear up all textures that I have been caching since the app started:</p>
-<pre tabindex="0"><code>func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-    printInDebug(&#34;applicationDidReceiveMemoryWarning&#34;)
-    textureHelper.clearCharacterTextures()
-    textureHelper.clearStaticTextures()
-}
-</code></pre><h2 id="wrap-up">Wrap up</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">applicationDidReceiveMemoryWarning</span>(<span style="color:#66d9ef">_</span> application: UIApplication) {
+</span></span><span style="display:flex;"><span>    printInDebug(<span style="color:#e6db74">&#34;applicationDidReceiveMemoryWarning&#34;</span>)
+</span></span><span style="display:flex;"><span>    textureHelper.clearCharacterTextures()
+</span></span><span style="display:flex;"><span>    textureHelper.clearStaticTextures()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="wrap-up">Wrap up</h2>
 <p>I hope you enjoyed and maybe learned something from this post. There is a lot more to tell about performance, like the tooling that you can use to assess it.</p>
 <p>This post is mostly about loading performance. Runtime performance is just as important, but is much more dependent on the tasks that are being performed.</p>
 <p>I will do more about this in future posts, looking at specific tasks that impact performance (like pathfinding) and how you could fix them.</p>
