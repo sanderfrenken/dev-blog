@@ -12,7 +12,7 @@ As with any computer program you are writing, memory management is essential. Yo
 
 At the same time, many applications won't require much memory or processing power, especially taken into account the hardware of current generation phones and tablets. 
 
-For example, running a somewhat more complex CRUD application on for example an iPhone 11 consumes about 40%CPU (one core, for 40% occupied) at it's highest point (out of 6 cores, so there is a total CPU of 600% in total available) and 20MB of working memory (of the available 4GB).
+For example, running a somewhat more complex CRUD application on an iPhone 11 consumes about 40%CPU (one core, for 40% occupied) at it's highest point (out of 6 cores, so there is a total CPU of 600% in total available) and 20MB of working memory (of the available 4GB).
 
 In such a case, even though inefficient memory usage is still as waste of energy, you might never notice any real issues when using the application (I don't say that you should not care about your footprint when developing a CRUD application though, you always should).
 

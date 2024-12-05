@@ -13,7 +13,7 @@
       <link>http://localhost:1313/posts/leaks/</link>
       <pubDate>Tue, 03 Dec 2024 00:04:03 +0200</pubDate>
       <guid>http://localhost:1313/posts/leaks/</guid>
-      <description>Efficiency As with any computer program you are writing, memory management is essential. You don&amp;rsquo;t want to keep references to instances that you don&amp;rsquo;t need anymore, occupying memory and maybe computational power lost to the void.&#xA;At the same time, many applications won&amp;rsquo;t require much memory or processing power, especially taken into account the hardware of current generation phones and tablets.&#xA;For example, running a somewhat more complex CRUD application on for example an iPhone 11 consumes about 40%CPU (one core, for 40% occupied) at it&amp;rsquo;s highest point (out of 6 cores, so there is a total CPU of 600% in total available) and 20MB of working memory (of the available 4GB).</description>
+      <description>Efficiency As with any computer program you are writing, memory management is essential. You don&amp;rsquo;t want to keep references to instances that you don&amp;rsquo;t need anymore, occupying memory and maybe computational power lost to the void.&#xA;At the same time, many applications won&amp;rsquo;t require much memory or processing power, especially taken into account the hardware of current generation phones and tablets.&#xA;For example, running a somewhat more complex CRUD application on an iPhone 11 consumes about 40%CPU (one core, for 40% occupied) at it&amp;rsquo;s highest point (out of 6 cores, so there is a total CPU of 600% in total available) and 20MB of working memory (of the available 4GB).</description>
     </item>
     <item>
       <title>About performance and caching</title>
