@@ -343,7 +343,7 @@ When you are debugging your application this is where you will find the current 
 </figure>
 
 <p><em>You could instead of using the memory graph to inspect this issue also made use of the Leaks template in Instruments. I will cover that in another post later.</em></p>
-<h3 id="capturing-self-in-child-property">Capturing self in child property</h3>
+<h3 id="circular-references">Circular references</h3>
 <p>For another leak example, we will look at the scene <code>DemoSelfInPropertyScene</code>. This scene contains a <code>Spawner</code> node and again draws a couple of circles, only added to increase the memory footprint of the scene.</p>
 <p>The <code>Spawner</code> is a class that the scene will use to delegate the spawning of a label to.</p>
 <p>You can see the spawner as an object that is responsible for rendering certain nodes to the scene (parentScene) it is initialized with. When the scene is initialized, so is the spawner.</p>
@@ -483,6 +483,7 @@ You see that a simple SKNode instance can run an action to play the sound:</p>
 
 <p>If you scroll through the list (you can sort on Path first), you will notice that the sound effects were indeed opened at one moment in time (Create File Descriptor). However, you will also see they were never closed (there is no Close File Descriptor).</p>
 <p>That means that as long as you keep the sounds in memory, the files remain open. I am not even sure if this might be a bug in SpriteKit. If you have any thoughts on this, please leave a comment below!</p>
+<p>NB, I did find an old SO post <a href="https://stackoverflow.com/questions/27748818/playsoundfilenamed-is-leaving-the-sound-files-open-using-up-file-descriptors-an">here</a> that describes a similar problem. Getting the feeling this truly is a bug in SpriteKit.</p>
 <h2 id="wrap-up">Wrap up</h2>
 <p>I hope you enjoyed and maybe learned something from this post. There is a lot more to tell about leaks and related problems, especially with regard to the tooling that you can use to assess it.</p>
 <p>If you are interested in the origin of reference cycles and want to understand why they occur more thoroughly, I advise you to read this <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/">article on the Swift docs</a>. There is a good explanation on how automatic reference counting works, which lies at the base of Swift&rsquo;s garbage collection.</p>
@@ -582,7 +583,7 @@ You see that a simple SKNode instance can run an action to play the sound:</p>
     <li><a href="#demo-project">Demo project</a>
       <ul>
         <li><a href="#capturing-self-in-closure">Capturing self in closure</a></li>
-        <li><a href="#capturing-self-in-child-property">Capturing self in child property</a></li>
+        <li><a href="#circular-references">Circular references</a></li>
         <li><a href="#open-file-descriptors">Open file descriptors</a></li>
       </ul>
     </li>

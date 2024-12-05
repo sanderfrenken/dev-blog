@@ -192,7 +192,7 @@ Perform the change, and you should not see the memory build-up anymore when navi
 
 *You could instead of using the memory graph to inspect this issue also made use of the Leaks template in Instruments. I will cover that in another post later.*
 
-### Capturing self in child property
+### Circular references
 
 For another leak example, we will look at the scene `DemoSelfInPropertyScene`. This scene contains a `Spawner` node and again draws a couple of circles, only added to increase the memory footprint of the scene. 
 
@@ -364,6 +364,8 @@ The result once there shows a couple of tracks. For this demo, we select the tra
 If you scroll through the list (you can sort on Path first), you will notice that the sound effects were indeed opened at one moment in time (Create File Descriptor). However, you will also see they were never closed (there is no Close File Descriptor). 
 
 That means that as long as you keep the sounds in memory, the files remain open. I am not even sure if this might be a bug in SpriteKit. If you have any thoughts on this, please leave a comment below!
+
+NB, I did find an old SO post [here](https://stackoverflow.com/questions/27748818/playsoundfilenamed-is-leaving-the-sound-files-open-using-up-file-descriptors-an) that describes a similar problem. Getting the feeling this truly is a bug in SpriteKit.
 
 ## Wrap up
 
