@@ -147,7 +147,7 @@ Instead of buying units with gold, you would need to harvest resources like Coal
 
 It's now November 2024, and Battledom has come a long way. I made five playable levels, the resource management is in place and I think it's enjoyable to play.
 
-{{< youtube 0y0pernS0Gc >}}
+{{< youtube ZecfzsuEKZw >}}
 
 That means that now is the time to test. Testing a game like this is very time-consuming. There are many balancing aspects for example that are hard to get right. 
 
