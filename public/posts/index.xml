@@ -6,8 +6,15 @@
     <description>Recent content in Posts on iGameDev</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 03 Dec 2024 00:04:03 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 19 Mar 2025 00:04:03 +0200</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Back in action. On Battledom, pathfinding and AI tools</title>
+      <link>http://localhost:1313/posts/welcome_back/</link>
+      <pubDate>Wed, 19 Mar 2025 00:04:03 +0200</pubDate>
+      <guid>http://localhost:1313/posts/welcome_back/</guid>
+      <description>Back to blog It has been almost four months since my last post, which is way too long ago. Not that I have been sitting still. Obviously as most of you can also relate to, December is a fully packed month with little free time. Especially for us now with two little children that have long holidays, December was a lost cause when it comes to game development.&#xA;But in January and February I picked up the pace again with development of Battledom.</description>
+    </item>
     <item>
       <title>About leaks when using SpriteKit</title>
       <link>http://localhost:1313/posts/leaks/</link>
