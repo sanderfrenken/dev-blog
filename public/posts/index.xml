@@ -9,11 +9,11 @@
     <lastBuildDate>Wed, 19 Mar 2025 00:04:03 +0200</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Back in action. On Battledom, pathfinding and AI tools</title>
+      <title>About trailers, pathfinding and AI tools</title>
       <link>http://localhost:1313/posts/welcome_back/</link>
       <pubDate>Wed, 19 Mar 2025 00:04:03 +0200</pubDate>
       <guid>http://localhost:1313/posts/welcome_back/</guid>
-      <description>Back to blog It has been almost four months since my last post, which is way too long ago. Not that I have been sitting still. Obviously as most of you can also relate to, December is a fully packed month with little free time. Especially for us now with two little children that have long holidays, December was a lost cause when it comes to game development.&#xA;But in January and February I picked up the pace again with development of Battledom.</description>
+      <description>Back to blog It has been almost four months since my last post, though I have not been sitting still. As most of you can also relate to, December is a fully packed month with little free time.&#xA;Especially now with two little children that have long holidays, December was a lost cause when it comes to development.&#xA;Over the last months I added a lot of new functionality and content to Battledom and spend time revisiting a couple of mechanics.</description>
     </item>
     <item>
       <title>About leaks when using SpriteKit</title>

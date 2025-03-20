@@ -19,20 +19,20 @@
     
 
     
-    <title>Back in action. On Battledom, pathfinding and AI tools</title>
-    <meta name="description" content="Back to blog It has been almost four months since my last post, which is way too long ago. Not that I have been sitting still. Obviously as most of you can also …">
+    <title>About trailers, pathfinding and AI tools</title>
+    <meta name="description" content="Back to blog It has been almost four months since my last post, though I have not been sitting still. As most of you can also relate to, December is a fully …">
     <meta name="keywords" content='blog, spritekit, game developer'>
 
     <meta property="og:url" content="http://localhost:1313/posts/welcome_back/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Back in action. On Battledom, pathfinding and AI tools">
-    <meta property="og:description" content="Back to blog It has been almost four months since my last post, which is way too long ago. Not that I have been sitting still. Obviously as most of you can also …">
+    <meta property="og:title" content="About trailers, pathfinding and AI tools">
+    <meta property="og:description" content="Back to blog It has been almost four months since my last post, though I have not been sitting still. As most of you can also relate to, December is a fully …">
     <meta property="og:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
     <meta property="og:image:secure_url" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Back in action. On Battledom, pathfinding and AI tools">
-    <meta name="twitter:description" content="Back to blog It has been almost four months since my last post, which is way too long ago. Not that I have been sitting still. Obviously as most of you can also …">
+    <meta name="twitter:title" content="About trailers, pathfinding and AI tools">
+    <meta name="twitter:description" content="Back to blog It has been almost four months since my last post, though I have not been sitting still. As most of you can also relate to, December is a fully …">
     <meta property="twitter:domain" content="http://localhost:1313/posts/welcome_back/">
     <meta property="twitter:url" content="http://localhost:1313/posts/welcome_back/">
     <meta name="twitter:image" content="https://sanderfrenken.github.io/dev-blog/static/icon.png">
@@ -149,7 +149,7 @@
 <main id="content">
     <div class="post container">
     <div class="post-header-section">
-        <h1>Back in action. On Battledom, pathfinding and AI tools</h1>
+        <h1>About trailers, pathfinding and AI tools</h1>
 
         
 
@@ -181,10 +181,10 @@
 
     <div class="post-content">
         <h2 id="back-to-blog">Back to blog</h2>
-<p>It has been almost four months since my last post, which is way too long ago.
-Not that I have been sitting still. Obviously as most of you can also relate to, December is a fully packed month with little free time. Especially for us now with two little children that have long holidays, December was a lost cause when it comes to game development.</p>
-<p>But in January and February I picked up the pace again with development of Battledom. I am currently in an early beta phase and have about 150 active testers. I am still very eager to get more feedback, so if you are interested please join via <a href="https://testflight.apple.com/join/IsXcGtGR">TestFlight</a>.</p>
-<p>I added a lot of new functionality and content over the last months and spend time revisiting a couple of mechanics. Most importantly, I needed to revise the pathfinding algorithm for reasons I will clarify further in this post.</p>
+<p>It has been almost four months since my last post, though I have not been sitting still.
+As most of you can also relate to, December is a fully packed month with little free time.</p>
+<p>Especially now with two little children that have long holidays, December was a lost cause when it comes to development.</p>
+<p>Over the last months I added a lot of new functionality and content to Battledom and spend time revisiting a couple of mechanics. Most importantly, I needed to revise the pathfinding algorithm for reasons I will clarify further in this post.</p>
 <p>Moreover, I also made a new trailer for Battledom that you can find here:</p>
 
 
@@ -195,14 +195,14 @@ Not that I have been sitting still. Obviously as most of you can also relate to,
     </div>
 
 <h2 id="promo-material">Promo material</h2>
-<p>Even though the new trailer is just 30 seconds of material, it took way longer to create. There are many steps in this process, and as having proper material is quite essential for your game&rsquo;s success, you want to do them all right. Creating screenshots, videos and other promo material is definitely not my strongest point, but I have to admit I am happy enough with how this trailer turned out. I have some learnings from this process which I like to share as well.</p>
+<p>Even though this new trailer is just a 30 seconds video, it took way longer to create. There were many steps in the process, and as having proper material is quite essential for a game&rsquo;s success, I wanted to do them all right. Creating screenshots, videos and other promo material is definitely not my strongest point, but I have to admit I am happy enough with how this trailer turned out.</p>
+<p>I have some learnings from this process which I like to share as well.</p>
 <h3 id="tools-and-theory">Tools and theory</h3>
-<p>First of, you need to capture the screens and audio from some device. You can either use a physical device for this, or record from your simulator. Personally, I used to the simulator as I could then also directly record the audio using QuickTime. Plus, I also didn&rsquo;t have an iPad at my disposal to do a physical recording. I preferred to use an iPad because of the screen ratio.</p>
-<p>The screen itself can be recored by hitting <code>CMD+R</code> while focussing on the simulator.
-The recorded file can also be saved as a GIF right away, which might be an interesting feature in some cases as well.</p>
+<p>First things first: you need to capture the screens and audio from some device. You can either use a physical device for this, or record from your simulator. Personally, I used to the simulator as I could then also directly record the audio using QuickTime. Plus, I also didn&rsquo;t have an iPad at my disposal to do a physical recording. I preferred to use an iPad screen because of the screen ratio.</p>
+<p>When using the simulator, the screen of the device can be recorded by hitting <code>CMD+R</code> while focussing on the simulator. The recorded file can also be saved as a GIF right away, which can be a useful feature in some cases as well.</p>
 <p>So recording video and sound can be done from your Apple development device without too much hassle. If you do have an iPad at your disposal, it might be worth trying that out for screen capturing as it could have better performance than your Mac simulator, and potentially a higher resolution.</p>
-<p>But then there is more. You probably will write some form of script of what you like to show in your trailer. And this an important part. An ideal trailer has a length between 30-90 seconds, so you dont have much time to explain or build up a story line. Moreover, an App Preview in the AppStore has a max length of 30 seconds, so its already a good exercsie to make your trailer not much longer than those 30 seconds either.</p>
-<p>In a trailer, you wish to capture the attention of the viewer immediately. As such, you could opt for starting the trailer in the middle of the action, then tune the action a bit lower, and in the end &ldquo;go out with a bang&rdquo;. Its also essential to show the name of the game and communicate clearly the gameloop. Don&rsquo;t show things your game doesn&rsquo;t deliver.</p>
+<p>But there is more. You probably will write some form of script of what you like to show in your trailer. And this an important part. An ideal trailer has a length between 30-90 seconds, so you don&rsquo;t have much time to explain or build up a story line. Moreover, an App Preview in the AppStore has a max length of 30 seconds, so its already a good exercsie to make your trailer not much longer than those 30 seconds either.</p>
+<p>In a trailer, you wish to capture the attention of the viewer immediately. As such, you could opt for starting the trailer in the middle of the action, then tune the action a bit lower, and in the end &ldquo;go out with a bang&rdquo;. It is also essential to show the name of the game and communicate clearly the gameloop. Don&rsquo;t show things your game doesn&rsquo;t deliver.</p>
 <p>I found some nice guidelines and explanations on how to make nice trailers on YouTube. I can really recommend watching the following video:</p>
 <p>
 
@@ -214,10 +214,11 @@ The recorded file can also be saved as a GIF right away, which might be an inter
 =</p>
 <p>With the theory absorbed and the recording tools identified, its time to create the raw content!</p>
 <h3 id="developer-tools">Developer tools</h3>
-<p>You probably will notice soon enough when recording your material that you need to enforce certain behaviors. For instance, you might want to hide certain UI elements to create a cleaner interface for the trailer. Moreover, you dont want to be limited when creating/ setting up the recording scenes by the normal game loop. For instance, in Battledom you can only create units if you have enough resources. But while I was creating content for the trailer, I didn&rsquo;t wanted to be bothered by this.</p>
+<p>You probably will notice soon enough when recording your material that you need to enforce certain behaviors. For instance, you might want to hide certain UI elements to create a clean interface for the trailer.</p>
+<p>Moreover, you don&rsquo;t want to be limited when creating/ setting up the recording scenes by the normal game loop. For instance, in Battledom you can only create units if you have enough resources. But while I was creating content for the trailer, I didn&rsquo;t wanted to be bothered by this restriction.</p>
 <p>Usually you already encounter this challenge when developing the game in general. You want an easy way to spawn units, jump to certain scenes, enable/ disable certain UI elements, etc.
 Therefore, it&rsquo;s advisable to facilitate this from an early stage of development.</p>
-<p>What I currently do is to define a set of variables (booleans) that I can toggle in Debug mode. I put them inside compiler flags, which will guarantuee that toggling these variables will only impact Debug builds.</p>
+<p>What I currently do is to define a set of variables (mostly booleans) that I can toggle in Debug mode. I put them inside compiler flags, which makes it easy to toggle these variables while only impacting Debug builds.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#75715e">#if</span> <span style="color:#75715e">DEBUG</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> showStatistics = <span style="color:#66d9ef">true</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> showFogOfWar = <span style="color:#66d9ef">true</span>
@@ -242,12 +243,20 @@ Therefore, it&rsquo;s advisable to facilitate this from an early stage of develo
 </span></span></code></pre></div><p>Inside your code you can these use these booleans to steer certain behaviors. Of course there are many other ways to facilitate this. You could also inject the &ldquo;Debug&rdquo; code directly within compiler flags inside the code where it is needed and omit the booleans, but personally I find these booleans a bit more readable and the ease of toggling is worth a lot.</p>
 <p>You could even add an hidden entrypoint into your game from where you can live toggle these settings. I am not sure if I would advise this though, as obviously some of these toggles can be quite game-breaking.</p>
 <h3 id="editing">Editing</h3>
-<p>Once you have gathered all the right audio and video material, there comes the final step: Editing the videos and images. For this there is also a plethora of tools available, where the most accessible one is most likely iMovie, as that is already installed on your Mac if you have one. However, even though iMovie is definitely an easy to use tool, the downside is that it is quite limited. Transitions and animations, the basics are there, but I couldn&rsquo;t produce what I aimed for with just iMovie.</p>
+<p>Once you have gathered all the right audio and video material, there comes the final step: Editing the videos and images. For this there is also a plethora of tools available, where the most accessible one is most likely iMovie, as that is already installed on your Mac if you have one.</p>
+<p>However, even though iMovie is definitely an easy to use tool, the downside is that it is quite limited. Transitions and animations, the basics are there, but I couldn&rsquo;t produce what I aimed for with just iMovie.</p>
 <p>After some searching and trials, I came across <a href="https://www.canva.com">Canva</a>. Canva has a proper web editor and supports creating videos and images in many different formats. There are options to create your own branding using default fonts and colors you pick that you can then apply to all your projects. There are lots of transitions and animations available, which you can customize easily.</p>
 <p>Moreover, as with most tools nowadays, there are many AI features you can use to generate specific content, or alter existing content. I didn&rsquo;t dig into this, but for sure I can say that Canva does deliver a lot of nice features and it is very easy to use.</p>
+<p>Finally, you can also easily create screenshot compositions using a very large set of templates. All in all, when working on promo material I can really recommend using Canva.</p>
+<figure><img src="../../images/screenshot-canva-image.png" width="800"><figcaption>
+      <h4>Image made using Canva, combining four Screenshots in one template</h4>
+    </figcaption>
+</figure>
+
 <h2 id="pathfinding-on-grids">Pathfinding on grids</h2>
-<p>Now on to a very different topic; Pathfinding. Pathfinding has been on my radar on and off over the last year of development of Battledom. In Battledom I make use of normal grid layed out maps, where most scenes I made so far consisted of approx. 150*150 tiles.</p>
-<p>I wrote about MSKTiled earlier in another <a href="https://sanderfrenken.github.io/dev-blog/msktiled/">blogpost</a>. But in a nutshell my workflow is as follows. I design my maps using a very popular tile editor being <a href="https://www.mapeditor.org">Tiled</a>. Such a map can consist of many layers, but for this example I use a simple map with just two layers. A base layer, which holds the ground (in this case, grass), and an obstacle layer. The obstacle layer has many empty tiles as well. The filled tiles are water and graves. These tiles should not be traversable in the game.</p>
+<p>Now on to a very different topic: Pathfinding. This has been on my radar on and off over the last year of development of Battledom. In Battledom I make use of normal grid layed out maps, where most scenes I made so far consisted of approximately 150*150 tiles.</p>
+<p>I wrote about MSKTiled earlier in another <a href="https://sanderfrenken.github.io/dev-blog/msktiled/">blogpost</a>. But in a nutshell my workflow is as follows:</p>
+<p>I design my maps using the very popular tile editor being <a href="https://www.mapeditor.org">Tiled</a>. A map can consist of many layers, but for the example today I use a simple map with just two layers. A base layer, which holds the ground (in this case, grass), and an obstacle layer. The obstacle layer has many empty tiles as well. The filled tiles are water and graves, which should not be traversable in the game.</p>
 <figure><img src="../../images/screenshot-tiled-simple-map.png" width="800"><figcaption>
       <h4>Simple map; Just two layers being a base and an obstacle layer</h4>
     </figcaption>
@@ -258,20 +267,23 @@ Therefore, it&rsquo;s advisable to facilitate this from an early stage of develo
     </figcaption>
 </figure>
 
-<p>Using <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/README.md">MSKTiled</a>, an open source Swift package I developed, one can load Tiled maps into SpriteKit&rsquo;s <code>SKTileMapNode</code> instances and access the related types. As such, one can very efficiently render large maps, while using the extensive toolset of Tiled.</p>
-<h3 id="gkgridgraph">GKGridGraph</h3>
-<p>There are several means to accomplish pathfinding on maps. For grid based games, A* is quite a commonly used algorithm. Variants of it also exists like <a href="https://en.wikipedia.org/wiki/Jump_point_search">Jump point search</a> which is more efficient algorithm but can yield different paths compared to A*. Alternatively one can also rely on mesh graphs for pathfinding. This is a technique where one defines polygon shapes that cover the non-traversable area&rsquo;s of a graph. The algorithm will then aim to avoid these area&rsquo;s, and will travel freely over the remaining available space. From that perspective its a very different approach compare to A*, as with A* the movement is restricted to the grid.</p>
+<p>Using <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/README.md">MSKTiled</a>, an open source Swift package I developed, one can load these Tiled maps into SpriteKit&rsquo;s <code>SKTileMapNode</code> instances and access the related types.</p>
+<p>As such, one can very efficiently render large maps, while using the extensive toolset of Tiled to design them.</p>
+<h3 id="gkgridgraph">GK(Grid)Graph</h3>
+<p>Now a core mechanic in most games is moving over the map, and for that you need to implement pathfinding.</p>
+<p>There are several means to accomplish pathfinding on maps. For grid based games, A* is quite a commonly used algorithm. Variants of it also exists like <a href="https://en.wikipedia.org/wiki/Jump_point_search">Jump point search</a> which is a more efficient algorithm but can yield different paths compared to A*.</p>
+<p>Alternatively one can also rely on mesh graphs for pathfinding. This is a technique where one defines polygon shapes that cover the non-traversable area&rsquo;s of a graph. The algorithm will then aim to avoid these area&rsquo;s, and will travel freely over the remaining available space. From that perspective its a very different approach compare to A*, as with A* the movement is restricted to the grid.</p>
 <p>Apple&rsquo;s <a href="https://developer.apple.com/documentation/gameplaykit">GameplayKit</a> is an extensive toolbox for game development, offering things like state machines, utilities for the entity-component-system, noise-generators and much more. It also includes pathfinding capabilities, which are formed around <a href="https://developer.apple.com/documentation/gameplaykit/gkgraph">GKGraph</a> and related types. GameplayKit offers the following options:</p>
 <ul>
 <li>
-<p>Use the GKGridGraph and GKGridGraphNode classes to describe game worlds that constrain movement to an integer grid, such as tactical role-playing games.</p>
+<p>Use the <code>GKGridGraph</code> and <code>GKGridGraphNode</code> classes to describe game worlds that constrain movement to an integer grid, such as tactical role-playing games.</p>
 </li>
 <li>
-<p>Use the GKObstacleGraph or GKMeshGraph class to describe 2D game worlds that allow continuous movement in open spaces that are interrupted by impassable obstacles (GKPolygonObstacle objects). Obstacle graphs automatically generate nodes containing 2D point information (GKGraphNode2D objects), and you can also add your own such nodes representing locations of interest.</p>
+<p>Use the <code>GKObstacleGraph</code> or <code>GKMeshGraph</code> class to describe 2D game worlds that allow continuous movement in open spaces that are interrupted by impassable obstacles (<code>GKPolygonObstacle</code> objects). Obstacle graphs automatically generate nodes containing 2D point information (<code>GKGraphNode2D</code> objects), and you can also add your own such nodes representing locations of interest.</p>
 </li>
 </ul>
-<p>With the setup of maps I use for Battledom in mind, I did implement support for pathfinding into MSKTiled using <a href="https://developer.apple.com/documentation/gameplaykit/gkgridgraph">GKGridGraph</a>.</p>
-<p>I have setup a repo <a href="">here</a> that contains the Tiled map as shown above that uses MSKTiled to render the map and demonstrate the pathfinding. If you run the project, you should see this:</p>
+<p>With the setup of maps I use for Battledom in mind, I did implement support for pathfinding into MSKTiled using <a href="https://developer.apple.com/documentation/gameplaykit/gkgridgraph">GKGridGraph</a> first.</p>
+<p>I have setup a repo <a href="https://github.com/sanderfrenken/AStartPathfinderSwift">here</a> that contains the Tiled map as shown above that uses MSKTiled to render the map and demonstrate the pathfinding. If you run the project, you should see this:</p>
 <figure><img src="../../images/screenshot-pathfinding-demo.png" width="800"><figcaption>
       <h4>Rendered map. The red crosses are layed over the obstacles to clarify non-traversable tiles</h4>
     </figcaption>
@@ -341,16 +353,53 @@ Inside the GameScene, I invoke:</p>
 </span></span></code></pre></div><p>This is quite straight forward. In your console, you will also see some print statements. When the path is calculated, you will see for instance:</p>
 <p><code>time to find GKGridGraph path: 97.513916</code></p>
 <p>This means that calculating the path has taken almost 100 milliseconds, which is a lot.
-In Battledom I might most of the times use somewhat smaller maps, with less obstacles.
-But still I often encountered path calculations that take more than 50 milliseconds.</p>
+Even worse, when you zoom out and try a corner to corner diagonal path, you will see the pathfinding can take up to two seconds (2000 ms).</p>
+<figure><img src="../../images/screenshot-pathfinding-demo-path-long.png" width="800"><figcaption>
+      <h4>This large diagonal path consisting of 255 tiles took 1800 ms to calculate </h4>
+    </figcaption>
+</figure>
+
 <p>This is very problematic, as it is much more than the approx. 16 milliseconds you get when you want to support a steady 60 FPS.</p>
-<p>I don&rsquo;t know why this <code>GKGridGraph</code> is so inefficient. I can only hypothesize that since <code>GKGridGraph</code> is a subclass of <code>GKGraph</code> which also to some extent needs to support the other types of graphs like <code>GKObstacleGraph</code> or <code>GKMeshGraph</code>, there is a lot of abstraction going on and therefore the actual A* implementation is much different from the usual vanilla implementation. On smaller grids <code>GKGridGraph</code> might still be usable, but with larger grids I needed to look for alternatives.</p>
-<h3 id="vanilla-a-using-deepseek">Vanilla A* using DeepSeek</h3>
+<p>I don&rsquo;t know why this <code>GKGridGraph</code> is so inefficient. Am I doing something wrong? Otherwise, I can only hypothesize that since <code>GKGridGraph</code> is a subclass of <code>GKGraph</code> it also to some extent needs to support the other types of graphs like <code>GKObstacleGraph</code> or <code>GKMeshGraph</code>. As such, there might be a lot of abstraction going on and therefore the actual A* implementation is much different from the usual vanilla implementation.</p>
+<p>Concluding, on smaller grids <code>GKGridGraph</code> might still be usable, but with larger grids I needed to look for alternatives.</p>
+<h3 id="vanilla-a-by-deepseek">Vanilla A* by DeepSeek</h3>
+<p>In order to workaround the long calculation times of <code>GKGridGraph</code> I did resort to a <code>GKObstacleGraph</code> instead. This worked to some extent: Path calculation is faster.</p>
+<p>But there is a huge downside, and that is that initializing the graph from a set of obstacles (polygons) takes a huge amount of time. In the example map used here, initializing the graph takes more than 10 seconds.</p>
+<p>So if you have a low amount of obstacles, you might be able to make proper use of a <code>GKObstacleGraph</code> (btw I also used the <code>GKMeshGraph</code> which turned out to have the same limitation), but otherwise it won&rsquo;t be a usable alternative.</p>
+<p>Moreover, using a non <code>GKGridGraph</code> is also less user friendly for you as a developer: Instead of having an implicit definition of which tiles are not traversable by scanning the obstacle layer for tiles with a texture, if you resort to a <code>GKObstacleGraph</code> or <code>GKMeshGraph</code> you will need to manually draw the polygon shapes defining the non traversable areas yourself.</p>
+<p>This meant that for Battledom, I didn&rsquo;t find any proper way of leveraging the capabilities of GameplayKit to facilitate pathfinding.</p>
+<p>As an alternative, I was thinking about writing my own A* implementation, just to see if that would perform better. There are so many games relying on A* pathfinding, it must be able to perform better than it does now.</p>
+<p>Honestly, I wasn&rsquo;t looking forward to doing this though. There are plenty of examples of A* algorithms, but it would for sure take quite some time to implement and there is so much more that I still needed to work on.</p>
+<p>Then I realized that writing an algorithm like A* is probably a very good question for an AI to answer. It&rsquo;s a very isolated problem, the solution is already well-documented in many ways and due to it&rsquo;s isolation it should also be easy to incorporate it in an existing codebase.</p>
+<p>I was experimenting already a bit with <a href="https://www.deepseek.com">DeepSeek</a> just for fun, so I asked DeepSeek (R1 model) to write an A* algorithm for me in Swift. The result was quite impressive.</p>
+<p>It worked immediately after my initial prompt, and we (yes it seems as I was working with another person) had some additional going back and forths to improve the performance and usability of the algorithm further.</p>
+<p>What really impressed me was how DeepSeek was able to even provide computational costs and benchmarks of the algorithm created. Moreover, the code generated was very well written, including a clear structure of methods, the use of <code>// MARK: </code> annotations and a nice API interface and protocol usage.</p>
+<p>The performance of the algorithm is great as well:</p>
+<p>Where the long diagonal path calculated with <code>GKGridGraph</code> took almost 2000 milliseconds, with the new custom algorithm the calculation takes only 20 milliseconds.</p>
+<p>You can see it in action in the demo project: The green path that is drawn is the path calculated using the custom made <code>AStarPathFinder</code> implementation, which also is available <a href="https://github.com/sanderfrenken/AStartPathfinderSwift/blob/main/AStarPathFinding/AStarPathFinder.swift">in the project</a>. When the paths are calculated, you will see the time it took to calculate them both in the console:</p>
+<pre tabindex="0"><code>time to find GKGridGraph path: 1411.483708
+steps in GKGridGraph path: 264
+time to find custom Astar path: 32.085042
+steps in Astar path: 267
+</code></pre><p>As you can see in this example, there is a factor 40 difference in computation speed. The paths calculated are sometimes slightly different, which is a result of the implementation details. As you can see in the above output, the calculated A* path contains three more steps than the path calculated by <code>GKGridGraph</code>. This doesn&rsquo;t mean the path is less optimized, as diagonally traveled tiles are more costly than orthogonal traveled tiles. Either way, the difference is so small anyway that the huge win in computational speed is worth it anyways.</p>
+<p>I also tried to create a <a href="https://en.wikipedia.org/wiki/Jump_point_search">Jump point search</a> (JPS) implementation with DeepSeek in Swift, but that we didn&rsquo;t succeed with this yet after an hour or two. We did manage to get something working, but the calculated paths turned out very inefficient. I can imagine this is due to the fact that there is simply less written about JPS algorithms on the internet, which causes DeepSeek to be less capable of producing a proper response as it was provided with less training material for this specific algorithm.</p>
+<p>For sure we could make it work better, but it would require more manual debugging and fixing the provided solution.</p>
+<p>Battledom now makes use of the custom <code>AStarPathFinder</code> that was created with DeepSeek, and so far I am very happy with the result.</p>
+<figure><img src="../../images/gif-pathfinding.gif" width="800"><figcaption>
+      <h4>Pathfinding in Battledom in action using AStarPathFinder</h4>
+    </figcaption>
+</figure>
+
 <h2 id="wrap-up">Wrap up</h2>
-<p>There is a lot more that can be told about the internals and the pro&rsquo;s and con&rsquo;s of the solution, and I would suggest you to use the <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/README.md">readme</a> for more technical information and usage.</p>
-<p>I am using MSKTiled now in my upcoming game <a href="https://sanderfrenken.github.io/dev-blog/projects/battledom/">Battledom</a>, and so far I am very happy with and actively maintaining it while doing so.</p>
+<p>Time to wrap up this post. I hope you enjoyed reading a new post after this long period of silence.
+There is a lot more I would like to write about, but I leave that for later.</p>
+<p>This post already became a curious mix of topics I feel.</p>
+<p>Concluding, I can definitely recommend you to take a look at using AI tooling if you face an issue that you are stuck with. It helps a lot if the problem is an isolated one, and engage in the discussion with the tool to improve on the answer provided.</p>
+<p>I need to say: I have mixed feelings about using AI in general. Being a developer myself, I sort of fear the power/ capabilities it seems to evolve. Even though it won&rsquo;t be able to professionally replace me yet, I do think this might change in the nearby future.</p>
+<p>One thing is for sure: If it doesn&rsquo;t change your way of working yet, it will very soon will. And so far, I can see a lot of benefits doing so.</p>
 <p>Do you have any questions, suggestions or remarks for this post?</p>
 <p>Please leave a message below!</p>
+<p>I am still very eager to get more feedback on Battledom, so if you are interested please join via <a href="https://testflight.apple.com/join/IsXcGtGR">TestFlight</a>.</p>
 
 
     
@@ -421,8 +470,8 @@ But still I often encountered path calculations that take more than 50 milliseco
     </li>
     <li><a href="#pathfinding-on-grids">Pathfinding on grids</a>
       <ul>
-        <li><a href="#gkgridgraph">GKGridGraph</a></li>
-        <li><a href="#vanilla-a-using-deepseek">Vanilla A* using DeepSeek</a></li>
+        <li><a href="#gkgridgraph">GK(Grid)Graph</a></li>
+        <li><a href="#vanilla-a-by-deepseek">Vanilla A* by DeepSeek</a></li>
       </ul>
     </li>
     <li><a href="#wrap-up">Wrap up</a></li>
