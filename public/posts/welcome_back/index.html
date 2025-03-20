@@ -374,6 +374,11 @@ Even worse, when you zoom out and try a corner to corner diagonal path, you will
 <p>I was experimenting already a bit with <a href="https://www.deepseek.com">DeepSeek</a> just for fun, so I asked DeepSeek (R1 model) to write an A* algorithm for me in Swift. The result was quite impressive.</p>
 <p>It worked immediately after my initial prompt, and we (yes it seems as I was working with another person) had some additional going back and forths to improve the performance and usability of the algorithm further.</p>
 <p>What really impressed me was how DeepSeek was able to even provide computational costs and benchmarks of the algorithm created. Moreover, the code generated was very well written, including a clear structure of methods, the use of <code>// MARK: </code> annotations and a nice API interface and protocol usage.</p>
+<figure><img src="../../images/screenshot-deepseek.jpeg" width="400"><figcaption>
+      <h4>Screenshot of part of the conversation with DeepSeek, showing also a generated performance comparison</h4>
+    </figcaption>
+</figure>
+
 <p>The performance of the algorithm is great as well:</p>
 <p>Where the long diagonal path calculated with <code>GKGridGraph</code> took almost 2000 milliseconds, with the new custom algorithm the calculation takes only 20 milliseconds.</p>
 <p>You can see it in action in the demo project: The green path that is drawn is the path calculated using the custom made <code>AStarPathFinder</code> implementation, which also is available <a href="https://github.com/sanderfrenken/AStartPathfinderSwift/blob/main/AStarPathFinding/AStarPathFinder.swift">in the project</a>. When the paths are calculated, you will see the time it took to calculate them both in the console:</p>

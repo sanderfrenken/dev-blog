@@ -243,6 +243,8 @@ It worked immediately after my initial prompt, and we (yes it seems as I was wor
 
 What really impressed me was how DeepSeek was able to even provide computational costs and benchmarks of the algorithm created. Moreover, the code generated was very well written, including a clear structure of methods, the use of `// MARK: ` annotations and a nice API interface and protocol usage. 
 
+{{< figure src="../../images/screenshot-deepseek.jpeg" width="400" title="Screenshot of part of the conversation with DeepSeek, showing also a generated performance comparison">}}
+
 The performance of the algorithm is great as well:
 
 Where the long diagonal path calculated with `GKGridGraph` took almost 2000 milliseconds, with the new custom algorithm the calculation takes only 20 milliseconds.
