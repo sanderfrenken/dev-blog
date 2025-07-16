@@ -13,35 +13,35 @@
       <link>http://localhost:1313/posts/welcome_back/</link>
       <pubDate>Wed, 19 Mar 2025 00:04:03 +0200</pubDate>
       <guid>http://localhost:1313/posts/welcome_back/</guid>
-      <description>Back to blog It has been almost four months since my last post, though I have not been sitting still. As most of you can also relate to, December is a fully packed month with little free time.&#xA;Especially now with two little children that have long holidays, December was a lost cause when it comes to development.&#xA;Over the last months I added a lot of new functionality and content to Battledom and spend time revisiting a couple of mechanics.</description>
+      <description>&lt;h2 id=&#34;back-to-blog&#34;&gt;Back to blog&lt;/h2&gt;&#xA;&lt;p&gt;It has been almost four months since my last post, though I have not been sitting still.&#xA;As most of you can also relate to, December is a fully packed month with little free time.&lt;/p&gt;&#xA;&lt;p&gt;Especially now with two little children that have long holidays, December was a lost cause when it comes to development.&lt;/p&gt;&#xA;&lt;p&gt;Over the last months I added a lot of new functionality and content to Battledom and spend time revisiting a couple of mechanics. Most importantly, I needed to revise the pathfinding algorithm for reasons I will clarify further in this post.&lt;/p&gt;</description>
     </item>
     <item>
       <title>About leaks when using SpriteKit</title>
       <link>http://localhost:1313/posts/leaks/</link>
       <pubDate>Tue, 03 Dec 2024 00:04:03 +0200</pubDate>
       <guid>http://localhost:1313/posts/leaks/</guid>
-      <description>Efficiency As with any computer program you are writing, memory management is essential. You don&amp;rsquo;t want to keep references to instances that you don&amp;rsquo;t need anymore, occupying memory and maybe computational power lost to the void.&#xA;At the same time, many applications won&amp;rsquo;t require much memory or processing power, especially taken into account the hardware of current generation phones and tablets.&#xA;For example, running a somewhat more complex CRUD application on an iPhone 11 consumes about 40%CPU (one core, for 40% occupied) at it&amp;rsquo;s highest point (out of 6 cores, so there is a total CPU of 600% in total available) and 20MB of working memory (of the available 4GB).</description>
+      <description>&lt;h2 id=&#34;efficiency&#34;&gt;Efficiency&lt;/h2&gt;&#xA;&lt;p&gt;As with any computer program you are writing, memory management is essential. You don&amp;rsquo;t want to keep references to instances that you don&amp;rsquo;t need anymore, occupying memory and maybe computational power lost to the void.&lt;/p&gt;&#xA;&lt;p&gt;At the same time, many applications won&amp;rsquo;t require much memory or processing power, especially taken into account the hardware of current generation phones and tablets.&lt;/p&gt;&#xA;&lt;p&gt;For example, running a somewhat more complex CRUD application on an iPhone 11 consumes about 40%CPU (one core, for 40% occupied) at it&amp;rsquo;s highest point (out of 6 cores, so there is a total CPU of 600% in total available) and 20MB of working memory (of the available 4GB).&lt;/p&gt;</description>
     </item>
     <item>
       <title>About performance and caching</title>
       <link>http://localhost:1313/posts/performance/</link>
       <pubDate>Wed, 20 Nov 2024 00:04:03 +0200</pubDate>
       <guid>http://localhost:1313/posts/performance/</guid>
-      <description>With Battledom nearing a state where I expect it&amp;rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game.&#xA;As Battledom can become computational quite heavy at moments when large maps are rendered while moving around hundreds of units, the topic of optimization has been crossing my path (maybe too) often.&#xA;But in general, with any app or game you develop, you will most likely at one moment in time face some form of performance issues.</description>
+      <description>&lt;p&gt;With Battledom nearing a state where I expect it&amp;rsquo;s foundations to be done, I lately spend some extra time on profiling and performance testing the game.&lt;/p&gt;&#xA;&lt;p&gt;As Battledom can become computational quite heavy at moments when large maps are rendered while moving around hundreds of units, the topic of optimization has been crossing my path (maybe too) often.&lt;/p&gt;&#xA;&lt;p&gt;But in general, with any app or game you develop, you will most likely at one moment in time face some form of performance issues.&lt;/p&gt;</description>
     </item>
     <item>
       <title>MSKTiled: A Tiled map parser for SpriteKit</title>
       <link>http://localhost:1313/posts/msktiled/</link>
       <pubDate>Thu, 07 Nov 2024 00:04:03 +0200</pubDate>
       <guid>http://localhost:1313/posts/msktiled/</guid>
-      <description>Tilemaps In 2016 at WWDC, Apple announced a new addition to SpriteKit: Support for tiling.&#xA;Tiling is a technique often used in (2D) game development, where maps are created using tiles.&#xA;Using spritesheets, one can have a variety of for example 100 tiles in a single image. These tiles can include terrain-like tiles, building-like tiles including walls, etc.&#xA;Example spritesheet for a terrain Using these individual tiles one can create unique environments, all drawn using the same spritesheet as a source.</description>
+      <description>&lt;h2 id=&#34;tilemaps&#34;&gt;Tilemaps&lt;/h2&gt;&#xA;&lt;p&gt;In 2016 at WWDC, Apple announced a new addition to SpriteKit: Support for tiling.&lt;/p&gt;&#xA;&lt;p&gt;Tiling is a technique often used in (2D) game development, where maps are created using tiles.&lt;/p&gt;&#xA;&lt;p&gt;Using spritesheets, one can have a variety of for example 100 tiles in a single image. These tiles can include terrain-like tiles, building-like tiles including walls, etc.&lt;/p&gt;&#xA;&lt;figure&gt;&lt;img src=&#34;../../images/screenshot-tileset.png&#34; width=&#34;800&#34;&gt;&lt;figcaption&gt;&#xA;      &lt;h4&gt;Example spritesheet for a terrain&lt;/h4&gt;&#xA;    &lt;/figcaption&gt;&#xA;&lt;/figure&gt;&#xA;&#xA;&lt;p&gt;Using these individual tiles one can create unique environments, all drawn using the same spritesheet as a source.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Welcome</title>
       <link>http://localhost:1313/posts/welcome/</link>
       <pubDate>Tue, 05 Nov 2024 00:04:03 +0200</pubDate>
       <guid>http://localhost:1313/posts/welcome/</guid>
-      <description>Welcome to my blog! This is the spot where I intend to share everything about my journey becoming a game developer. A journey that I decided to take long ago.&#xA;On this blog I share technical insights but also more personal experiences. As a game developer &amp;ldquo;on the side&amp;rdquo;, a lead engineer at a large bank and a father of two, there is plenty of other stuff to cover. Don&amp;rsquo;t expect any answers on how to make life work; I don&amp;rsquo;t know either.</description>
+      <description>&lt;p&gt;Welcome to my blog! This is the spot where I intend to share everything about my journey becoming a game developer. A journey that I decided to take long ago.&lt;/p&gt;&#xA;&lt;p&gt;On this blog I share technical insights but also more personal experiences. As a game developer &amp;ldquo;on the side&amp;rdquo;, a lead engineer at a large bank and a father of two, there is plenty of other stuff to cover. Don&amp;rsquo;t expect any answers on how to make life work; I don&amp;rsquo;t know either.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

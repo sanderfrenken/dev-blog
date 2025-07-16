@@ -50,7 +50,7 @@
     <link id="dark-theme" rel="stylesheet" href="/css/dark.min.css">
 
     
-    <script src="/js/bundle.min.9a920d7dabdbad8363b6a0a94e29a9dfebdb7ee64cfcb193a0145e512ef2bdab.js" integrity="sha256-mpINfavbrYNjtqCpTimp3&#43;vbfuZM/LGToBReUS7yvas="></script>
+    <script src="/js/bundle.min.9b6de0de336a3341321796bcbc68bf5db55ea90b262863e3b45f52a5c65d693a.js" integrity="sha256-m23g3jNqM0EyF5a8vGi/XbVeqQsmKGPjtF9SpcZdaTo="></script>
 
     
     
@@ -195,34 +195,28 @@
 <blockquote>
 <ul>
 <li>General: there are differences in processing, graphics, and network speed..</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <blockquote>
 <ul>
 <li>Display: there are differences in resolution and color.</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <blockquote>
 <ul>
 <li>System: there are differences in how the system handles backgrounding your app.</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <blockquote>
 <ul>
 <li>Hardware: Simulator doesn’t support some hardware features.</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <blockquote>
 <ul>
 <li>API: Simulator doesn’t support some APIs.</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <p>In specific interest when using SpriteKit, is this final mention:</p>
 <blockquote>
 <ul>
 <li>Metal: there are differences between the device GPU and your computer GPU.</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <p>As <a href="https://developer.apple.com/documentation/spritekit">SpriteKit</a> is leveraging Metal for it&rsquo;s rendering capabilities, this is an important note.
 You can find more in-depth information about running Metal apps in the simulator <a href="https://developer.apple.com/documentation/metal/developing_metal_apps_that_run_in_simulator">here</a>.</p>
 <p>Now in practice you might encounter that your game runs smoother on your physical device compared to a simulator, but I also have encountered it the other way around (less often though). It&rsquo;s very dependent on the tasks being performed and the hardware in use.</p>
@@ -372,23 +366,19 @@ Everytime a tile is attempted to be loaded by MSKTiled, it will first query the 
 <h2 id="texture-caching">Texture caching</h2>
 <p>Another example of caching is texture caching. Even thoug Apple did implement some form of texture caching already, you might need more aggressive texture caching. According to the <a href="https://developer.apple.com/documentation/spritekit/sktexture/">documentation</a>, out of the box texture caching works as follows:</p>
 <blockquote>
-<p>After a texture is loaded into the graphics hardware memory, it stays in memory until the referencing SKTexture object is deleted. This means that between levels (or in a dynamic game), you may need to make sure a texture object is deleted. Delete a SKTexture object by removing any strong references to it, including:</p>
-</blockquote>
+<p>After a texture is loaded into the graphics hardware memory, it stays in memory until the referencing SKTexture object is deleted. This means that between levels (or in a dynamic game), you may need to make sure a texture object is deleted. Delete a SKTexture object by removing any strong references to it, including:</p></blockquote>
 <blockquote>
 <ul>
 <li>All texture references from SKSpriteNode and SKEffectNode objects in your game</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <blockquote>
 <ul>
 <li>Any strong references to the texture in your own code</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <blockquote>
 <ul>
 <li>An SKTextureAtlas object that was used to create the texture object</li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <p>This does mean that while an SKTexture is still referenced from somewhere, any subsequent usage of that same texture can be facilitated by loading it from memory. However, once you removed all references to that texture, its deallocated. This can be a problem if there are textures of which you know that will be requested often but are shortlived in usage.</p>
 <p>What I see is that when loading larger textures into memory, you can experience framedrops.</p>
 <p>For those occassions I make of a texture helper. This TextureHelper is a singleton which holds a dictionary of textures. Simplified this looks like this:</p>
@@ -461,12 +451,8 @@ Renaming a tilesheet will definitely break some of the desired behavior in this 
 <p>Next time, I will write about memory leaks and Xcode Instruments.</p>
 <p>Do you have any questions, suggestions or remarks for this post?</p>
 <p>Please leave a message below!</p>
-
-
-    
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/ZecfzsuEKZw?autoplay=0&controls=1&end=0&loop=0&mute=0&start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
-      ></iframe>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/ZecfzsuEKZw?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
     </div>
 
 

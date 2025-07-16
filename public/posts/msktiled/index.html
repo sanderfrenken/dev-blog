@@ -53,7 +53,7 @@ Tiling is a technique often used in (2D) game development, where maps …">
     <link id="dark-theme" rel="stylesheet" href="/css/dark.min.css">
 
     
-    <script src="/js/bundle.min.9a920d7dabdbad8363b6a0a94e29a9dfebdb7ee64cfcb193a0145e512ef2bdab.js" integrity="sha256-mpINfavbrYNjtqCpTimp3&#43;vbfuZM/LGToBReUS7yvas="></script>
+    <script src="/js/bundle.min.9b6de0de336a3341321796bcbc68bf5db55ea90b262863e3b45f52a5c65d693a.js" integrity="sha256-m23g3jNqM0EyF5a8vGi/XbVeqQsmKGPjtF9SpcZdaTo="></script>
 
     
     
@@ -225,8 +225,7 @@ As a basic example, one can think of a following way to represent this in code:<
 <p>This could easily make your game render &gt; 20.000 nodes for each frame, only to draw the map itself. This can become quite expensive and hence impact performance of your game.</p>
 <p>To cater for this issue, Apple introduced <a href="https://developer.apple.com/documentation/spritekit/sktilemapnode">SKTileMapNode</a>. As always, I would encourage you to read the documentation before using it, but a short quote of the documentation:</p>
 <blockquote>
-<p>SKTileMapNode does the work of laying out predefined tiles in a grid of any size. Typically, you configure 9-slice images (tile groups) in Xcode&rsquo;s SpriteKit scene editor and paint the look of your tile map ahead of time versus configuring the tile map in code.</p>
-</blockquote>
+<p>SKTileMapNode does the work of laying out predefined tiles in a grid of any size. Typically, you configure 9-slice images (tile groups) in Xcode&rsquo;s SpriteKit scene editor and paint the look of your tile map ahead of time versus configuring the tile map in code.</p></blockquote>
 <p>There is a lot to read in these 2 short sentences. First, its appearant that this <code>SKTileMapNode</code> is capably of drawing a layer of a map inside a single SKNode. In practice, this means that instead of your game requiring SpriteKit to draw 10.000 individual nodes for a layer, it will now render just one node.</p>
 <p>Moreover, the quote also talks about Xcode&rsquo;s SpriteKit scene editor. So what is that?</p>
 <h2 id="tilemap-editors">Tilemap editors</h2>
@@ -345,15 +344,11 @@ By looking at the xml structure and altering the map in the Tiled editor to see 
 <p>The scene also provides means for A* pathfinding and camera behavior including zooming and scrolling constrained by the provided and calculated boundaries.</p>
 <h2 id="wrap-up">Wrap up</h2>
 <p>There is a lot more that can be told about the internals and the pro&rsquo;s and con&rsquo;s of the solution, and I would suggest you to use the <a href="https://github.com/sanderfrenken/MSKTiled/blob/main/README.md">readme</a> for more technical information and usage.</p>
-<p>I am using MSKTiled now in my upcoming game <a href="https://sanderfrenken.github.io/dev-blog/projects/battledom/">Battledom</a>, and so far I am very happy with and actively maintaining it while doing so.</p>
+<p>I am using MSKTiled now in my games <a href="https://sanderfrenken.github.io/dev-blog/projects/battledom/">Battledom</a> and <a href="https://sanderfrenken.github.io/dev-blog/projects/herodom/">Herodom</a>, and so far I am very happy with it.</p>
 <p>Do you have any questions, suggestions or remarks for this post?</p>
 <p>Please leave a message below!</p>
-
-
-    
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/ZecfzsuEKZw?autoplay=0&controls=1&end=0&loop=0&mute=0&start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
-      ></iframe>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/ZecfzsuEKZw?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
     </div>
 
 

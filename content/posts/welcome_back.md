@@ -285,6 +285,6 @@ Do you have any questions, suggestions or remarks for this post?
 
 Please leave a message below!
 
-I am still very eager to get more feedback on Battledom, so if you are interested please join via [TestFlight](https://testflight.apple.com/join/IsXcGtGR).
+I am still very eager to get feedback on Battledom, so if you are interested please try it out via [AppStore](https://apps.apple.com/us/app/battledom/id6471842648).
 
 {{< youtube ZecfzsuEKZw >}}

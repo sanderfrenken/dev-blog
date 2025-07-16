@@ -218,7 +218,7 @@ The scene also provides means for A* pathfinding and camera behavior including z
 
 There is a lot more that can be told about the internals and the pro's and con's of the solution, and I would suggest you to use the [readme](https://github.com/sanderfrenken/MSKTiled/blob/main/README.md) for more technical information and usage.
 
-I am using MSKTiled now in my upcoming game [Battledom](https://sanderfrenken.github.io/dev-blog/projects/battledom/), and so far I am very happy with and actively maintaining it while doing so.
+I am using MSKTiled now in my games [Battledom](https://sanderfrenken.github.io/dev-blog/projects/battledom/) and [Herodom](https://sanderfrenken.github.io/dev-blog/projects/herodom/), and so far I am very happy with it.
 
 Do you have any questions, suggestions or remarks for this post? 
 
